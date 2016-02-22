@@ -1,0 +1,90 @@
+--- bg:#EEE
+title       : Introduction of Food Agriculture Data Browser
+subtitle    : Developing Data Products - Course Project
+author      : Lan DING
+job         : 
+framework   :  io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Overview
+>- An interactive web data browser for food and agriculture:
+ - <https://landing.shinyapps.io/foodagr/>
+
+>- Data Source: [FAOSTAT](http://faostat3.fao.org/download/Q/QC/E)
+
+>- Raw Data:
+ - Dimension: 55033 rows, 115 variables
+ - Main Variables: `Country`, `County.Code`, `Item`, `Item.Code`, `Element`, `Element.Code`, `Unit`, `Y1961`, `Y1962`...
+
+> - Clean Data:
+ - Dimension: 695736 rows, 6 variables
+ - Main Variables:`Country, Item`, `Year`, `Area harvested(Ha)`, `Production(tonnes)`, `Yield(Hg/Ha)`
+
+--- .class #id 
+
+## Interface - Pie Chart
+
+- Choose the parameters in sidebar, the top `n` countries will be shown in the pie chart.
+
+- Realised by `googleVis::gvisPieChart`
+
+- Example: top 10 countries in production of wheat
+
+
+```{r, echo=F,message=F,warning=F,opts.label = 'interactive', results = 'asis'}
+
+library(dplyr)
+library(tidyr)
+library(googleVis)
+source("top.R")
+
+m <- gvisPieChart(top(),options =list(width = 600,height = 400, pieHole=0.5))
+#plot(m)
+print(m,'chart')
+
+```
+
+---
+
+
+## Interface - Map 
+
+- Choose the parameters in sidebar, the top `n` countries will be highlighted in the map.
+
+- Realised by `googleVis::gvisGeoChart`
+
+- Example: top 10 countries in production of wheat
+```{r, echo=F,message=F,warning=F,results = 'asis'}
+source("top.R")
+
+m <- gvisGeoChart(head(top(),10),locationvar="Country",
+             colorvar= "Production(tonnes)",
+             options=list(width = 600,height = 400,
+                          projection="kavrayskiy-vii"))
+print(m,'chart')
+
+```
+
+---
+
+
+## Interface - Motion Chart
+
+
+- Choose the parameters in the top select-box, you can play with the motion chart.
+
+- Realised by `googleVis::gvisMotionChart`
+
+```{r ,dependson="gv",message=F,results='asis',echo=F}
+source("countries.R")
+
+M <- gvisMotionChart(countries(),"Country","Year", options=list(width=600, height=400))
+print(M, 'chart')
+```
+
+

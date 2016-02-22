@@ -1,0 +1,49923 @@
+---
+title       : Introduction of Food Agriculture Data Browser
+subtitle    : Developing Data Products - Course Project
+author      : Lan DING
+job         : 
+framework   :  io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## Overview
+>- An interactive web data browser for food and agriculture:
+ - <https://landing.shinyapps.io/foodagr/>
+
+>- Data Source: [FAOSTAT](http://faostat3.fao.org/download/Q/QC/E)
+
+>- Raw Data:
+ - Dimension: 55033 rows, 115 variables
+ - Main Variables: `Country`, `County.Code`, `Item`, `Item.Code`, `Element`, `Element.Code`, `Unit`, `Y1961`, `Y1962`...
+
+> - Clean Data:
+ - Dimension: 695736 rows, 6 variables
+ - Main Variables:`Country, Item`, `Year`, `Area harvested(Ha)`, `Production(tonnes)`, `Yield(Hg/Ha)`
+
+--- .class #id 
+
+## Interface - Pie Chart
+
+- Choose the parameters in sidebar, the top `n` countries will be shown in the pie chart.
+
+- Realised by `googleVis::gvisPieChart`
+
+- Example: top 10 countries in production of wheat
+
+
+<!-- PieChart generated in R 3.2.2 by googleVis 0.5.10 package -->
+<!-- Mon Feb 22 08:23:53 2016 -->
+
+
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataPieChartID398e708bb841 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "China",
+11650024 
+],
+[
+ "Italy",
+8010364 
+],
+[
+ "United States of America",
+7744997 
+],
+[
+ "Spain",
+7480000 
+],
+[
+ "France",
+5518371 
+],
+[
+ "Turkey",
+4011409 
+],
+[
+ "Chile",
+3297981 
+],
+[
+ "Argentina",
+2881346 
+],
+[
+ "India",
+2483000 
+],
+[
+ "Iran (Islamic Republic of)",
+2046420 
+],
+[
+ "Others",
+22057210 
+] 
+];
+data.addColumn('string','Country');
+data.addColumn('number','Production(tonnes)');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartPieChartID398e708bb841() {
+var data = gvisDataPieChartID398e708bb841();
+var options = {};
+options["allowHtml"] = true;
+options["width"] =    600;
+options["height"] =    400;
+options["pieHole"] =    0.5;
+
+    var chart = new google.visualization.PieChart(
+    document.getElementById('PieChartID398e708bb841')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "corechart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartPieChartID398e708bb841);
+})();
+function displayChartPieChartID398e708bb841() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+<!-- jsChart -->  
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartPieChartID398e708bb841"></script>
+ 
+<!-- divChart -->
+  
+<div id="PieChartID398e708bb841" 
+  style="width: 600; height: 400;">
+</div>
+
+---
+
+
+## Interface - Map 
+
+- Choose the parameters in sidebar, the top `n` countries will be highlighted in the map.
+
+- Realised by `googleVis::gvisGeoChart`
+
+- Example: top 10 countries in production of wheat
+<!-- GeoChart generated in R 3.2.2 by googleVis 0.5.10 package -->
+<!-- Mon Feb 22 08:23:54 2016 -->
+
+
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataGeoChartID398e406b03a4 () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "China",
+11650024 
+],
+[
+ "Italy",
+8010364 
+],
+[
+ "United States of America",
+7744997 
+],
+[
+ "Spain",
+7480000 
+],
+[
+ "France",
+5518371 
+],
+[
+ "Turkey",
+4011409 
+],
+[
+ "Chile",
+3297981 
+],
+[
+ "Argentina",
+2881346 
+],
+[
+ "India",
+2483000 
+],
+[
+ "Iran (Islamic Republic of)",
+2046420 
+] 
+];
+data.addColumn('string','Country');
+data.addColumn('number','Production.tonnes.');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartGeoChartID398e406b03a4() {
+var data = gvisDataGeoChartID398e406b03a4();
+var options = {};
+options["width"] =    600;
+options["height"] =    400;
+options["projection"] = "kavrayskiy-vii";
+
+    var chart = new google.visualization.GeoChart(
+    document.getElementById('GeoChartID398e406b03a4')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "geochart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartGeoChartID398e406b03a4);
+})();
+function displayChartGeoChartID398e406b03a4() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+<!-- jsChart -->  
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartGeoChartID398e406b03a4"></script>
+ 
+<!-- divChart -->
+  
+<div id="GeoChartID398e406b03a4" 
+  style="width: 600; height: 400;">
+</div>
+
+---
+
+
+## Interface - Motion Chart
+
+
+- Choose the parameters in the top select-box, you can play with the motion chart.
+
+- Realised by `googleVis::gvisMotionChart`
+
+<!-- MotionChart generated in R 3.2.2 by googleVis 0.5.10 package -->
+<!-- Mon Feb 22 08:21:01 2016 -->
+
+
+<!-- jsHeader -->
+<script type="text/javascript">
+ 
+// jsData 
+function gvisDataMotionChartID39713b851d4e () {
+var data = new google.visualization.DataTable();
+var datajson =
+[
+ [
+ "Afghanistan",
+1961,
+2230000,
+2279000,
+10220 
+],
+[
+ "Afghanistan",
+1962,
+2341000,
+2279000,
+9735 
+],
+[
+ "Afghanistan",
+1963,
+2341000,
+1947000,
+8317 
+],
+[
+ "Afghanistan",
+1964,
+2345000,
+2230000,
+9510 
+],
+[
+ "Afghanistan",
+1965,
+2347000,
+2282000,
+9723 
+],
+[
+ "Afghanistan",
+1966,
+2346000,
+2033000,
+8666 
+],
+[
+ "Afghanistan",
+1967,
+2030000,
+2280000,
+11232 
+],
+[
+ "Afghanistan",
+1968,
+2036000,
+2354000,
+11562 
+],
+[
+ "Afghanistan",
+1969,
+2070000,
+2454000,
+11855 
+],
+[
+ "Afghanistan",
+1970,
+2176000,
+2081000,
+9563 
+],
+[
+ "Afghanistan",
+1971,
+2350000,
+1915000,
+8149 
+],
+[
+ "Afghanistan",
+1972,
+2897100,
+2450000,
+8457 
+],
+[
+ "Afghanistan",
+1973,
+2300000,
+2700000,
+11739 
+],
+[
+ "Afghanistan",
+1974,
+2277600,
+2750000,
+12074 
+],
+[
+ "Afghanistan",
+1975,
+2350000,
+2850000,
+12128 
+],
+[
+ "Afghanistan",
+1976,
+2350000,
+2936000,
+12494 
+],
+[
+ "Afghanistan",
+1977,
+2345000,
+2652000,
+11309 
+],
+[
+ "Afghanistan",
+1978,
+2348000,
+2813000,
+11980 
+],
+[
+ "Afghanistan",
+1979,
+2162000,
+2663000,
+12317 
+],
+[
+ "Afghanistan",
+1980,
+2032000,
+2550000,
+12549 
+],
+[
+ "Afghanistan",
+1981,
+2e+06,
+2470000,
+12350 
+],
+[
+ "Afghanistan",
+1982,
+1944000,
+2391000,
+12299 
+],
+[
+ "Afghanistan",
+1983,
+1833000,
+2306000,
+12580 
+],
+[
+ "Afghanistan",
+1984,
+1781000,
+2194000,
+12319 
+],
+[
+ "Afghanistan",
+1985,
+1695000,
+2081000,
+12277 
+],
+[
+ "Afghanistan",
+1986,
+1619000,
+1925000,
+11890 
+],
+[
+ "Afghanistan",
+1987,
+1790000,
+2300000,
+12849 
+],
+[
+ "Afghanistan",
+1988,
+1620000,
+1900000,
+11728 
+],
+[
+ "Afghanistan",
+1989,
+1610000,
+1800000,
+11180 
+],
+[
+ "Afghanistan",
+1990,
+1570000,
+1650000,
+10510 
+],
+[
+ "Afghanistan",
+1991,
+1690000,
+1726000,
+10213 
+],
+[
+ "Afghanistan",
+1992,
+1600000,
+1650000,
+10313 
+],
+[
+ "Afghanistan",
+1993,
+1900000,
+1940000,
+10211 
+],
+[
+ "Afghanistan",
+1994,
+2e+06,
+2050000,
+10250 
+],
+[
+ "Afghanistan",
+1995,
+1837209,
+2100000,
+11430 
+],
+[
+ "Afghanistan",
+1996,
+2050000,
+2300000,
+11220 
+],
+[
+ "Afghanistan",
+1997,
+2124000,
+2711000,
+12764 
+],
+[
+ "Afghanistan",
+1998,
+2186000,
+2834000,
+12964 
+],
+[
+ "Afghanistan",
+1999,
+2027000,
+2499000,
+12329 
+],
+[
+ "Afghanistan",
+2000,
+2029000,
+1469000,
+7240 
+],
+[
+ "Afghanistan",
+2001,
+1779000,
+1597000,
+8977 
+],
+[
+ "Afghanistan",
+2002,
+1742000,
+2686000,
+15419 
+],
+[
+ "Afghanistan",
+2003,
+2320000,
+3480000,
+15000 
+],
+[
+ "Afghanistan",
+2004,
+1888000,
+2390000,
+12659 
+],
+[
+ "Afghanistan",
+2005,
+2342000,
+4266000,
+18215 
+],
+[
+ "Afghanistan",
+2006,
+2444000,
+3363000,
+13760 
+],
+[
+ "Afghanistan",
+2007,
+2466000,
+4484000,
+18183 
+],
+[
+ "Afghanistan",
+2008,
+2139000,
+2623000,
+12263 
+],
+[
+ "Afghanistan",
+2009,
+2575000,
+5064000,
+19666 
+],
+[
+ "Afghanistan",
+2010,
+2354000,
+4532000,
+19252 
+],
+[
+ "Afghanistan",
+2011,
+2232000,
+3388000,
+15179 
+],
+[
+ "Afghanistan",
+2012,
+2512000,
+5050000,
+20104 
+],
+[
+ "Afghanistan",
+2013,
+2552922,
+5169235,
+20248 
+],
+[
+ "Afghanistan",
+2014,
+2653746,
+5370259,
+20237 
+],
+[
+ "Albania",
+1961,
+126500,
+97800,
+7731 
+],
+[
+ "Albania",
+1962,
+139144,
+146407,
+10522 
+],
+[
+ "Albania",
+1963,
+86660,
+61763,
+7127 
+],
+[
+ "Albania",
+1964,
+129048,
+124208,
+9625 
+],
+[
+ "Albania",
+1965,
+105542,
+119728,
+11344 
+],
+[
+ "Albania",
+1966,
+117833,
+146084,
+12398 
+],
+[
+ "Albania",
+1967,
+120486,
+163261,
+13550 
+],
+[
+ "Albania",
+1968,
+143854,
+203184,
+14124 
+],
+[
+ "Albania",
+1969,
+146547,
+240177,
+16389 
+],
+[
+ "Albania",
+1970,
+147353,
+226582,
+15377 
+],
+[
+ "Albania",
+1971,
+138477,
+259431,
+18735 
+],
+[
+ "Albania",
+1972,
+150000,
+285000,
+19000 
+],
+[
+ "Albania",
+1973,
+165700,
+333000,
+20097 
+],
+[
+ "Albania",
+1974,
+160000,
+330000,
+20625 
+],
+[
+ "Albania",
+1975,
+160000,
+310000,
+19375 
+],
+[
+ "Albania",
+1976,
+190000,
+485000,
+25526 
+],
+[
+ "Albania",
+1977,
+2e+05,
+490000,
+24500 
+],
+[
+ "Albania",
+1978,
+2e+05,
+490000,
+24500 
+],
+[
+ "Albania",
+1979,
+197000,
+490530,
+24900 
+],
+[
+ "Albania",
+1980,
+196800,
+495900,
+25198 
+],
+[
+ "Albania",
+1981,
+193000,
+488700,
+25321 
+],
+[
+ "Albania",
+1982,
+194900,
+524000,
+26886 
+],
+[
+ "Albania",
+1983,
+188800,
+583000,
+30879 
+],
+[
+ "Albania",
+1984,
+190000,
+6e+05,
+31579 
+],
+[
+ "Albania",
+1985,
+192000,
+603000,
+31406 
+],
+[
+ "Albania",
+1986,
+199000,
+576000,
+28945 
+],
+[
+ "Albania",
+1987,
+191100,
+593000,
+31031 
+],
+[
+ "Albania",
+1988,
+199000,
+637000,
+32010 
+],
+[
+ "Albania",
+1989,
+209200,
+613000,
+29302 
+],
+[
+ "Albania",
+1990,
+203000,
+613000,
+30197 
+],
+[
+ "Albania",
+1991,
+143658,
+297340,
+20698 
+],
+[
+ "Albania",
+1992,
+103273,
+251862,
+24388 
+],
+[
+ "Albania",
+1993,
+154959,
+464498,
+29976 
+],
+[
+ "Albania",
+1994,
+169728,
+420000,
+24745 
+],
+[
+ "Albania",
+1995,
+141219,
+405342,
+28703 
+],
+[
+ "Albania",
+1996,
+124721,
+271150,
+21741 
+],
+[
+ "Albania",
+1997,
+136200,
+388391,
+28516 
+],
+[
+ "Albania",
+1998,
+140910,
+395067,
+28037 
+],
+[
+ "Albania",
+1999,
+109000,
+272000,
+24954 
+],
+[
+ "Albania",
+2000,
+112000,
+341100,
+30455 
+],
+[
+ "Albania",
+2001,
+1e+05,
+282200,
+28220 
+],
+[
+ "Albania",
+2002,
+93400,
+295300,
+31617 
+],
+[
+ "Albania",
+2003,
+90782,
+259900,
+28629 
+],
+[
+ "Albania",
+2004,
+81400,
+253400,
+31130 
+],
+[
+ "Albania",
+2005,
+82325,
+260000,
+31582 
+],
+[
+ "Albania",
+2006,
+75000,
+230900,
+30787 
+],
+[
+ "Albania",
+2007,
+70290,
+249500,
+35496 
+],
+[
+ "Albania",
+2008,
+83400,
+335000,
+40168 
+],
+[
+ "Albania",
+2009,
+82800,
+333100,
+40229 
+],
+[
+ "Albania",
+2010,
+73900,
+294900,
+39905 
+],
+[
+ "Albania",
+2011,
+69219,
+292800,
+42301 
+],
+[
+ "Albania",
+2012,
+73000,
+3e+05,
+41096 
+],
+[
+ "Albania",
+2013,
+71200,
+294000,
+41292 
+],
+[
+ "Albania",
+2014,
+69998,
+280000,
+40001 
+],
+[
+ "Algeria",
+1961,
+1689064,
+685723,
+4060 
+],
+[
+ "Algeria",
+1962,
+1873300,
+1507000,
+8045 
+],
+[
+ "Algeria",
+1963,
+1909203,
+1589664,
+8326 
+],
+[
+ "Algeria",
+1964,
+2186360,
+1162456,
+5317 
+],
+[
+ "Algeria",
+1965,
+2187990,
+1325240,
+6057 
+],
+[
+ "Algeria",
+1966,
+1481870,
+630051,
+4252 
+],
+[
+ "Algeria",
+1967,
+1998430,
+1265506,
+6333 
+],
+[
+ "Algeria",
+1968,
+2223200,
+1533794,
+6899 
+],
+[
+ "Algeria",
+1969,
+2197700,
+1326190,
+6034 
+],
+[
+ "Algeria",
+1970,
+2296960,
+1434548,
+6245 
+],
+[
+ "Algeria",
+1971,
+2148070,
+1317392,
+6133 
+],
+[
+ "Algeria",
+1972,
+2471160,
+1655854,
+6701 
+],
+[
+ "Algeria",
+1973,
+2346900,
+1158077,
+4934 
+],
+[
+ "Algeria",
+1974,
+2200950,
+1091111,
+4957 
+],
+[
+ "Algeria",
+1975,
+2222780,
+1847793,
+8313 
+],
+[
+ "Algeria",
+1976,
+2295100,
+1629687,
+7101 
+],
+[
+ "Algeria",
+1977,
+1907170,
+827123,
+4337 
+],
+[
+ "Algeria",
+1978,
+1864300,
+1083019,
+5809 
+],
+[
+ "Algeria",
+1979,
+1945510,
+1080435,
+5553 
+],
+[
+ "Algeria",
+1980,
+2071250,
+1511426,
+7297 
+],
+[
+ "Algeria",
+1981,
+1813170,
+1218380,
+6720 
+],
+[
+ "Algeria",
+1982,
+1637900,
+977070,
+5965 
+],
+[
+ "Algeria",
+1983,
+1401500,
+789786,
+5635 
+],
+[
+ "Algeria",
+1984,
+1547000,
+886469,
+5730 
+],
+[
+ "Algeria",
+1985,
+1667990,
+1478018,
+8861 
+],
+[
+ "Algeria",
+1986,
+1520000,
+1228800,
+8084 
+],
+[
+ "Algeria",
+1987,
+1510600,
+1174800,
+7777 
+],
+[
+ "Algeria",
+1988,
+1023090,
+614420,
+6006 
+],
+[
+ "Algeria",
+1989,
+1473000,
+1152100,
+7821 
+],
+[
+ "Algeria",
+1990,
+1187820,
+750080,
+6315 
+],
+[
+ "Algeria",
+1991,
+1729440,
+1869400,
+10809 
+],
+[
+ "Algeria",
+1992,
+1848010,
+1836750,
+9939 
+],
+[
+ "Algeria",
+1993,
+1255420,
+1016500,
+8097 
+],
+[
+ "Algeria",
+1994,
+892600,
+713964,
+7999 
+],
+[
+ "Algeria",
+1995,
+1680720,
+1499920,
+8924 
+],
+[
+ "Algeria",
+1996,
+2278500,
+2982604,
+13090 
+],
+[
+ "Algeria",
+1997,
+825240,
+661514,
+8016 
+],
+[
+ "Algeria",
+1998,
+2577150,
+2280000,
+8847 
+],
+[
+ "Algeria",
+1999,
+1372400,
+1470000,
+10711 
+],
+[
+ "Algeria",
+2000,
+827000,
+760361,
+9194 
+],
+[
+ "Algeria",
+2001,
+1836410,
+2039213,
+11104 
+],
+[
+ "Algeria",
+2002,
+1398460,
+1501803,
+10739 
+],
+[
+ "Algeria",
+2003,
+2047570,
+2964852,
+14480 
+],
+[
+ "Algeria",
+2004,
+2010600,
+2730700,
+13582 
+],
+[
+ "Algeria",
+2005,
+1603744,
+2414728,
+15057 
+],
+[
+ "Algeria",
+2006,
+1783825,
+2687930,
+15068 
+],
+[
+ "Algeria",
+2007,
+1819877,
+2318963,
+12742 
+],
+[
+ "Algeria",
+2008,
+1006571,
+1111033,
+11038 
+],
+[
+ "Algeria",
+2009,
+1848575,
+2953117,
+15975 
+],
+[
+ "Algeria",
+2010,
+1755728,
+2605178,
+14838 
+],
+[
+ "Algeria",
+2011,
+1672431,
+2554926,
+15277 
+],
+[
+ "Algeria",
+2012,
+1945776,
+3432231,
+17639 
+],
+[
+ "Algeria",
+2013,
+1727242,
+3299049,
+19100 
+],
+[
+ "Algeria",
+2014,
+1651311,
+2436197,
+14753 
+],
+[
+ "Angola",
+1961,
+18000,
+20000,
+11111 
+],
+[
+ "Angola",
+1962,
+18000,
+20000,
+11111 
+],
+[
+ "Angola",
+1963,
+18000,
+20000,
+11111 
+],
+[
+ "Angola",
+1964,
+14000,
+13000,
+9286 
+],
+[
+ "Angola",
+1965,
+18000,
+20000,
+11111 
+],
+[
+ "Angola",
+1966,
+20000,
+22000,
+11000 
+],
+[
+ "Angola",
+1967,
+20000,
+27000,
+13500 
+],
+[
+ "Angola",
+1968,
+20000,
+27000,
+13500 
+],
+[
+ "Angola",
+1969,
+15000,
+14145,
+9430 
+],
+[
+ "Angola",
+1970,
+14000,
+11965,
+8546 
+],
+[
+ "Angola",
+1971,
+14000,
+12782,
+9130 
+],
+[
+ "Angola",
+1972,
+13000,
+15070,
+11592 
+],
+[
+ "Angola",
+1973,
+13000,
+11527,
+8867 
+],
+[
+ "Angola",
+1974,
+13000,
+16985,
+13065 
+],
+[
+ "Angola",
+1975,
+13000,
+13000,
+10000 
+],
+[
+ "Angola",
+1976,
+13000,
+13000,
+10000 
+],
+[
+ "Angola",
+1977,
+13000,
+10000,
+7692 
+],
+[
+ "Angola",
+1978,
+17000,
+10000,
+5882 
+],
+[
+ "Angola",
+1979,
+15000,
+8000,
+5333 
+],
+[
+ "Angola",
+1980,
+12000,
+7000,
+5833 
+],
+[
+ "Angola",
+1981,
+9500,
+6000,
+6316 
+],
+[
+ "Angola",
+1982,
+8000,
+5000,
+6250 
+],
+[
+ "Angola",
+1983,
+6400,
+4000,
+6250 
+],
+[
+ "Angola",
+1984,
+4800,
+3000,
+6250 
+],
+[
+ "Angola",
+1985,
+4800,
+3000,
+6250 
+],
+[
+ "Angola",
+1986,
+3000,
+2400,
+8000 
+],
+[
+ "Angola",
+1987,
+3000,
+2400,
+8000 
+],
+[
+ "Angola",
+1988,
+3000,
+2400,
+8000 
+],
+[
+ "Angola",
+1989,
+3000,
+2400,
+8000 
+],
+[
+ "Angola",
+1990,
+3127,
+2500,
+7995 
+],
+[
+ "Angola",
+1991,
+3200,
+2560,
+8000 
+],
+[
+ "Angola",
+1992,
+3500,
+2800,
+8000 
+],
+[
+ "Angola",
+1993,
+4159,
+3000,
+7213 
+],
+[
+ "Angola",
+1994,
+3000,
+3000,
+10000 
+],
+[
+ "Angola",
+1995,
+2842,
+5000,
+17593 
+],
+[
+ "Angola",
+1996,
+2832,
+4794,
+16928 
+],
+[
+ "Angola",
+1997,
+2908,
+5179,
+17809 
+],
+[
+ "Angola",
+1998,
+3500,
+6000,
+17143 
+],
+[
+ "Angola",
+1999,
+2300,
+4000,
+17391 
+],
+[
+ "Angola",
+2000,
+2351,
+4000,
+17014 
+],
+[
+ "Angola",
+2001,
+2400,
+4000,
+16667 
+],
+[
+ "Angola",
+2002,
+3055,
+4000,
+13093 
+],
+[
+ "Angola",
+2003,
+2923,
+3999,
+13681 
+],
+[
+ "Angola",
+2004,
+3914,
+4003,
+10227 
+],
+[
+ "Angola",
+2005,
+4031,
+4000,
+9923 
+],
+[
+ "Angola",
+2006,
+4000,
+4000,
+10000 
+],
+[
+ "Angola",
+2007,
+4000,
+4000,
+10000 
+],
+[
+ "Angola",
+2008,
+4000,
+4000,
+10000 
+],
+[
+ "Angola",
+2009,
+4000,
+4000,
+10000 
+],
+[
+ "Angola",
+2010,
+3800,
+4000,
+10526 
+],
+[
+ "Angola",
+2011,
+3650,
+4000,
+10959 
+],
+[
+ "Angola",
+2012,
+3400,
+4000,
+11765 
+],
+[
+ "Angola",
+2013,
+3420,
+3958,
+11573 
+],
+[
+ "Angola",
+2014,
+3500,
+3910,
+11171 
+],
+[
+ "Argentina",
+1961,
+4420900,
+5725000,
+12950 
+],
+[
+ "Argentina",
+1962,
+3744700,
+5700000,
+15222 
+],
+[
+ "Argentina",
+1963,
+5676000,
+8940000,
+15751 
+],
+[
+ "Argentina",
+1964,
+6135400,
+11260000,
+18353 
+],
+[
+ "Argentina",
+1965,
+4601200,
+6079000,
+13212 
+],
+[
+ "Argentina",
+1966,
+5213600,
+6247000,
+11982 
+],
+[
+ "Argentina",
+1967,
+5811600,
+7320000,
+12595 
+],
+[
+ "Argentina",
+1968,
+5837200,
+5740000,
+9833 
+],
+[
+ "Argentina",
+1969,
+5191300,
+7020000,
+13523 
+],
+[
+ "Argentina",
+1970,
+3700800,
+4920000,
+13294 
+],
+[
+ "Argentina",
+1971,
+4294640,
+5440000,
+12667 
+],
+[
+ "Argentina",
+1972,
+4965100,
+7900000,
+15911 
+],
+[
+ "Argentina",
+1973,
+3957900,
+6560000,
+16574 
+],
+[
+ "Argentina",
+1974,
+4233000,
+5970000,
+14103 
+],
+[
+ "Argentina",
+1975,
+5270600,
+8570000,
+16260 
+],
+[
+ "Argentina",
+1976,
+6794900,
+11582000,
+17045 
+],
+[
+ "Argentina",
+1977,
+4153000,
+5653100,
+13612 
+],
+[
+ "Argentina",
+1978,
+4868600,
+8469400,
+17396 
+],
+[
+ "Argentina",
+1979,
+4911800,
+8317800,
+16934 
+],
+[
+ "Argentina",
+1980,
+5113400,
+7974700,
+15596 
+],
+[
+ "Argentina",
+1981,
+5972300,
+8369600,
+14014 
+],
+[
+ "Argentina",
+1982,
+7364200,
+15097700,
+20501 
+],
+[
+ "Argentina",
+1983,
+7123800,
+13111400,
+18405 
+],
+[
+ "Argentina",
+1984,
+5929800,
+13678600,
+23068 
+],
+[
+ "Argentina",
+1985,
+5404300,
+8742800,
+16177 
+],
+[
+ "Argentina",
+1986,
+4914100,
+8756500,
+17819 
+],
+[
+ "Argentina",
+1987,
+4828900,
+9101200,
+18847 
+],
+[
+ "Argentina",
+1988,
+4686615,
+8596900,
+18344 
+],
+[
+ "Argentina",
+1989,
+5307274,
+10055700,
+18947 
+],
+[
+ "Argentina",
+1990,
+5817300,
+11036600,
+18972 
+],
+[
+ "Argentina",
+1991,
+4584550,
+9998500,
+21809 
+],
+[
+ "Argentina",
+1992,
+4295200,
+9995900,
+23272 
+],
+[
+ "Argentina",
+1993,
+4811300,
+9736500,
+20237 
+],
+[
+ "Argentina",
+1994,
+5262580,
+11406460,
+21675 
+],
+[
+ "Argentina",
+1995,
+4932950,
+9542315,
+19344 
+],
+[
+ "Argentina",
+1996,
+7182040,
+16106700,
+22426 
+],
+[
+ "Argentina",
+1997,
+5783030,
+15086820,
+26088 
+],
+[
+ "Argentina",
+1998,
+5471860,
+12600600,
+23028 
+],
+[
+ "Argentina",
+1999,
+6222980,
+15478660,
+24873 
+],
+[
+ "Argentina",
+2000,
+6475695,
+16146620,
+24934 
+],
+[
+ "Argentina",
+2001,
+6887970,
+15427820,
+22398 
+],
+[
+ "Argentina",
+2002,
+6089630,
+12399040,
+20361 
+],
+[
+ "Argentina",
+2003,
+5782072,
+14710175,
+25441 
+],
+[
+ "Argentina",
+2004,
+6123570,
+16139170,
+26356 
+],
+[
+ "Argentina",
+2005,
+5028140,
+12721976,
+25302 
+],
+[
+ "Argentina",
+2006,
+5589230,
+14662945,
+26234 
+],
+[
+ "Argentina",
+2007,
+5831684,
+16486532,
+28271 
+],
+[
+ "Argentina",
+2008,
+4334780,
+8508156,
+19628 
+],
+[
+ "Argentina",
+2009,
+3325457,
+9016373,
+27113 
+],
+[
+ "Argentina",
+2010,
+4531520,
+15875651,
+35034 
+],
+[
+ "Argentina",
+2011,
+4496078,
+14500517,
+32251 
+],
+[
+ "Argentina",
+2012,
+3019403,
+8024995,
+26578 
+],
+[
+ "Argentina",
+2013,
+3451785,
+9188339,
+26619 
+],
+[
+ "Argentina",
+2014,
+4957300,
+13930078,
+28100 
+],
+[
+ "Armenia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1970,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1971,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1972,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1973,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1974,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1975,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1976,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1977,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1978,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1979,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1980,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1981,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1982,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1983,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1984,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1985,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1986,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1987,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1988,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1989,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1990,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1991,
+null,
+null,
+null 
+],
+[
+ "Armenia",
+1992,
+65500,
+141483,
+21600 
+],
+[
+ "Armenia",
+1993,
+97900,
+217900,
+22257 
+],
+[
+ "Armenia",
+1994,
+85697,
+152900,
+17842 
+],
+[
+ "Armenia",
+1995,
+60362,
+153800,
+25480 
+],
+[
+ "Armenia",
+1996,
+85450,
+201400,
+23569 
+],
+[
+ "Armenia",
+1997,
+108000,
+183700,
+17009 
+],
+[
+ "Armenia",
+1998,
+118300,
+244300,
+20651 
+],
+[
+ "Armenia",
+1999,
+109950,
+219200,
+19936 
+],
+[
+ "Armenia",
+2000,
+106440,
+181561,
+17058 
+],
+[
+ "Armenia",
+2001,
+108380,
+245579,
+22659 
+],
+[
+ "Armenia",
+2002,
+119224,
+289170,
+24254 
+],
+[
+ "Armenia",
+2003,
+126112,
+220977,
+17522 
+],
+[
+ "Armenia",
+2004,
+124479,
+299900,
+24092 
+],
+[
+ "Armenia",
+2005,
+127574,
+265700,
+20827 
+],
+[
+ "Armenia",
+2006,
+100188,
+152900,
+15261 
+],
+[
+ "Armenia",
+2007,
+98400,
+254233,
+25837 
+],
+[
+ "Armenia",
+2008,
+92810,
+225734,
+24322 
+],
+[
+ "Armenia",
+2009,
+88530,
+198080,
+22374 
+],
+[
+ "Armenia",
+2010,
+86574,
+183464,
+21192 
+],
+[
+ "Armenia",
+2011,
+77806,
+224082,
+28800 
+],
+[
+ "Armenia",
+2012,
+93476,
+243130,
+26010 
+],
+[
+ "Armenia",
+2013,
+99626,
+311558,
+31273 
+],
+[
+ "Armenia",
+2014,
+104823,
+338158,
+32260 
+],
+[
+ "Australia",
+1961,
+5958110,
+6727192,
+11291 
+],
+[
+ "Australia",
+1962,
+6664679,
+8352912,
+12533 
+],
+[
+ "Australia",
+1963,
+6666676,
+8924460,
+13387 
+],
+[
+ "Australia",
+1964,
+7251495,
+10036954,
+13841 
+],
+[
+ "Australia",
+1965,
+7087977,
+7067060,
+9970 
+],
+[
+ "Australia",
+1966,
+8426760,
+12699257,
+15070 
+],
+[
+ "Australia",
+1967,
+9081640,
+7546691,
+8310 
+],
+[
+ "Australia",
+1968,
+10845345,
+14804143,
+13650 
+],
+[
+ "Australia",
+1969,
+9485958,
+10546200,
+11118 
+],
+[
+ "Australia",
+1970,
+6478418,
+7889918,
+12179 
+],
+[
+ "Australia",
+1971,
+7137852,
+8606000,
+12057 
+],
+[
+ "Australia",
+1972,
+7604082,
+6590000,
+8666 
+],
+[
+ "Australia",
+1973,
+8948257,
+11987000,
+13396 
+],
+[
+ "Australia",
+1974,
+8307541,
+11357000,
+13671 
+],
+[
+ "Australia",
+1975,
+8555202,
+11982000,
+14006 
+],
+[
+ "Australia",
+1976,
+8956259,
+11800000,
+13175 
+],
+[
+ "Australia",
+1977,
+9954865,
+9370336,
+9413 
+],
+[
+ "Australia",
+1978,
+10248895,
+18090000,
+17651 
+],
+[
+ "Australia",
+1979,
+11152714,
+16188000,
+14515 
+],
+[
+ "Australia",
+1980,
+11283051,
+10856000,
+9622 
+],
+[
+ "Australia",
+1981,
+11885000,
+16360000,
+13765 
+],
+[
+ "Australia",
+1982,
+11519662,
+8875571,
+7705 
+],
+[
+ "Australia",
+1983,
+12930637,
+22016000,
+17026 
+],
+[
+ "Australia",
+1984,
+12078000,
+18666032,
+15455 
+],
+[
+ "Australia",
+1985,
+11682000,
+15999000,
+13695 
+],
+[
+ "Australia",
+1986,
+11135000,
+16119000,
+14476 
+],
+[
+ "Australia",
+1987,
+9005000,
+12287000,
+13645 
+],
+[
+ "Australia",
+1988,
+8826822,
+13935000,
+15787 
+],
+[
+ "Australia",
+1989,
+9003872,
+14214495,
+15787 
+],
+[
+ "Australia",
+1990,
+9218091,
+15066100,
+16344 
+],
+[
+ "Australia",
+1991,
+7183000,
+10557400,
+14698 
+],
+[
+ "Australia",
+1992,
+8274614,
+14738678,
+17812 
+],
+[
+ "Australia",
+1993,
+8383000,
+16479000,
+19658 
+],
+[
+ "Australia",
+1994,
+7890690,
+8961000,
+11356 
+],
+[
+ "Australia",
+1995,
+9220820,
+16504000,
+17899 
+],
+[
+ "Australia",
+1996,
+10936000,
+23702000,
+21673 
+],
+[
+ "Australia",
+1997,
+10441000,
+19224000,
+18412 
+],
+[
+ "Australia",
+1998,
+11543000,
+22108000,
+19153 
+],
+[
+ "Australia",
+1999,
+12338000,
+24757000,
+20066 
+],
+[
+ "Australia",
+2000,
+12141000,
+22108000,
+18209 
+],
+[
+ "Australia",
+2001,
+11529000,
+24299000,
+21076 
+],
+[
+ "Australia",
+2002,
+11170000,
+10132000,
+9071 
+],
+[
+ "Australia",
+2003,
+13067000,
+26132000,
+19998 
+],
+[
+ "Australia",
+2004,
+13399397,
+21905113,
+16348 
+],
+[
+ "Australia",
+2005,
+12456000,
+25173000,
+20210 
+],
+[
+ "Australia",
+2006,
+11797888,
+10821628,
+9173 
+],
+[
+ "Australia",
+2007,
+12578309,
+13569378,
+10788 
+],
+[
+ "Australia",
+2008,
+13530196,
+21420177,
+15831 
+],
+[
+ "Australia",
+2009,
+13788000,
+21656000,
+15706 
+],
+[
+ "Australia",
+2010,
+13507000,
+22138000,
+16390 
+],
+[
+ "Australia",
+2011,
+13501781,
+27410076,
+20301 
+],
+[
+ "Australia",
+2012,
+13902140,
+29905008,
+21511 
+],
+[
+ "Australia",
+2013,
+12979382,
+22855576,
+17609 
+],
+[
+ "Australia",
+2014,
+12613000,
+25303000,
+20061 
+],
+[
+ "Austria",
+1961,
+275822,
+711673,
+25802 
+],
+[
+ "Austria",
+1962,
+270351,
+706206,
+26122 
+],
+[
+ "Austria",
+1963,
+274722,
+689528,
+25099 
+],
+[
+ "Austria",
+1964,
+282967,
+750534,
+26524 
+],
+[
+ "Austria",
+1965,
+275654,
+660712,
+23969 
+],
+[
+ "Austria",
+1966,
+313812,
+896906,
+28581 
+],
+[
+ "Austria",
+1967,
+316319,
+1045402,
+33049 
+],
+[
+ "Austria",
+1968,
+305691,
+1044709,
+34175 
+],
+[
+ "Austria",
+1969,
+286470,
+950279,
+33172 
+],
+[
+ "Austria",
+1970,
+275229,
+810424,
+29445 
+],
+[
+ "Austria",
+1971,
+273849,
+974281,
+35577 
+],
+[
+ "Austria",
+1972,
+274404,
+863310,
+31461 
+],
+[
+ "Austria",
+1973,
+266287,
+939152,
+35268 
+],
+[
+ "Austria",
+1974,
+269131,
+1101762,
+40938 
+],
+[
+ "Austria",
+1975,
+269567,
+945188,
+35063 
+],
+[
+ "Austria",
+1976,
+289328,
+1233520,
+42634 
+],
+[
+ "Austria",
+1977,
+285158,
+1071848,
+37588 
+],
+[
+ "Austria",
+1978,
+286038,
+1194808,
+41771 
+],
+[
+ "Austria",
+1979,
+270188,
+849921,
+31457 
+],
+[
+ "Austria",
+1980,
+268753,
+1200599,
+44673 
+],
+[
+ "Austria",
+1981,
+274286,
+1025011,
+37370 
+],
+[
+ "Austria",
+1982,
+289090,
+1236355,
+42767 
+],
+[
+ "Austria",
+1983,
+312883,
+1417365,
+45300 
+],
+[
+ "Austria",
+1984,
+315126,
+1501000,
+47632 
+],
+[
+ "Austria",
+1985,
+319837,
+1562776,
+48862 
+],
+[
+ "Austria",
+1986,
+324415,
+1414599,
+43605 
+],
+[
+ "Austria",
+1987,
+320366,
+1450734,
+45284 
+],
+[
+ "Austria",
+1988,
+291938,
+1559993,
+53436 
+],
+[
+ "Austria",
+1989,
+278068,
+1362951,
+49015 
+],
+[
+ "Austria",
+1990,
+278226,
+1404468,
+50479 
+],
+[
+ "Austria",
+1991,
+271068,
+1375253,
+50735 
+],
+[
+ "Austria",
+1992,
+245728,
+1325401,
+53938 
+],
+[
+ "Austria",
+1993,
+240971,
+1018013,
+42246 
+],
+[
+ "Austria",
+1994,
+240961,
+1255120,
+52088 
+],
+[
+ "Austria",
+1995,
+255910,
+1303923,
+50952 
+],
+[
+ "Austria",
+1996,
+247602,
+1239723,
+50069 
+],
+[
+ "Austria",
+1997,
+259832,
+1352281,
+52044 
+],
+[
+ "Austria",
+1998,
+264405,
+1341820,
+50749 
+],
+[
+ "Austria",
+1999,
+260579,
+1416200,
+54348 
+],
+[
+ "Austria",
+2000,
+293806,
+1312962,
+44688 
+],
+[
+ "Austria",
+2001,
+287777,
+1508283,
+52412 
+],
+[
+ "Austria",
+2002,
+288764,
+1434210,
+49667 
+],
+[
+ "Austria",
+2003,
+272001,
+1191380,
+43801 
+],
+[
+ "Austria",
+2004,
+290174,
+1718820,
+59234 
+],
+[
+ "Austria",
+2005,
+288960,
+1453072,
+50286 
+],
+[
+ "Austria",
+2006,
+284577,
+1396300,
+49066 
+],
+[
+ "Austria",
+2007,
+292976,
+1399341,
+47763 
+],
+[
+ "Austria",
+2008,
+296775,
+1689688,
+56935 
+],
+[
+ "Austria",
+2009,
+309034,
+1523368,
+49295 
+],
+[
+ "Austria",
+2010,
+302852,
+1517805,
+50117 
+],
+[
+ "Austria",
+2011,
+304334,
+1781837,
+58549 
+],
+[
+ "Austria",
+2012,
+308200,
+1275498,
+41385 
+],
+[
+ "Austria",
+2013,
+297300,
+1597700,
+53740 
+],
+[
+ "Austria",
+2014,
+304645,
+1804018,
+59217 
+],
+[
+ "Azerbaijan",
+1961,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1962,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1963,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1964,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1965,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1966,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1967,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1968,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1969,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1970,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1971,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1972,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1973,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1974,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1975,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1976,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1977,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1978,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1979,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1980,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1981,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1982,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1983,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1984,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1985,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1986,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1987,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1988,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1989,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1990,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1991,
+null,
+null,
+null 
+],
+[
+ "Azerbaijan",
+1992,
+435000,
+943300,
+21685 
+],
+[
+ "Azerbaijan",
+1993,
+499000,
+841000,
+16854 
+],
+[
+ "Azerbaijan",
+1994,
+453000,
+739200,
+16318 
+],
+[
+ "Azerbaijan",
+1995,
+418700,
+625600,
+14941 
+],
+[
+ "Azerbaijan",
+1996,
+461373,
+758861,
+16448 
+],
+[
+ "Azerbaijan",
+1997,
+538310,
+935186,
+17373 
+],
+[
+ "Azerbaijan",
+1998,
+514487,
+798262,
+15516 
+],
+[
+ "Azerbaijan",
+1999,
+423220,
+846030,
+19990 
+],
+[
+ "Azerbaijan",
+2000,
+495330,
+1150281,
+23223 
+],
+[
+ "Azerbaijan",
+2001,
+571500,
+1493741,
+26137 
+],
+[
+ "Azerbaijan",
+2002,
+650372,
+1692818,
+26028 
+],
+[
+ "Azerbaijan",
+2003,
+589700,
+1509560,
+25599 
+],
+[
+ "Azerbaijan",
+2004,
+610919,
+1573006,
+25748 
+],
+[
+ "Azerbaijan",
+2005,
+591452,
+1527026,
+25818 
+],
+[
+ "Azerbaijan",
+2006,
+560575,
+1460303,
+26050 
+],
+[
+ "Azerbaijan",
+2007,
+488542,
+1305458,
+26722 
+],
+[
+ "Azerbaijan",
+2008,
+603935,
+1645790,
+27251 
+],
+[
+ "Azerbaijan",
+2009,
+807900,
+2096203,
+25946 
+],
+[
+ "Azerbaijan",
+2010,
+656480,
+1272340,
+19381 
+],
+[
+ "Azerbaijan",
+2011,
+654078,
+1594394,
+24376 
+],
+[
+ "Azerbaijan",
+2012,
+687349,
+1797028,
+26144 
+],
+[
+ "Azerbaijan",
+2013,
+689143,
+1841307,
+26719 
+],
+[
+ "Azerbaijan",
+2014,
+604429,
+1407405,
+23285 
+],
+[
+ "Bangladesh",
+1961,
+56657,
+32512,
+5738 
+],
+[
+ "Bangladesh",
+1962,
+58680,
+39624,
+6753 
+],
+[
+ "Bangladesh",
+1963,
+73654,
+44704,
+6069 
+],
+[
+ "Bangladesh",
+1964,
+57466,
+34544,
+6011 
+],
+[
+ "Bangladesh",
+1965,
+53419,
+34544,
+6467 
+],
+[
+ "Bangladesh",
+1966,
+55000,
+35600,
+6473 
+],
+[
+ "Bangladesh",
+1967,
+68000,
+53900,
+7926 
+],
+[
+ "Bangladesh",
+1968,
+77700,
+58900,
+7580 
+],
+[
+ "Bangladesh",
+1969,
+117400,
+93500,
+7964 
+],
+[
+ "Bangladesh",
+1970,
+119800,
+104700,
+8740 
+],
+[
+ "Bangladesh",
+1971,
+125900,
+111800,
+8880 
+],
+[
+ "Bangladesh",
+1972,
+127259,
+115012,
+9038 
+],
+[
+ "Bangladesh",
+1973,
+120132,
+90963,
+7572 
+],
+[
+ "Bangladesh",
+1974,
+123437,
+110929,
+8987 
+],
+[
+ "Bangladesh",
+1975,
+126037,
+116714,
+9260 
+],
+[
+ "Bangladesh",
+1976,
+150102,
+218174,
+14535 
+],
+[
+ "Bangladesh",
+1977,
+160047,
+259456,
+16211 
+],
+[
+ "Bangladesh",
+1978,
+188938,
+347997,
+18419 
+],
+[
+ "Bangladesh",
+1979,
+264753,
+494031,
+18660 
+],
+[
+ "Bangladesh",
+1980,
+433221,
+822706,
+18990 
+],
+[
+ "Bangladesh",
+1981,
+591216,
+1092513,
+18479 
+],
+[
+ "Bangladesh",
+1982,
+534068,
+967389,
+18114 
+],
+[
+ "Bangladesh",
+1983,
+519385,
+1095370,
+21090 
+],
+[
+ "Bangladesh",
+1984,
+526097,
+1211132,
+23021 
+],
+[
+ "Bangladesh",
+1985,
+676125,
+1463630,
+21647 
+],
+[
+ "Bangladesh",
+1986,
+540310,
+1041825,
+19282 
+],
+[
+ "Bangladesh",
+1987,
+584766,
+1090990,
+18657 
+],
+[
+ "Bangladesh",
+1988,
+597422,
+1048015,
+17542 
+],
+[
+ "Bangladesh",
+1989,
+560096,
+1021950,
+18246 
+],
+[
+ "Bangladesh",
+1990,
+592000,
+890000,
+15034 
+],
+[
+ "Bangladesh",
+1991,
+598955,
+1004290,
+16767 
+],
+[
+ "Bangladesh",
+1992,
+574650,
+1065050,
+18534 
+],
+[
+ "Bangladesh",
+1993,
+636947,
+1175630,
+18457 
+],
+[
+ "Bangladesh",
+1994,
+615000,
+1131000,
+18390 
+],
+[
+ "Bangladesh",
+1995,
+639000,
+1244990,
+19483 
+],
+[
+ "Bangladesh",
+1996,
+701000,
+1369130,
+19531 
+],
+[
+ "Bangladesh",
+1997,
+707802,
+1454100,
+20544 
+],
+[
+ "Bangladesh",
+1998,
+804523,
+1802815,
+22408 
+],
+[
+ "Bangladesh",
+1999,
+882224,
+1908000,
+21627 
+],
+[
+ "Bangladesh",
+2000,
+832447,
+1840000,
+22104 
+],
+[
+ "Bangladesh",
+2001,
+773000,
+1673000,
+21643 
+],
+[
+ "Bangladesh",
+2002,
+742000,
+1606000,
+21644 
+],
+[
+ "Bangladesh",
+2003,
+706475,
+1506710,
+21327 
+],
+[
+ "Bangladesh",
+2004,
+641875,
+1253380,
+19527 
+],
+[
+ "Bangladesh",
+2005,
+558413,
+975985,
+17478 
+],
+[
+ "Bangladesh",
+2006,
+479000,
+735000,
+15344 
+],
+[
+ "Bangladesh",
+2007,
+399000,
+737000,
+18471 
+],
+[
+ "Bangladesh",
+2008,
+388000,
+844000,
+21753 
+],
+[
+ "Bangladesh",
+2009,
+394612,
+849046,
+21516 
+],
+[
+ "Bangladesh",
+2010,
+376256,
+901490,
+23959 
+],
+[
+ "Bangladesh",
+2011,
+373708,
+972085,
+26012 
+],
+[
+ "Bangladesh",
+2012,
+358181,
+995356,
+27789 
+],
+[
+ "Bangladesh",
+2013,
+416416,
+1255000,
+30138 
+],
+[
+ "Bangladesh",
+2014,
+410000,
+1302300,
+31763 
+],
+[
+ "Belarus",
+1961,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1962,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1963,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1964,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1965,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1966,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1967,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1968,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1969,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1970,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1971,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1972,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1973,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1974,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1975,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1976,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1977,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1978,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1979,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1980,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1981,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1982,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1983,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1984,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1985,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1986,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1987,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1988,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1989,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1990,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1991,
+null,
+null,
+null 
+],
+[
+ "Belarus",
+1992,
+118000,
+330000,
+27966 
+],
+[
+ "Belarus",
+1993,
+132000,
+354000,
+26818 
+],
+[
+ "Belarus",
+1994,
+101000,
+230000,
+22772 
+],
+[
+ "Belarus",
+1995,
+177000,
+438800,
+24791 
+],
+[
+ "Belarus",
+1996,
+273000,
+600300,
+21989 
+],
+[
+ "Belarus",
+1997,
+296000,
+743900,
+25132 
+],
+[
+ "Belarus",
+1998,
+369000,
+787400,
+21339 
+],
+[
+ "Belarus",
+1999,
+410700,
+711400,
+17322 
+],
+[
+ "Belarus",
+2000,
+452000,
+966000,
+21372 
+],
+[
+ "Belarus",
+2001,
+408000,
+867000,
+21250 
+],
+[
+ "Belarus",
+2002,
+377800,
+1017000,
+26919 
+],
+[
+ "Belarus",
+2003,
+317192,
+795594,
+25082 
+],
+[
+ "Belarus",
+2004,
+339254,
+1120912,
+33040 
+],
+[
+ "Belarus",
+2005,
+358030,
+1174763,
+32812 
+],
+[
+ "Belarus",
+2006,
+381417,
+1075238,
+28191 
+],
+[
+ "Belarus",
+2007,
+426161,
+1396550,
+32770 
+],
+[
+ "Belarus",
+2008,
+514498,
+2045237,
+39752 
+],
+[
+ "Belarus",
+2009,
+558604,
+1979000,
+35428 
+],
+[
+ "Belarus",
+2010,
+602788,
+1739110,
+28851 
+],
+[
+ "Belarus",
+2011,
+644463,
+2132369,
+33088 
+],
+[
+ "Belarus",
+2012,
+712858,
+2553570,
+35822 
+],
+[
+ "Belarus",
+2013,
+686430,
+2101183,
+30610 
+],
+[
+ "Belarus",
+2014,
+741946,
+2924035,
+39410 
+],
+[
+ "Belgium",
+1961,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1962,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1963,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1964,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1965,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1966,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1967,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1968,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1969,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1970,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1971,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1972,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1973,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1974,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1975,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1976,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1977,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1978,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1979,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1980,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1981,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1982,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1983,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1984,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1985,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1986,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1987,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1988,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1989,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1990,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1991,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1992,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1993,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1994,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1995,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1996,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1997,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1998,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+1999,
+null,
+null,
+null 
+],
+[
+ "Belgium",
+2000,
+213100,
+1687700,
+79198 
+],
+[
+ "Belgium",
+2001,
+181100,
+1457400,
+80475 
+],
+[
+ "Belgium",
+2002,
+202400,
+1675000,
+82757 
+],
+[
+ "Belgium",
+2003,
+191216,
+1640364,
+85786 
+],
+[
+ "Belgium",
+2004,
+213035,
+1913177,
+89806 
+],
+[
+ "Belgium",
+2005,
+213748,
+1768410,
+82733 
+],
+[
+ "Belgium",
+2006,
+201330,
+1661958,
+82549 
+],
+[
+ "Belgium",
+2007,
+199897,
+1577342,
+78908 
+],
+[
+ "Belgium",
+2008,
+211270,
+1850406,
+87585 
+],
+[
+ "Belgium",
+2009,
+201768,
+1909768,
+94652 
+],
+[
+ "Belgium",
+2010,
+209532,
+1849584,
+88272 
+],
+[
+ "Belgium",
+2011,
+200813,
+1687749,
+84046 
+],
+[
+ "Belgium",
+2012,
+217060,
+1834624,
+84522 
+],
+[
+ "Belgium",
+2013,
+201854,
+1803550,
+89349 
+],
+[
+ "Belgium",
+2014,
+211900,
+1994600,
+94129 
+],
+[
+ "Belgium-Luxembourg",
+1961,
+212139,
+787372,
+37116 
+],
+[
+ "Belgium-Luxembourg",
+1962,
+212221,
+888520,
+41868 
+],
+[
+ "Belgium-Luxembourg",
+1963,
+201443,
+822179,
+40814 
+],
+[
+ "Belgium-Luxembourg",
+1964,
+217656,
+949813,
+43638 
+],
+[
+ "Belgium-Luxembourg",
+1965,
+229353,
+910564,
+39701 
+],
+[
+ "Belgium-Luxembourg",
+1966,
+231643,
+613222,
+26473 
+],
+[
+ "Belgium-Luxembourg",
+1967,
+216676,
+922910,
+42594 
+],
+[
+ "Belgium-Luxembourg",
+1968,
+220347,
+899885,
+40839 
+],
+[
+ "Belgium-Luxembourg",
+1969,
+215759,
+826494,
+38306 
+],
+[
+ "Belgium-Luxembourg",
+1970,
+198233,
+762845,
+38482 
+],
+[
+ "Belgium-Luxembourg",
+1971,
+212702,
+953936,
+44848 
+],
+[
+ "Belgium-Luxembourg",
+1972,
+222877,
+985250,
+44206 
+],
+[
+ "Belgium-Luxembourg",
+1973,
+211923,
+1048963,
+49497 
+],
+[
+ "Belgium-Luxembourg",
+1974,
+198483,
+1077990,
+54311 
+],
+[
+ "Belgium-Luxembourg",
+1975,
+190323,
+723572,
+38018 
+],
+[
+ "Belgium-Luxembourg",
+1976,
+211899,
+939250,
+44325 
+],
+[
+ "Belgium-Luxembourg",
+1977,
+193782,
+795361,
+41044 
+],
+[
+ "Belgium-Luxembourg",
+1978,
+194479,
+1021690,
+52535 
+],
+[
+ "Belgium-Luxembourg",
+1979,
+197743,
+1014501,
+51304 
+],
+[
+ "Belgium-Luxembourg",
+1980,
+196499,
+906472,
+46131 
+],
+[
+ "Belgium-Luxembourg",
+1981,
+173113,
+925978,
+53490 
+],
+[
+ "Belgium-Luxembourg",
+1982,
+182944,
+1062748,
+58091 
+],
+[
+ "Belgium-Luxembourg",
+1983,
+203207,
+1062000,
+52262 
+],
+[
+ "Belgium-Luxembourg",
+1984,
+194340,
+1329992,
+68436 
+],
+[
+ "Belgium-Luxembourg",
+1985,
+194409,
+1215493,
+62522 
+],
+[
+ "Belgium-Luxembourg",
+1986,
+196473,
+1324314,
+67404 
+],
+[
+ "Belgium-Luxembourg",
+1987,
+192866,
+1114686,
+57796 
+],
+[
+ "Belgium-Luxembourg",
+1988,
+202268,
+1319644,
+65242 
+],
+[
+ "Belgium-Luxembourg",
+1989,
+219000,
+1476989,
+67442 
+],
+[
+ "Belgium-Luxembourg",
+1990,
+222000,
+1339516,
+60339 
+],
+[
+ "Belgium-Luxembourg",
+1991,
+215000,
+1438012,
+66884 
+],
+[
+ "Belgium-Luxembourg",
+1992,
+216000,
+1410680,
+65309 
+],
+[
+ "Belgium-Luxembourg",
+1993,
+212000,
+1511632,
+71303 
+],
+[
+ "Belgium-Luxembourg",
+1994,
+212000,
+1553828,
+73294 
+],
+[
+ "Belgium-Luxembourg",
+1995,
+218400,
+1531395,
+70119 
+],
+[
+ "Belgium-Luxembourg",
+1996,
+214000,
+1908529,
+89184 
+],
+[
+ "Belgium-Luxembourg",
+1997,
+216500,
+1717654,
+79337 
+],
+[
+ "Belgium-Luxembourg",
+1998,
+222000,
+1832000,
+82523 
+],
+[
+ "Belgium-Luxembourg",
+1999,
+188800,
+1528471,
+80957 
+],
+[
+ "Belgium-Luxembourg",
+2000,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2001,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2002,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2003,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2004,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2005,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2006,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2007,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2008,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2009,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2010,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2011,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2012,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2013,
+null,
+null,
+null 
+],
+[
+ "Belgium-Luxembourg",
+2014,
+null,
+null,
+null 
+],
+[
+ "Bhutan",
+1961,
+4900,
+5000,
+10204 
+],
+[
+ "Bhutan",
+1962,
+5000,
+5100,
+10200 
+],
+[
+ "Bhutan",
+1963,
+5100,
+5200,
+10196 
+],
+[
+ "Bhutan",
+1964,
+5200,
+5300,
+10192 
+],
+[
+ "Bhutan",
+1965,
+5300,
+5400,
+10189 
+],
+[
+ "Bhutan",
+1966,
+5500,
+5600,
+10182 
+],
+[
+ "Bhutan",
+1967,
+5700,
+5800,
+10175 
+],
+[
+ "Bhutan",
+1968,
+5900,
+6000,
+10169 
+],
+[
+ "Bhutan",
+1969,
+6100,
+6200,
+10164 
+],
+[
+ "Bhutan",
+1970,
+6300,
+6400,
+10159 
+],
+[
+ "Bhutan",
+1971,
+6500,
+6600,
+10154 
+],
+[
+ "Bhutan",
+1972,
+6700,
+6800,
+10149 
+],
+[
+ "Bhutan",
+1973,
+6900,
+7000,
+10145 
+],
+[
+ "Bhutan",
+1974,
+7100,
+7200,
+10141 
+],
+[
+ "Bhutan",
+1975,
+7300,
+7400,
+10137 
+],
+[
+ "Bhutan",
+1976,
+7500,
+7600,
+10133 
+],
+[
+ "Bhutan",
+1977,
+7800,
+7800,
+10000 
+],
+[
+ "Bhutan",
+1978,
+8000,
+8000,
+10000 
+],
+[
+ "Bhutan",
+1979,
+8200,
+8200,
+10000 
+],
+[
+ "Bhutan",
+1980,
+8500,
+8500,
+10000 
+],
+[
+ "Bhutan",
+1981,
+8500,
+9300,
+10941 
+],
+[
+ "Bhutan",
+1982,
+9500,
+10000,
+10526 
+],
+[
+ "Bhutan",
+1983,
+10000,
+11000,
+11000 
+],
+[
+ "Bhutan",
+1984,
+10620,
+12071,
+11366 
+],
+[
+ "Bhutan",
+1985,
+11000,
+11000,
+10000 
+],
+[
+ "Bhutan",
+1986,
+12000,
+11000,
+9167 
+],
+[
+ "Bhutan",
+1987,
+10000,
+8000,
+8000 
+],
+[
+ "Bhutan",
+1988,
+6410,
+4100,
+6396 
+],
+[
+ "Bhutan",
+1989,
+6420,
+4100,
+6386 
+],
+[
+ "Bhutan",
+1990,
+6500,
+5000,
+7692 
+],
+[
+ "Bhutan",
+1991,
+6000,
+5000,
+8333 
+],
+[
+ "Bhutan",
+1992,
+5500,
+5000,
+9091 
+],
+[
+ "Bhutan",
+1993,
+6000,
+7000,
+11667 
+],
+[
+ "Bhutan",
+1994,
+8000,
+10000,
+12500 
+],
+[
+ "Bhutan",
+1995,
+10000,
+13000,
+13000 
+],
+[
+ "Bhutan",
+1996,
+12000,
+17000,
+14167 
+],
+[
+ "Bhutan",
+1997,
+13000,
+20000,
+15385 
+],
+[
+ "Bhutan",
+1998,
+13000,
+20000,
+15385 
+],
+[
+ "Bhutan",
+1999,
+13000,
+20000,
+15385 
+],
+[
+ "Bhutan",
+2000,
+4600,
+4350,
+9457 
+],
+[
+ "Bhutan",
+2001,
+4500,
+4500,
+10000 
+],
+[
+ "Bhutan",
+2002,
+4066,
+4582,
+11269 
+],
+[
+ "Bhutan",
+2003,
+3345,
+4763,
+14239 
+],
+[
+ "Bhutan",
+2004,
+3069,
+4191,
+13656 
+],
+[
+ "Bhutan",
+2005,
+8865,
+11306,
+12754 
+],
+[
+ "Bhutan",
+2006,
+6750,
+9100,
+13481 
+],
+[
+ "Bhutan",
+2007,
+6872,
+8879,
+12921 
+],
+[
+ "Bhutan",
+2008,
+3301,
+5828,
+17655 
+],
+[
+ "Bhutan",
+2009,
+3118,
+4481,
+14371 
+],
+[
+ "Bhutan",
+2010,
+2252,
+4873,
+21637 
+],
+[
+ "Bhutan",
+2011,
+2348,
+6266,
+26686 
+],
+[
+ "Bhutan",
+2012,
+2242,
+5038,
+22471 
+],
+[
+ "Bhutan",
+2013,
+2270,
+5310,
+23392 
+],
+[
+ "Bhutan",
+2014,
+2315,
+5172,
+22341 
+],
+[
+ "Bolivia (Plurinational State of)",
+1961,
+80000,
+45000,
+5625 
+],
+[
+ "Bolivia (Plurinational State of)",
+1962,
+80000,
+40000,
+5000 
+],
+[
+ "Bolivia (Plurinational State of)",
+1963,
+106000,
+55000,
+5189 
+],
+[
+ "Bolivia (Plurinational State of)",
+1964,
+109000,
+57000,
+5229 
+],
+[
+ "Bolivia (Plurinational State of)",
+1965,
+63000,
+55000,
+8730 
+],
+[
+ "Bolivia (Plurinational State of)",
+1966,
+74545,
+41000,
+5500 
+],
+[
+ "Bolivia (Plurinational State of)",
+1967,
+45000,
+27000,
+6000 
+],
+[
+ "Bolivia (Plurinational State of)",
+1968,
+75000,
+45000,
+6000 
+],
+[
+ "Bolivia (Plurinational State of)",
+1969,
+76500,
+53200,
+6954 
+],
+[
+ "Bolivia (Plurinational State of)",
+1970,
+63130,
+44190,
+7000 
+],
+[
+ "Bolivia (Plurinational State of)",
+1971,
+59910,
+47100,
+7862 
+],
+[
+ "Bolivia (Plurinational State of)",
+1972,
+64310,
+53590,
+8333 
+],
+[
+ "Bolivia (Plurinational State of)",
+1973,
+68860,
+57000,
+8278 
+],
+[
+ "Bolivia (Plurinational State of)",
+1974,
+73575,
+62460,
+8489 
+],
+[
+ "Bolivia (Plurinational State of)",
+1975,
+76860,
+61750,
+8034 
+],
+[
+ "Bolivia (Plurinational State of)",
+1976,
+80815,
+69815,
+8639 
+],
+[
+ "Bolivia (Plurinational State of)",
+1977,
+85165,
+55610,
+6530 
+],
+[
+ "Bolivia (Plurinational State of)",
+1978,
+87655,
+56590,
+6456 
+],
+[
+ "Bolivia (Plurinational State of)",
+1979,
+98070,
+67755,
+6909 
+],
+[
+ "Bolivia (Plurinational State of)",
+1980,
+100370,
+60140,
+5992 
+],
+[
+ "Bolivia (Plurinational State of)",
+1981,
+95955,
+66620,
+6943 
+],
+[
+ "Bolivia (Plurinational State of)",
+1982,
+96422,
+66000,
+6845 
+],
+[
+ "Bolivia (Plurinational State of)",
+1983,
+75507,
+45647,
+6045 
+],
+[
+ "Bolivia (Plurinational State of)",
+1984,
+98907,
+78490,
+7936 
+],
+[
+ "Bolivia (Plurinational State of)",
+1985,
+100242,
+74333,
+7415 
+],
+[
+ "Bolivia (Plurinational State of)",
+1986,
+106250,
+81200,
+7642 
+],
+[
+ "Bolivia (Plurinational State of)",
+1987,
+94880,
+76655,
+8079 
+],
+[
+ "Bolivia (Plurinational State of)",
+1988,
+81680,
+62650,
+7670 
+],
+[
+ "Bolivia (Plurinational State of)",
+1989,
+87326,
+60794,
+6962 
+],
+[
+ "Bolivia (Plurinational State of)",
+1990,
+84072,
+54480,
+6480 
+],
+[
+ "Bolivia (Plurinational State of)",
+1991,
+116426,
+108733,
+9339 
+],
+[
+ "Bolivia (Plurinational State of)",
+1992,
+118350,
+95727,
+8088 
+],
+[
+ "Bolivia (Plurinational State of)",
+1993,
+140626,
+145129,
+10320 
+],
+[
+ "Bolivia (Plurinational State of)",
+1994,
+109491,
+82323,
+7519 
+],
+[
+ "Bolivia (Plurinational State of)",
+1995,
+126012,
+122805,
+9746 
+],
+[
+ "Bolivia (Plurinational State of)",
+1996,
+131929,
+98820,
+7490 
+],
+[
+ "Bolivia (Plurinational State of)",
+1997,
+158396,
+168547,
+10641 
+],
+[
+ "Bolivia (Plurinational State of)",
+1998,
+194004,
+175426,
+9042 
+],
+[
+ "Bolivia (Plurinational State of)",
+1999,
+172892,
+150012,
+8677 
+],
+[
+ "Bolivia (Plurinational State of)",
+2000,
+119538,
+101510,
+8492 
+],
+[
+ "Bolivia (Plurinational State of)",
+2001,
+113916,
+112659,
+9890 
+],
+[
+ "Bolivia (Plurinational State of)",
+2002,
+134579,
+119102,
+8850 
+],
+[
+ "Bolivia (Plurinational State of)",
+2003,
+114324,
+112930,
+9878 
+],
+[
+ "Bolivia (Plurinational State of)",
+2004,
+108797,
+116037,
+10665 
+],
+[
+ "Bolivia (Plurinational State of)",
+2005,
+122149,
+131198,
+10741 
+],
+[
+ "Bolivia (Plurinational State of)",
+2006,
+129290,
+143677,
+11113 
+],
+[
+ "Bolivia (Plurinational State of)",
+2007,
+181428,
+167095,
+9210 
+],
+[
+ "Bolivia (Plurinational State of)",
+2008,
+154658,
+199990,
+12931 
+],
+[
+ "Bolivia (Plurinational State of)",
+2009,
+156670,
+201508,
+12862 
+],
+[
+ "Bolivia (Plurinational State of)",
+2010,
+173412,
+241397,
+13920 
+],
+[
+ "Bolivia (Plurinational State of)",
+2011,
+187985,
+182927,
+9731 
+],
+[
+ "Bolivia (Plurinational State of)",
+2012,
+158019,
+145151,
+9186 
+],
+[
+ "Bolivia (Plurinational State of)",
+2013,
+187771,
+226864,
+12082 
+],
+[
+ "Bolivia (Plurinational State of)",
+2014,
+190472,
+263076,
+13812 
+],
+[
+ "Bosnia and Herzegovina",
+1961,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1962,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1963,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1964,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1965,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1966,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1967,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1968,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1969,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1970,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1971,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1972,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1973,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1974,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1975,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1976,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1977,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1978,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1979,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1980,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1981,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1982,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1983,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1984,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1985,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1986,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1987,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1988,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1989,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1990,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1991,
+null,
+null,
+null 
+],
+[
+ "Bosnia and Herzegovina",
+1992,
+1e+05,
+340000,
+34000 
+],
+[
+ "Bosnia and Herzegovina",
+1993,
+100386,
+330000,
+32873 
+],
+[
+ "Bosnia and Herzegovina",
+1994,
+90000,
+313000,
+34778 
+],
+[
+ "Bosnia and Herzegovina",
+1995,
+70000,
+238750,
+34107 
+],
+[
+ "Bosnia and Herzegovina",
+1996,
+55000,
+165700,
+30127 
+],
+[
+ "Bosnia and Herzegovina",
+1997,
+95178,
+287372,
+30193 
+],
+[
+ "Bosnia and Herzegovina",
+1998,
+106165,
+340931,
+32113 
+],
+[
+ "Bosnia and Herzegovina",
+1999,
+94897,
+257764,
+27163 
+],
+[
+ "Bosnia and Herzegovina",
+2000,
+104082,
+336085,
+32290 
+],
+[
+ "Bosnia and Herzegovina",
+2001,
+105188,
+255221,
+24263 
+],
+[
+ "Bosnia and Herzegovina",
+2002,
+90682,
+272280,
+30026 
+],
+[
+ "Bosnia and Herzegovina",
+2003,
+71067,
+160734,
+22617 
+],
+[
+ "Bosnia and Herzegovina",
+2004,
+86890,
+318986,
+36711 
+],
+[
+ "Bosnia and Herzegovina",
+2005,
+81239,
+248332,
+30568 
+],
+[
+ "Bosnia and Herzegovina",
+2006,
+73348,
+232496,
+31698 
+],
+[
+ "Bosnia and Herzegovina",
+2007,
+73968,
+257112,
+34760 
+],
+[
+ "Bosnia and Herzegovina",
+2008,
+64392,
+240533,
+37354 
+],
+[
+ "Bosnia and Herzegovina",
+2009,
+67772,
+255848,
+37751 
+],
+[
+ "Bosnia and Herzegovina",
+2010,
+54623,
+145412,
+26621 
+],
+[
+ "Bosnia and Herzegovina",
+2011,
+58400,
+210004,
+35960 
+],
+[
+ "Bosnia and Herzegovina",
+2012,
+60713,
+225137,
+37082 
+],
+[
+ "Bosnia and Herzegovina",
+2013,
+67630,
+265152,
+39206 
+],
+[
+ "Bosnia and Herzegovina",
+2014,
+59550,
+170550,
+28640 
+],
+[
+ "Botswana",
+1961,
+160,
+400,
+25000 
+],
+[
+ "Botswana",
+1962,
+160,
+400,
+25000 
+],
+[
+ "Botswana",
+1963,
+160,
+400,
+25000 
+],
+[
+ "Botswana",
+1964,
+160,
+400,
+25000 
+],
+[
+ "Botswana",
+1965,
+160,
+400,
+25000 
+],
+[
+ "Botswana",
+1966,
+190,
+450,
+23684 
+],
+[
+ "Botswana",
+1967,
+190,
+450,
+23684 
+],
+[
+ "Botswana",
+1968,
+190,
+453,
+23842 
+],
+[
+ "Botswana",
+1969,
+300,
+671,
+22367 
+],
+[
+ "Botswana",
+1970,
+190,
+360,
+18947 
+],
+[
+ "Botswana",
+1971,
+200,
+500,
+25000 
+],
+[
+ "Botswana",
+1972,
+200,
+500,
+25000 
+],
+[
+ "Botswana",
+1973,
+250,
+517,
+20680 
+],
+[
+ "Botswana",
+1974,
+270,
+550,
+20370 
+],
+[
+ "Botswana",
+1975,
+270,
+550,
+20370 
+],
+[
+ "Botswana",
+1976,
+270,
+570,
+21111 
+],
+[
+ "Botswana",
+1977,
+300,
+600,
+20000 
+],
+[
+ "Botswana",
+1978,
+300,
+600,
+20000 
+],
+[
+ "Botswana",
+1979,
+300,
+600,
+20000 
+],
+[
+ "Botswana",
+1980,
+300,
+600,
+20000 
+],
+[
+ "Botswana",
+1981,
+500,
+1000,
+20000 
+],
+[
+ "Botswana",
+1982,
+500,
+1000,
+20000 
+],
+[
+ "Botswana",
+1983,
+500,
+1000,
+20000 
+],
+[
+ "Botswana",
+1984,
+500,
+1000,
+20000 
+],
+[
+ "Botswana",
+1985,
+500,
+1000,
+20000 
+],
+[
+ "Botswana",
+1986,
+500,
+1000,
+20000 
+],
+[
+ "Botswana",
+1987,
+500,
+1000,
+20000 
+],
+[
+ "Botswana",
+1988,
+500,
+1000,
+20000 
+],
+[
+ "Botswana",
+1989,
+500,
+1000,
+20000 
+],
+[
+ "Botswana",
+1990,
+382,
+1000,
+26178 
+],
+[
+ "Botswana",
+1991,
+253,
+1500,
+59289 
+],
+[
+ "Botswana",
+1992,
+238,
+500,
+21008 
+],
+[
+ "Botswana",
+1993,
+263,
+633,
+24068 
+],
+[
+ "Botswana",
+1994,
+285,
+1000,
+35088 
+],
+[
+ "Botswana",
+1995,
+238,
+900,
+37815 
+],
+[
+ "Botswana",
+1996,
+257,
+1240,
+48249 
+],
+[
+ "Botswana",
+1997,
+267,
+1113,
+41685 
+],
+[
+ "Botswana",
+1998,
+300,
+500,
+16667 
+],
+[
+ "Botswana",
+1999,
+289,
+455,
+15744 
+],
+[
+ "Botswana",
+2000,
+375,
+635,
+16933 
+],
+[
+ "Botswana",
+2001,
+350,
+550,
+15714 
+],
+[
+ "Botswana",
+2002,
+343,
+531,
+15481 
+],
+[
+ "Botswana",
+2003,
+276,
+339,
+12283 
+],
+[
+ "Botswana",
+2004,
+301,
+367,
+12193 
+],
+[
+ "Botswana",
+2005,
+290,
+414,
+14276 
+],
+[
+ "Botswana",
+2006,
+277,
+456,
+16462 
+],
+[
+ "Botswana",
+2007,
+80,
+72,
+9000 
+],
+[
+ "Botswana",
+2008,
+130,
+104,
+8000 
+],
+[
+ "Botswana",
+2009,
+null,
+null,
+null 
+],
+[
+ "Botswana",
+2010,
+0,
+null,
+null 
+],
+[
+ "Botswana",
+2011,
+0,
+null,
+null 
+],
+[
+ "Botswana",
+2012,
+0,
+0,
+null 
+],
+[
+ "Botswana",
+2013,
+0,
+0,
+null 
+],
+[
+ "Botswana",
+2014,
+null,
+null,
+null 
+],
+[
+ "Brazil",
+1961,
+1022234,
+544858,
+5330 
+],
+[
+ "Brazil",
+1962,
+743459,
+705619,
+9491 
+],
+[
+ "Brazil",
+1963,
+793494,
+392363,
+4945 
+],
+[
+ "Brazil",
+1964,
+733597,
+643004,
+8765 
+],
+[
+ "Brazil",
+1965,
+766640,
+585384,
+7636 
+],
+[
+ "Brazil",
+1966,
+716981,
+614657,
+8573 
+],
+[
+ "Brazil",
+1967,
+830869,
+629301,
+7574 
+],
+[
+ "Brazil",
+1968,
+970128,
+856170,
+8825 
+],
+[
+ "Brazil",
+1969,
+1407115,
+1373691,
+9762 
+],
+[
+ "Brazil",
+1970,
+1895249,
+1844263,
+9731 
+],
+[
+ "Brazil",
+1971,
+2268926,
+2011334,
+8865 
+],
+[
+ "Brazil",
+1972,
+2319955,
+982901,
+4237 
+],
+[
+ "Brazil",
+1973,
+1839391,
+2031338,
+11044 
+],
+[
+ "Brazil",
+1974,
+2471150,
+2858530,
+11568 
+],
+[
+ "Brazil",
+1975,
+2931508,
+1788180,
+6100 
+],
+[
+ "Brazil",
+1976,
+3539891,
+3215745,
+9084 
+],
+[
+ "Brazil",
+1977,
+3153333,
+2066039,
+6552 
+],
+[
+ "Brazil",
+1978,
+2811189,
+2690888,
+9572 
+],
+[
+ "Brazil",
+1979,
+3830544,
+2926764,
+7641 
+],
+[
+ "Brazil",
+1980,
+3122107,
+2701613,
+8653 
+],
+[
+ "Brazil",
+1981,
+1920142,
+2209631,
+11508 
+],
+[
+ "Brazil",
+1982,
+2827929,
+1826945,
+6460 
+],
+[
+ "Brazil",
+1983,
+1879078,
+2236700,
+11903 
+],
+[
+ "Brazil",
+1984,
+1741673,
+1983157,
+11387 
+],
+[
+ "Brazil",
+1985,
+2676725,
+4320267,
+16140 
+],
+[
+ "Brazil",
+1986,
+3897719,
+5638470,
+14466 
+],
+[
+ "Brazil",
+1987,
+3454844,
+6099111,
+17654 
+],
+[
+ "Brazil",
+1988,
+3476288,
+5745670,
+16528 
+],
+[
+ "Brazil",
+1989,
+3282319,
+5555184,
+16925 
+],
+[
+ "Brazil",
+1990,
+2680990,
+3093791,
+11540 
+],
+[
+ "Brazil",
+1991,
+2049460,
+2916823,
+14232 
+],
+[
+ "Brazil",
+1992,
+1955620,
+2795598,
+14295 
+],
+[
+ "Brazil",
+1993,
+1482230,
+2197354,
+14825 
+],
+[
+ "Brazil",
+1994,
+1348850,
+2096259,
+15541 
+],
+[
+ "Brazil",
+1995,
+994734,
+1533871,
+15420 
+],
+[
+ "Brazil",
+1996,
+1795980,
+3292759,
+18334 
+],
+[
+ "Brazil",
+1997,
+1521540,
+2489070,
+16359 
+],
+[
+ "Brazil",
+1998,
+1408850,
+2269847,
+16111 
+],
+[
+ "Brazil",
+1999,
+1249764,
+2461856,
+19699 
+],
+[
+ "Brazil",
+2000,
+1065897,
+1661526,
+15588 
+],
+[
+ "Brazil",
+2001,
+1727390,
+3364950,
+19480 
+],
+[
+ "Brazil",
+2002,
+2104900,
+3105660,
+14754 
+],
+[
+ "Brazil",
+2003,
+2560230,
+6153500,
+24035 
+],
+[
+ "Brazil",
+2004,
+2807224,
+5818846,
+20728 
+],
+[
+ "Brazil",
+2005,
+2360696,
+4658790,
+19735 
+],
+[
+ "Brazil",
+2006,
+1560175,
+2484848,
+15927 
+],
+[
+ "Brazil",
+2007,
+1853220,
+4114060,
+22200 
+],
+[
+ "Brazil",
+2008,
+2363893,
+6027131,
+25497 
+],
+[
+ "Brazil",
+2009,
+2430253,
+5055525,
+20802 
+],
+[
+ "Brazil",
+2010,
+2181567,
+6171250,
+28288 
+],
+[
+ "Brazil",
+2011,
+2138916,
+5690043,
+26602 
+],
+[
+ "Brazil",
+2012,
+1912711,
+4418388,
+23100 
+],
+[
+ "Brazil",
+2013,
+2087395,
+5738473,
+27491 
+],
+[
+ "Brazil",
+2014,
+2834945,
+6261895,
+22088 
+],
+[
+ "Bulgaria",
+1961,
+1323010,
+2039600,
+15416 
+],
+[
+ "Bulgaria",
+1962,
+1253600,
+2089680,
+16669 
+],
+[
+ "Bulgaria",
+1963,
+1189870,
+1894270,
+15920 
+],
+[
+ "Bulgaria",
+1964,
+1195610,
+2120540,
+17736 
+],
+[
+ "Bulgaria",
+1965,
+1146930,
+2923010,
+25486 
+],
+[
+ "Bulgaria",
+1966,
+1142176,
+3193356,
+27959 
+],
+[
+ "Bulgaria",
+1967,
+1064161,
+3254163,
+30580 
+],
+[
+ "Bulgaria",
+1968,
+1060052,
+2549202,
+24048 
+],
+[
+ "Bulgaria",
+1969,
+1038925,
+2568708,
+24725 
+],
+[
+ "Bulgaria",
+1970,
+1013839,
+3031719,
+29903 
+],
+[
+ "Bulgaria",
+1971,
+1013194,
+3094544,
+30542 
+],
+[
+ "Bulgaria",
+1972,
+960772,
+3581633,
+37279 
+],
+[
+ "Bulgaria",
+1973,
+933928,
+3258147,
+34886 
+],
+[
+ "Bulgaria",
+1974,
+904000,
+3034078,
+33563 
+],
+[
+ "Bulgaria",
+1975,
+912000,
+2996135,
+32852 
+],
+[
+ "Bulgaria",
+1976,
+918100,
+3510835,
+38240 
+],
+[
+ "Bulgaria",
+1977,
+910300,
+3384211,
+37177 
+],
+[
+ "Bulgaria",
+1978,
+934800,
+3466215,
+37080 
+],
+[
+ "Bulgaria",
+1979,
+957563,
+3354760,
+35034 
+],
+[
+ "Bulgaria",
+1980,
+967689,
+3846572,
+39750 
+],
+[
+ "Bulgaria",
+1981,
+1032351,
+4442757,
+43035 
+],
+[
+ "Bulgaria",
+1982,
+1059481,
+4912580,
+46368 
+],
+[
+ "Bulgaria",
+1983,
+1127890,
+3608421,
+31993 
+],
+[
+ "Bulgaria",
+1984,
+1126362,
+4835576,
+42931 
+],
+[
+ "Bulgaria",
+1985,
+1066999,
+3067514,
+28749 
+],
+[
+ "Bulgaria",
+1986,
+1126738,
+4326575,
+38399 
+],
+[
+ "Bulgaria",
+1987,
+1085439,
+4148650,
+38221 
+],
+[
+ "Bulgaria",
+1988,
+1181520,
+4743133,
+40144 
+],
+[
+ "Bulgaria",
+1989,
+1138252,
+5425026,
+47661 
+],
+[
+ "Bulgaria",
+1990,
+1162775,
+5292233,
+45514 
+],
+[
+ "Bulgaria",
+1991,
+1199839,
+4497045,
+37480 
+],
+[
+ "Bulgaria",
+1992,
+1107961,
+3442555,
+31071 
+],
+[
+ "Bulgaria",
+1993,
+1265981,
+3618220,
+28580 
+],
+[
+ "Bulgaria",
+1994,
+1319760,
+3754310,
+28447 
+],
+[
+ "Bulgaria",
+1995,
+1181120,
+3435250,
+29085 
+],
+[
+ "Bulgaria",
+1996,
+957670,
+1802110,
+18818 
+],
+[
+ "Bulgaria",
+1997,
+1211720,
+3574840,
+29502 
+],
+[
+ "Bulgaria",
+1998,
+1141682,
+3203359,
+28058 
+],
+[
+ "Bulgaria",
+1999,
+966282,
+2642973,
+27352 
+],
+[
+ "Bulgaria",
+2000,
+978575,
+2781242,
+28421 
+],
+[
+ "Bulgaria",
+2001,
+1355500,
+4077497,
+30081 
+],
+[
+ "Bulgaria",
+2002,
+1368627,
+4122765,
+30123 
+],
+[
+ "Bulgaria",
+2003,
+841014,
+2003937,
+23828 
+],
+[
+ "Bulgaria",
+2004,
+1039680,
+3961178,
+38100 
+],
+[
+ "Bulgaria",
+2005,
+1101807,
+3478066,
+31567 
+],
+[
+ "Bulgaria",
+2006,
+970392,
+3301880,
+34026 
+],
+[
+ "Bulgaria",
+2007,
+1087996,
+2390610,
+21973 
+],
+[
+ "Bulgaria",
+2008,
+1111533,
+4632210,
+41674 
+],
+[
+ "Bulgaria",
+2009,
+1247718,
+3976852,
+31873 
+],
+[
+ "Bulgaria",
+2010,
+1137650,
+4094600,
+35992 
+],
+[
+ "Bulgaria",
+2011,
+1137642,
+4458492,
+39191 
+],
+[
+ "Bulgaria",
+2012,
+1185007,
+4455104,
+37596 
+],
+[
+ "Bulgaria",
+2013,
+1314288,
+5504941,
+41885 
+],
+[
+ "Bulgaria",
+2014,
+1267914,
+5347078,
+42172 
+],
+[
+ "Burundi",
+1961,
+9000,
+4000,
+4444 
+],
+[
+ "Burundi",
+1962,
+9100,
+6500,
+7143 
+],
+[
+ "Burundi",
+1963,
+10600,
+7400,
+6981 
+],
+[
+ "Burundi",
+1964,
+11400,
+7400,
+6491 
+],
+[
+ "Burundi",
+1965,
+12200,
+8200,
+6721 
+],
+[
+ "Burundi",
+1966,
+12150,
+8230,
+6774 
+],
+[
+ "Burundi",
+1967,
+12200,
+8400,
+6885 
+],
+[
+ "Burundi",
+1968,
+12500,
+9800,
+7840 
+],
+[
+ "Burundi",
+1969,
+8033,
+4387,
+5461 
+],
+[
+ "Burundi",
+1970,
+8613,
+5000,
+5805 
+],
+[
+ "Burundi",
+1971,
+8300,
+5110,
+6157 
+],
+[
+ "Burundi",
+1972,
+8500,
+4599,
+5411 
+],
+[
+ "Burundi",
+1973,
+7246,
+5122,
+7069 
+],
+[
+ "Burundi",
+1974,
+7863,
+4098,
+5212 
+],
+[
+ "Burundi",
+1975,
+8000,
+5173,
+6466 
+],
+[
+ "Burundi",
+1976,
+7345,
+5600,
+7624 
+],
+[
+ "Burundi",
+1977,
+7500,
+6000,
+8000 
+],
+[
+ "Burundi",
+1978,
+5000,
+2742,
+5484 
+],
+[
+ "Burundi",
+1979,
+6000,
+4600,
+7667 
+],
+[
+ "Burundi",
+1980,
+8414,
+5600,
+6656 
+],
+[
+ "Burundi",
+1981,
+11102,
+7000,
+6305 
+],
+[
+ "Burundi",
+1982,
+10000,
+6000,
+6000 
+],
+[
+ "Burundi",
+1983,
+10000,
+6000,
+6000 
+],
+[
+ "Burundi",
+1984,
+9000,
+8000,
+8889 
+],
+[
+ "Burundi",
+1985,
+16596,
+8000,
+4820 
+],
+[
+ "Burundi",
+1986,
+7385,
+8000,
+10833 
+],
+[
+ "Burundi",
+1987,
+7400,
+8200,
+11081 
+],
+[
+ "Burundi",
+1988,
+11250,
+8300,
+7378 
+],
+[
+ "Burundi",
+1989,
+10150,
+8300,
+8177 
+],
+[
+ "Burundi",
+1990,
+11500,
+8600,
+7478 
+],
+[
+ "Burundi",
+1991,
+12000,
+8800,
+7333 
+],
+[
+ "Burundi",
+1992,
+12500,
+8900,
+7120 
+],
+[
+ "Burundi",
+1993,
+12275,
+8700,
+7088 
+],
+[
+ "Burundi",
+1994,
+9000,
+7942,
+8824 
+],
+[
+ "Burundi",
+1995,
+12000,
+8928,
+7440 
+],
+[
+ "Burundi",
+1996,
+11333,
+9054,
+7989 
+],
+[
+ "Burundi",
+1997,
+10320,
+9739,
+9437 
+],
+[
+ "Burundi",
+1998,
+12000,
+9778,
+8148 
+],
+[
+ "Burundi",
+1999,
+10000,
+7085,
+7085 
+],
+[
+ "Burundi",
+2000,
+9000,
+6097,
+6774 
+],
+[
+ "Burundi",
+2001,
+10000,
+8667,
+8667 
+],
+[
+ "Burundi",
+2002,
+10000,
+8290,
+8290 
+],
+[
+ "Burundi",
+2003,
+11305,
+8092,
+7158 
+],
+[
+ "Burundi",
+2004,
+9000,
+7493,
+8326 
+],
+[
+ "Burundi",
+2005,
+10500,
+7756,
+7387 
+],
+[
+ "Burundi",
+2006,
+10000,
+8007,
+8007 
+],
+[
+ "Burundi",
+2007,
+9500,
+7987,
+8407 
+],
+[
+ "Burundi",
+2008,
+9600,
+8094,
+8431 
+],
+[
+ "Burundi",
+2009,
+10000,
+8583,
+8583 
+],
+[
+ "Burundi",
+2010,
+10600,
+9034,
+8523 
+],
+[
+ "Burundi",
+2011,
+11500,
+9787,
+8510 
+],
+[
+ "Burundi",
+2012,
+9434,
+4196,
+4448 
+],
+[
+ "Burundi",
+2013,
+8828,
+6423,
+7276 
+],
+[
+ "Burundi",
+2014,
+9766,
+5628,
+5763 
+],
+[
+ "Cameroon",
+1961,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1962,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1963,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1964,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1965,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1966,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1967,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1968,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1969,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1970,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1971,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1972,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1973,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1974,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1975,
+null,
+null,
+null 
+],
+[
+ "Cameroon",
+1976,
+750,
+370,
+4933 
+],
+[
+ "Cameroon",
+1977,
+2506,
+787,
+3140 
+],
+[
+ "Cameroon",
+1978,
+2000,
+1000,
+5000 
+],
+[
+ "Cameroon",
+1979,
+1786,
+1548,
+8667 
+],
+[
+ "Cameroon",
+1980,
+1914,
+1518,
+7931 
+],
+[
+ "Cameroon",
+1981,
+1914,
+1518,
+7931 
+],
+[
+ "Cameroon",
+1982,
+612,
+900,
+14706 
+],
+[
+ "Cameroon",
+1983,
+225,
+400,
+17778 
+],
+[
+ "Cameroon",
+1984,
+270,
+270,
+10000 
+],
+[
+ "Cameroon",
+1985,
+252,
+359,
+14246 
+],
+[
+ "Cameroon",
+1986,
+300,
+400,
+13333 
+],
+[
+ "Cameroon",
+1987,
+300,
+400,
+13333 
+],
+[
+ "Cameroon",
+1988,
+300,
+400,
+13333 
+],
+[
+ "Cameroon",
+1989,
+300,
+400,
+13333 
+],
+[
+ "Cameroon",
+1990,
+254,
+381,
+15000 
+],
+[
+ "Cameroon",
+1991,
+319,
+464,
+14545 
+],
+[
+ "Cameroon",
+1992,
+296,
+509,
+17196 
+],
+[
+ "Cameroon",
+1993,
+246,
+468,
+19024 
+],
+[
+ "Cameroon",
+1994,
+254,
+489,
+19252 
+],
+[
+ "Cameroon",
+1995,
+241,
+570,
+23651 
+],
+[
+ "Cameroon",
+1996,
+300,
+400,
+13333 
+],
+[
+ "Cameroon",
+1997,
+281,
+391,
+13915 
+],
+[
+ "Cameroon",
+1998,
+314,
+440,
+14013 
+],
+[
+ "Cameroon",
+1999,
+227,
+368,
+16211 
+],
+[
+ "Cameroon",
+2000,
+226,
+400,
+17699 
+],
+[
+ "Cameroon",
+2001,
+227,
+399,
+17577 
+],
+[
+ "Cameroon",
+2002,
+312,
+452,
+14487 
+],
+[
+ "Cameroon",
+2003,
+346,
+479,
+13844 
+],
+[
+ "Cameroon",
+2004,
+382,
+507,
+13272 
+],
+[
+ "Cameroon",
+2005,
+397,
+510,
+12846 
+],
+[
+ "Cameroon",
+2006,
+453,
+604,
+13333 
+],
+[
+ "Cameroon",
+2007,
+533,
+639,
+11989 
+],
+[
+ "Cameroon",
+2008,
+562,
+674,
+11993 
+],
+[
+ "Cameroon",
+2009,
+636,
+787,
+12374 
+],
+[
+ "Cameroon",
+2010,
+650,
+900,
+13846 
+],
+[
+ "Cameroon",
+2011,
+680,
+950,
+13971 
+],
+[
+ "Cameroon",
+2012,
+650,
+800,
+12308 
+],
+[
+ "Cameroon",
+2013,
+660,
+850,
+12879 
+],
+[
+ "Cameroon",
+2014,
+720,
+900,
+12500 
+],
+[
+ "Canada",
+1961,
+10245000,
+7713000,
+7529 
+],
+[
+ "Canada",
+1962,
+10853000,
+15393000,
+14183 
+],
+[
+ "Canada",
+1963,
+11156000,
+19691008,
+17651 
+],
+[
+ "Canada",
+1964,
+12018000,
+16349000,
+13604 
+],
+[
+ "Canada",
+1965,
+11453000,
+17674000,
+15432 
+],
+[
+ "Canada",
+1966,
+12015961,
+22516832,
+18739 
+],
+[
+ "Canada",
+1967,
+12189285,
+16136911,
+13239 
+],
+[
+ "Canada",
+1968,
+11907911,
+17689040,
+14855 
+],
+[
+ "Canada",
+1969,
+10101420,
+18267712,
+18084 
+],
+[
+ "Canada",
+1970,
+5051782,
+9024254,
+17864 
+],
+[
+ "Canada",
+1971,
+7853503,
+14412287,
+18351 
+],
+[
+ "Canada",
+1972,
+8639797,
+14513966,
+16799 
+],
+[
+ "Canada",
+1973,
+9575012,
+16159170,
+16876 
+],
+[
+ "Canada",
+1974,
+8938000,
+13303500,
+14884 
+],
+[
+ "Canada",
+1975,
+9478739,
+17080608,
+18020 
+],
+[
+ "Canada",
+1976,
+11251700,
+23587200,
+20963 
+],
+[
+ "Canada",
+1977,
+10115400,
+19858208,
+19632 
+],
+[
+ "Canada",
+1978,
+10575100,
+21136800,
+19987 
+],
+[
+ "Canada",
+1979,
+10523100,
+17196000,
+16341 
+],
+[
+ "Canada",
+1980,
+11208400,
+19292000,
+17212 
+],
+[
+ "Canada",
+1981,
+12426600,
+24802000,
+19959 
+],
+[
+ "Canada",
+1982,
+12521000,
+26715008,
+21336 
+],
+[
+ "Canada",
+1983,
+13680500,
+26465008,
+19345 
+],
+[
+ "Canada",
+1984,
+13160900,
+21187904,
+16099 
+],
+[
+ "Canada",
+1985,
+13729000,
+24252000,
+17665 
+],
+[
+ "Canada",
+1986,
+14229400,
+31378000,
+22052 
+],
+[
+ "Canada",
+1987,
+13457700,
+25945000,
+19279 
+],
+[
+ "Canada",
+1988,
+12944300,
+15913000,
+12293 
+],
+[
+ "Canada",
+1989,
+13717500,
+24796208,
+18076 
+],
+[
+ "Canada",
+1990,
+14097500,
+32098000,
+22769 
+],
+[
+ "Canada",
+1991,
+14160900,
+31945600,
+22559 
+],
+[
+ "Canada",
+1992,
+13830300,
+29877200,
+21603 
+],
+[
+ "Canada",
+1993,
+12374000,
+27255900,
+22027 
+],
+[
+ "Canada",
+1994,
+10773000,
+22919500,
+21275 
+],
+[
+ "Canada",
+1995,
+11122700,
+24989400,
+22467 
+],
+[
+ "Canada",
+1996,
+12262000,
+29801400,
+24304 
+],
+[
+ "Canada",
+1997,
+11409900,
+24280300,
+21280 
+],
+[
+ "Canada",
+1998,
+10679700,
+24082300,
+22550 
+],
+[
+ "Canada",
+1999,
+10374800,
+26940800,
+25968 
+],
+[
+ "Canada",
+2000,
+10854800,
+26535500,
+24446 
+],
+[
+ "Canada",
+2001,
+10605500,
+20630200,
+19452 
+],
+[
+ "Canada",
+2002,
+8710500,
+15961300,
+18324 
+],
+[
+ "Canada",
+2003,
+10214500,
+23048600,
+22565 
+],
+[
+ "Canada",
+2004,
+9388900,
+24795500,
+26409 
+],
+[
+ "Canada",
+2005,
+9403800,
+25748100,
+27381 
+],
+[
+ "Canada",
+2006,
+9681800,
+25265400,
+26096 
+],
+[
+ "Canada",
+2007,
+8636300,
+20054000,
+23221 
+],
+[
+ "Canada",
+2008,
+10031700,
+28611100,
+28521 
+],
+[
+ "Canada",
+2009,
+9638200,
+26847600,
+27855 
+],
+[
+ "Canada",
+2010,
+8268700,
+23166800,
+28017 
+],
+[
+ "Canada",
+2011,
+8543600,
+25261400,
+29568 
+],
+[
+ "Canada",
+2012,
+9497200,
+27205200,
+28645 
+],
+[
+ "Canada",
+2013,
+10441500,
+37529600,
+35943 
+],
+[
+ "Canada",
+2014,
+9461900,
+29280800,
+30946 
+],
+[
+ "Chad",
+1961,
+1350,
+1500,
+11111 
+],
+[
+ "Chad",
+1962,
+1100,
+1400,
+12727 
+],
+[
+ "Chad",
+1963,
+1800,
+2700,
+15000 
+],
+[
+ "Chad",
+1964,
+1850,
+2700,
+14595 
+],
+[
+ "Chad",
+1965,
+1952,
+3500,
+17930 
+],
+[
+ "Chad",
+1966,
+3047,
+5200,
+17066 
+],
+[
+ "Chad",
+1967,
+3600,
+8000,
+22222 
+],
+[
+ "Chad",
+1968,
+4800,
+5500,
+11458 
+],
+[
+ "Chad",
+1969,
+4900,
+7700,
+15714 
+],
+[
+ "Chad",
+1970,
+4400,
+6900,
+15682 
+],
+[
+ "Chad",
+1971,
+4176,
+6500,
+15565 
+],
+[
+ "Chad",
+1972,
+4738,
+8210,
+17328 
+],
+[
+ "Chad",
+1973,
+3000,
+7000,
+23333 
+],
+[
+ "Chad",
+1974,
+2000,
+7200,
+36000 
+],
+[
+ "Chad",
+1975,
+1400,
+5000,
+35714 
+],
+[
+ "Chad",
+1976,
+3150,
+6000,
+19048 
+],
+[
+ "Chad",
+1977,
+3000,
+4000,
+13333 
+],
+[
+ "Chad",
+1978,
+3000,
+5000,
+16667 
+],
+[
+ "Chad",
+1979,
+3000,
+6000,
+20000 
+],
+[
+ "Chad",
+1980,
+3000,
+6000,
+20000 
+],
+[
+ "Chad",
+1981,
+3000,
+5600,
+18667 
+],
+[
+ "Chad",
+1982,
+3000,
+4900,
+16333 
+],
+[
+ "Chad",
+1983,
+11000,
+10000,
+9091 
+],
+[
+ "Chad",
+1984,
+2079,
+1248,
+6003 
+],
+[
+ "Chad",
+1985,
+4450,
+5300,
+11910 
+],
+[
+ "Chad",
+1986,
+861,
+640,
+7433 
+],
+[
+ "Chad",
+1987,
+1071,
+1071,
+10000 
+],
+[
+ "Chad",
+1988,
+2300,
+2450,
+10652 
+],
+[
+ "Chad",
+1989,
+300,
+450,
+15000 
+],
+[
+ "Chad",
+1990,
+1400,
+2100,
+15000 
+],
+[
+ "Chad",
+1991,
+2475,
+3421,
+13822 
+],
+[
+ "Chad",
+1992,
+1132,
+2400,
+21201 
+],
+[
+ "Chad",
+1993,
+939,
+2006,
+21363 
+],
+[
+ "Chad",
+1994,
+1315,
+2932,
+22297 
+],
+[
+ "Chad",
+1995,
+2643,
+2642,
+9996 
+],
+[
+ "Chad",
+1996,
+1178,
+2650,
+22496 
+],
+[
+ "Chad",
+1997,
+1200,
+3600,
+30000 
+],
+[
+ "Chad",
+1998,
+2348,
+4749,
+20226 
+],
+[
+ "Chad",
+1999,
+2500,
+3585,
+14340 
+],
+[
+ "Chad",
+2000,
+1875,
+2688,
+14336 
+],
+[
+ "Chad",
+2001,
+1875,
+2800,
+14933 
+],
+[
+ "Chad",
+2002,
+2000,
+4000,
+20000 
+],
+[
+ "Chad",
+2003,
+2000,
+2890,
+14450 
+],
+[
+ "Chad",
+2004,
+null,
+null,
+null 
+],
+[
+ "Chad",
+2005,
+2402,
+3603,
+15000 
+],
+[
+ "Chad",
+2006,
+1865,
+1865,
+10000 
+],
+[
+ "Chad",
+2007,
+4000,
+8393,
+20983 
+],
+[
+ "Chad",
+2008,
+4500,
+8100,
+18000 
+],
+[
+ "Chad",
+2009,
+4525,
+10613,
+23454 
+],
+[
+ "Chad",
+2010,
+4800,
+9500,
+19792 
+],
+[
+ "Chad",
+2011,
+870,
+1722,
+19793 
+],
+[
+ "Chad",
+2012,
+15000,
+23000,
+15333 
+],
+[
+ "Chad",
+2013,
+17000,
+32000,
+18824 
+],
+[
+ "Chad",
+2014,
+12000,
+21000,
+17500 
+],
+[
+ "Chile",
+1961,
+769200,
+1030560,
+13398 
+],
+[
+ "Chile",
+1962,
+768800,
+969750,
+12614 
+],
+[
+ "Chile",
+1963,
+751000,
+1135610,
+15121 
+],
+[
+ "Chile",
+1964,
+748200,
+1158880,
+15489 
+],
+[
+ "Chile",
+1965,
+727078,
+1115834,
+15347 
+],
+[
+ "Chile",
+1966,
+779966,
+1346410,
+17262 
+],
+[
+ "Chile",
+1967,
+718500,
+1203500,
+16750 
+],
+[
+ "Chile",
+1968,
+700160,
+1219700,
+17420 
+],
+[
+ "Chile",
+1969,
+743045,
+1214200,
+16341 
+],
+[
+ "Chile",
+1970,
+740290,
+1306900,
+17654 
+],
+[
+ "Chile",
+1971,
+727410,
+1367900,
+18805 
+],
+[
+ "Chile",
+1972,
+711820,
+1195135,
+16790 
+],
+[
+ "Chile",
+1973,
+533790,
+746684,
+13988 
+],
+[
+ "Chile",
+1974,
+571010,
+939050,
+16445 
+],
+[
+ "Chile",
+1975,
+686190,
+1003070,
+14618 
+],
+[
+ "Chile",
+1976,
+697570,
+866470,
+12421 
+],
+[
+ "Chile",
+1977,
+628010,
+1219320,
+19416 
+],
+[
+ "Chile",
+1978,
+579590,
+892620,
+15401 
+],
+[
+ "Chile",
+1979,
+560470,
+995140,
+17755 
+],
+[
+ "Chile",
+1980,
+545740,
+966000,
+17701 
+],
+[
+ "Chile",
+1981,
+432160,
+685970,
+15873 
+],
+[
+ "Chile",
+1982,
+373690,
+650000,
+17394 
+],
+[
+ "Chile",
+1983,
+359180,
+585950,
+16314 
+],
+[
+ "Chile",
+1984,
+471320,
+988280,
+20968 
+],
+[
+ "Chile",
+1985,
+506190,
+1164690,
+23009 
+],
+[
+ "Chile",
+1986,
+569170,
+1625809,
+28565 
+],
+[
+ "Chile",
+1987,
+676560,
+1874117,
+27701 
+],
+[
+ "Chile",
+1988,
+576630,
+1734199,
+30075 
+],
+[
+ "Chile",
+1989,
+540290,
+1765525,
+32677 
+],
+[
+ "Chile",
+1990,
+582820,
+1718214,
+29481 
+],
+[
+ "Chile",
+1991,
+466480,
+1588677,
+34057 
+],
+[
+ "Chile",
+1992,
+460700,
+1556588,
+33787 
+],
+[
+ "Chile",
+1993,
+395110,
+1323600,
+33500 
+],
+[
+ "Chile",
+1994,
+361580,
+1271200,
+35157 
+],
+[
+ "Chile",
+1995,
+389820,
+1383861,
+35500 
+],
+[
+ "Chile",
+1996,
+368751,
+1227148,
+33278 
+],
+[
+ "Chile",
+1997,
+417406,
+1676887,
+40174 
+],
+[
+ "Chile",
+1998,
+383622,
+1682040,
+43846 
+],
+[
+ "Chile",
+1999,
+338583,
+1196626,
+35342 
+],
+[
+ "Chile",
+2000,
+391580,
+1492710,
+38120 
+],
+[
+ "Chile",
+2001,
+414000,
+1780160,
+42999 
+],
+[
+ "Chile",
+2002,
+426100,
+1820387,
+42722 
+],
+[
+ "Chile",
+2003,
+415700,
+1797080,
+43230 
+],
+[
+ "Chile",
+2004,
+420400,
+1921652,
+45710 
+],
+[
+ "Chile",
+2005,
+419660,
+1851940,
+44130 
+],
+[
+ "Chile",
+2006,
+314720,
+1403689,
+44601 
+],
+[
+ "Chile",
+2007,
+228979,
+1095872,
+47859 
+],
+[
+ "Chile",
+2008,
+270546,
+1237691,
+45748 
+],
+[
+ "Chile",
+2009,
+280644,
+1145290,
+40809 
+],
+[
+ "Chile",
+2010,
+264304,
+1523921,
+57658 
+],
+[
+ "Chile",
+2011,
+271415,
+1575822,
+58060 
+],
+[
+ "Chile",
+2012,
+245231,
+1213101,
+49468 
+],
+[
+ "Chile",
+2013,
+253627,
+1474663,
+58143 
+],
+[
+ "Chile",
+2014,
+254857,
+1358128,
+53290 
+],
+[
+ "China",
+1961,
+25567759,
+14294248,
+25914 
+],
+[
+ "China",
+1962,
+24071371,
+16707100,
+27604 
+],
+[
+ "China",
+1963,
+23764512,
+18493747,
+19128 
+],
+[
+ "China",
+1964,
+25391511,
+20859709,
+28933 
+],
+[
+ "China",
+1965,
+24696127,
+25243492,
+31345 
+],
+[
+ "China",
+1966,
+23908507,
+25308507,
+30231 
+],
+[
+ "China",
+1967,
+25285891,
+28508872,
+31339 
+],
+[
+ "China",
+1968,
+24640724,
+27472126,
+33331 
+],
+[
+ "China",
+1969,
+25141668,
+27294958,
+32206 
+],
+[
+ "China",
+1970,
+25435011,
+29188672,
+29768 
+],
+[
+ "China",
+1971,
+25615036,
+32577354,
+35362 
+],
+[
+ "China",
+1972,
+26276672,
+35986554,
+36701 
+],
+[
+ "China",
+1973,
+26412386,
+35225929,
+37197 
+],
+[
+ "China",
+1974,
+27034304,
+40865746,
+39392 
+],
+[
+ "China",
+1975,
+27634276,
+45313042,
+40388 
+],
+[
+ "China",
+1976,
+28380502,
+50386232,
+42136 
+],
+[
+ "China",
+1977,
+28037566,
+41076295,
+37715 
+],
+[
+ "China",
+1978,
+29184159,
+53842395,
+39257 
+],
+[
+ "China",
+1979,
+29320977,
+62732521,
+47198 
+],
+[
+ "China",
+1980,
+29191137,
+55212839,
+43883 
+],
+[
+ "China",
+1981,
+28279019,
+59642710,
+47685 
+],
+[
+ "China",
+1982,
+27928016,
+68472314,
+47474 
+],
+[
+ "China",
+1983,
+29051110,
+81391570,
+40699 
+],
+[
+ "China",
+1984,
+29577481,
+87817368,
+52896 
+],
+[
+ "China",
+1985,
+29219053,
+85807133,
+49548 
+],
+[
+ "China",
+1986,
+29617134,
+90043693,
+62969 
+],
+[
+ "China",
+1987,
+28799224,
+85904702,
+66335 
+],
+[
+ "China",
+1988,
+28785660,
+85432957,
+64063 
+],
+[
+ "China",
+1989,
+29842187,
+90810047,
+65808 
+],
+[
+ "China",
+1990,
+30754285,
+98231940,
+58964 
+],
+[
+ "China",
+1991,
+30949062,
+95953581,
+61096 
+],
+[
+ "China",
+1992,
+30497210,
+101591334,
+64168 
+],
+[
+ "China",
+1993,
+30236410,
+106394921,
+70088 
+],
+[
+ "China",
+1994,
+28981966,
+99301440,
+66767 
+],
+[
+ "China",
+1995,
+28861315,
+102211429,
+69095 
+],
+[
+ "China",
+1996,
+29611057,
+110569193,
+71200 
+],
+[
+ "China",
+1997,
+30057020,
+123290085,
+83519 
+],
+[
+ "China",
+1998,
+29775167,
+109726066,
+61296 
+],
+[
+ "China",
+1999,
+28855019,
+113880088,
+85782 
+],
+[
+ "China",
+2000,
+26653326,
+99636127,
+72660 
+],
+[
+ "China",
+2001,
+24664068,
+93873234,
+72473 
+],
+[
+ "China",
+2002,
+23908072,
+90290262,
+74154 
+],
+[
+ "China",
+2003,
+21997075,
+86488264,
+74518 
+],
+[
+ "China",
+2004,
+21626074,
+91952238,
+74681 
+],
+[
+ "China",
+2005,
+22792462,
+97445196,
+74366 
+],
+[
+ "China",
+2006,
+22961517,
+108466271,
+87686 
+],
+[
+ "China",
+2007,
+23721070,
+109298296,
+88362 
+],
+[
+ "China",
+2008,
+23617266,
+112464292,
+91862 
+],
+[
+ "China",
+2009,
+24291081,
+115115364,
+92328 
+],
+[
+ "China",
+2010,
+24257900,
+115186178,
+47484 
+],
+[
+ "China",
+2011,
+24272245,
+117414034,
+48374 
+],
+[
+ "China",
+2012,
+24141051,
+121030059,
+50135 
+],
+[
+ "China",
+2013,
+24119335,
+121930527,
+50553 
+],
+[
+ "China",
+2014,
+25002100,
+126212750,
+50481 
+],
+[
+ "Colombia",
+1961,
+160000,
+142100,
+8881 
+],
+[
+ "Colombia",
+1962,
+150000,
+162000,
+10800 
+],
+[
+ "Colombia",
+1963,
+113000,
+90000,
+7965 
+],
+[
+ "Colombia",
+1964,
+1e+05,
+85000,
+8500 
+],
+[
+ "Colombia",
+1965,
+120000,
+110000,
+9167 
+],
+[
+ "Colombia",
+1966,
+110000,
+125000,
+11364 
+],
+[
+ "Colombia",
+1967,
+68000,
+80000,
+11765 
+],
+[
+ "Colombia",
+1968,
+90000,
+105000,
+11667 
+],
+[
+ "Colombia",
+1969,
+70700,
+88700,
+12546 
+],
+[
+ "Colombia",
+1970,
+45400,
+53700,
+11828 
+],
+[
+ "Colombia",
+1971,
+46900,
+53200,
+11343 
+],
+[
+ "Colombia",
+1972,
+60700,
+69200,
+11400 
+],
+[
+ "Colombia",
+1973,
+56500,
+72400,
+12814 
+],
+[
+ "Colombia",
+1974,
+45100,
+58800,
+13038 
+],
+[
+ "Colombia",
+1975,
+30100,
+38900,
+12924 
+],
+[
+ "Colombia",
+1976,
+32800,
+45300,
+13811 
+],
+[
+ "Colombia",
+1977,
+33600,
+29400,
+8750 
+],
+[
+ "Colombia",
+1978,
+29700,
+37700,
+12694 
+],
+[
+ "Colombia",
+1979,
+30750,
+41970,
+13649 
+],
+[
+ "Colombia",
+1980,
+37600,
+45690,
+12152 
+],
+[
+ "Colombia",
+1981,
+39000,
+62300,
+15974 
+],
+[
+ "Colombia",
+1982,
+45300,
+70700,
+15607 
+],
+[
+ "Colombia",
+1983,
+46300,
+77800,
+16803 
+],
+[
+ "Colombia",
+1984,
+42900,
+59300,
+13823 
+],
+[
+ "Colombia",
+1985,
+44500,
+76100,
+17101 
+],
+[
+ "Colombia",
+1986,
+46200,
+81700,
+17684 
+],
+[
+ "Colombia",
+1987,
+40800,
+74200,
+18186 
+],
+[
+ "Colombia",
+1988,
+38300,
+62500,
+16319 
+],
+[
+ "Colombia",
+1989,
+46400,
+79700,
+17177 
+],
+[
+ "Colombia",
+1990,
+56700,
+104800,
+18483 
+],
+[
+ "Colombia",
+1991,
+47300,
+93900,
+19852 
+],
+[
+ "Colombia",
+1992,
+43008,
+75219,
+17490 
+],
+[
+ "Colombia",
+1993,
+51298,
+96303,
+18773 
+],
+[
+ "Colombia",
+1994,
+51191,
+105183,
+20547 
+],
+[
+ "Colombia",
+1995,
+34977,
+74126,
+21193 
+],
+[
+ "Colombia",
+1996,
+29611,
+64623,
+21824 
+],
+[
+ "Colombia",
+1997,
+23622,
+50181,
+21243 
+],
+[
+ "Colombia",
+1998,
+19058,
+39064,
+20497 
+],
+[
+ "Colombia",
+1999,
+18576,
+40008,
+21537 
+],
+[
+ "Colombia",
+2000,
+23189,
+37085,
+15992 
+],
+[
+ "Colombia",
+2001,
+21047,
+31793,
+15106 
+],
+[
+ "Colombia",
+2002,
+23509,
+40795,
+17353 
+],
+[
+ "Colombia",
+2003,
+23887,
+46571,
+19496 
+],
+[
+ "Colombia",
+2004,
+23026,
+43471,
+18879 
+],
+[
+ "Colombia",
+2005,
+18811,
+43963,
+23371 
+],
+[
+ "Colombia",
+2006,
+17043,
+26399,
+15490 
+],
+[
+ "Colombia",
+2007,
+19658,
+36778,
+18709 
+],
+[
+ "Colombia",
+2008,
+21592,
+39191,
+18151 
+],
+[
+ "Colombia",
+2009,
+14369,
+24349,
+16946 
+],
+[
+ "Colombia",
+2010,
+8559,
+15147,
+17697 
+],
+[
+ "Colombia",
+2011,
+7989,
+12754,
+15964 
+],
+[
+ "Colombia",
+2012,
+5916,
+8990,
+15196 
+],
+[
+ "Colombia",
+2013,
+4927,
+8407,
+17064 
+],
+[
+ "Colombia",
+2014,
+6199,
+9718,
+15678 
+],
+[
+ "Croatia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1970,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1971,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1972,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1973,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1974,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1975,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1976,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1977,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1978,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1979,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1980,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1981,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1982,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1983,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1984,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1985,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1986,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1987,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1988,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1989,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1990,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1991,
+null,
+null,
+null 
+],
+[
+ "Croatia",
+1992,
+168865,
+658019,
+38967 
+],
+[
+ "Croatia",
+1993,
+211845,
+886921,
+41867 
+],
+[
+ "Croatia",
+1994,
+198381,
+750330,
+37823 
+],
+[
+ "Croatia",
+1995,
+227044,
+876507,
+38605 
+],
+[
+ "Croatia",
+1996,
+200852,
+741235,
+36905 
+],
+[
+ "Croatia",
+1997,
+208377,
+833508,
+40000 
+],
+[
+ "Croatia",
+1998,
+241734,
+1020450,
+42214 
+],
+[
+ "Croatia",
+1999,
+169280,
+558217,
+32976 
+],
+[
+ "Croatia",
+2000,
+235939,
+1032085,
+43744 
+],
+[
+ "Croatia",
+2001,
+239856,
+965153,
+40239 
+],
+[
+ "Croatia",
+2002,
+233699,
+988175,
+42284 
+],
+[
+ "Croatia",
+2003,
+205998,
+609258,
+29576 
+],
+[
+ "Croatia",
+2004,
+214508,
+850000,
+39626 
+],
+[
+ "Croatia",
+2005,
+146253,
+601748,
+41144 
+],
+[
+ "Croatia",
+2006,
+175551,
+804601,
+45833 
+],
+[
+ "Croatia",
+2007,
+175045,
+812347,
+46408 
+],
+[
+ "Croatia",
+2008,
+156536,
+858333,
+54833 
+],
+[
+ "Croatia",
+2009,
+180376,
+936076,
+51896 
+],
+[
+ "Croatia",
+2010,
+168507,
+681017,
+40415 
+],
+[
+ "Croatia",
+2011,
+149797,
+782499,
+52237 
+],
+[
+ "Croatia",
+2012,
+186949,
+999681,
+53473 
+],
+[
+ "Croatia",
+2013,
+204506,
+998940,
+48846 
+],
+[
+ "Croatia",
+2014,
+156139,
+648917,
+41560 
+],
+[
+ "Cyprus",
+1961,
+78930,
+45720,
+5792 
+],
+[
+ "Cyprus",
+1962,
+68228,
+66040,
+9679 
+],
+[
+ "Cyprus",
+1963,
+67559,
+64008,
+9474 
+],
+[
+ "Cyprus",
+1964,
+66890,
+45720,
+6835 
+],
+[
+ "Cyprus",
+1965,
+62877,
+91440,
+14543 
+],
+[
+ "Cyprus",
+1966,
+60870,
+55880,
+9180 
+],
+[
+ "Cyprus",
+1967,
+60201,
+96520,
+16033 
+],
+[
+ "Cyprus",
+1968,
+60870,
+66040,
+10849 
+],
+[
+ "Cyprus",
+1969,
+64214,
+81280,
+12658 
+],
+[
+ "Cyprus",
+1970,
+78261,
+43180,
+5517 
+],
+[
+ "Cyprus",
+1971,
+81606,
+96520,
+11828 
+],
+[
+ "Cyprus",
+1972,
+80268,
+81280,
+10126 
+],
+[
+ "Cyprus",
+1973,
+84281,
+4064,
+482 
+],
+[
+ "Cyprus",
+1974,
+86957,
+96520,
+11100 
+],
+[
+ "Cyprus",
+1975,
+26756,
+32512,
+12151 
+],
+[
+ "Cyprus",
+1976,
+28763,
+34544,
+12010 
+],
+[
+ "Cyprus",
+1977,
+27425,
+23368,
+8521 
+],
+[
+ "Cyprus",
+1978,
+16054,
+20320,
+12657 
+],
+[
+ "Cyprus",
+1979,
+11371,
+13208,
+11616 
+],
+[
+ "Cyprus",
+1980,
+9632,
+13208,
+13713 
+],
+[
+ "Cyprus",
+1981,
+8696,
+10668,
+12268 
+],
+[
+ "Cyprus",
+1982,
+8482,
+10160,
+11978 
+],
+[
+ "Cyprus",
+1983,
+7625,
+9100,
+11934 
+],
+[
+ "Cyprus",
+1984,
+6020,
+9000,
+14950 
+],
+[
+ "Cyprus",
+1985,
+5084,
+9000,
+17703 
+],
+[
+ "Cyprus",
+1986,
+5084,
+6500,
+12785 
+],
+[
+ "Cyprus",
+1987,
+5619,
+13500,
+24026 
+],
+[
+ "Cyprus",
+1988,
+5352,
+13000,
+24290 
+],
+[
+ "Cyprus",
+1989,
+5350,
+8000,
+14953 
+],
+[
+ "Cyprus",
+1990,
+5100,
+10400,
+20392 
+],
+[
+ "Cyprus",
+1991,
+4900,
+5600,
+11429 
+],
+[
+ "Cyprus",
+1992,
+5000,
+10500,
+21000 
+],
+[
+ "Cyprus",
+1993,
+5000,
+11700,
+23400 
+],
+[
+ "Cyprus",
+1994,
+3300,
+8000,
+24242 
+],
+[
+ "Cyprus",
+1995,
+3650,
+11000,
+30137 
+],
+[
+ "Cyprus",
+1996,
+3700,
+13000,
+35135 
+],
+[
+ "Cyprus",
+1997,
+5250,
+11500,
+21905 
+],
+[
+ "Cyprus",
+1998,
+5800,
+11500,
+19828 
+],
+[
+ "Cyprus",
+1999,
+6600,
+14000,
+21212 
+],
+[
+ "Cyprus",
+2000,
+6150,
+10000,
+16260 
+],
+[
+ "Cyprus",
+2001,
+5400,
+10500,
+19444 
+],
+[
+ "Cyprus",
+2002,
+5900,
+12900,
+21864 
+],
+[
+ "Cyprus",
+2003,
+7225,
+14280,
+19765 
+],
+[
+ "Cyprus",
+2004,
+7450,
+9930,
+13329 
+],
+[
+ "Cyprus",
+2005,
+5264,
+9249,
+17570 
+],
+[
+ "Cyprus",
+2006,
+5389,
+7518,
+13951 
+],
+[
+ "Cyprus",
+2007,
+5287,
+10712,
+20261 
+],
+[
+ "Cyprus",
+2008,
+4990,
+2472,
+4954 
+],
+[
+ "Cyprus",
+2009,
+5761,
+14690,
+25499 
+],
+[
+ "Cyprus",
+2010,
+7557,
+18889,
+24995 
+],
+[
+ "Cyprus",
+2011,
+11120,
+24898,
+22390 
+],
+[
+ "Cyprus",
+2012,
+8550,
+22923,
+26811 
+],
+[
+ "Cyprus",
+2013,
+6921,
+15181,
+21935 
+],
+[
+ "Cyprus",
+2014,
+6135,
+4170,
+6797 
+],
+[
+ "Czech Republic",
+1961,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1962,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1963,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1964,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1965,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1966,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1967,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1968,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1969,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1970,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1971,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1972,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1973,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1974,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1975,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1976,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1977,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1978,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1979,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1980,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1981,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1982,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1983,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1984,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1985,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1986,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1987,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1988,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1989,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1990,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1991,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1992,
+null,
+null,
+null 
+],
+[
+ "Czech Republic",
+1993,
+780236,
+3304271,
+42350 
+],
+[
+ "Czech Republic",
+1994,
+810810,
+3713476,
+45800 
+],
+[
+ "Czech Republic",
+1995,
+830753,
+3822769,
+46016 
+],
+[
+ "Czech Republic",
+1996,
+798610,
+3727203,
+46671 
+],
+[
+ "Czech Republic",
+1997,
+825450,
+3640269,
+44100 
+],
+[
+ "Czech Republic",
+1998,
+912301,
+3844741,
+42143 
+],
+[
+ "Czech Republic",
+1999,
+867102,
+4028271,
+46457 
+],
+[
+ "Czech Republic",
+2000,
+970435,
+4084107,
+42085 
+],
+[
+ "Czech Republic",
+2001,
+923236,
+4476080,
+48483 
+],
+[
+ "Czech Republic",
+2002,
+847917,
+3866470,
+45600 
+],
+[
+ "Czech Republic",
+2003,
+648130,
+2637890,
+40700 
+],
+[
+ "Czech Republic",
+2004,
+863161,
+5042523,
+58419 
+],
+[
+ "Czech Republic",
+2005,
+820440,
+4145039,
+50522 
+],
+[
+ "Czech Republic",
+2006,
+780902,
+3506252,
+44900 
+],
+[
+ "Czech Republic",
+2007,
+810478,
+3938924,
+48600 
+],
+[
+ "Czech Republic",
+2008,
+802325,
+4631502,
+57726 
+],
+[
+ "Czech Republic",
+2009,
+831300,
+4358073,
+52425 
+],
+[
+ "Czech Republic",
+2010,
+833600,
+4161600,
+49923 
+],
+[
+ "Czech Republic",
+2011,
+863132,
+4913048,
+56921 
+],
+[
+ "Czech Republic",
+2012,
+815381,
+3518896,
+43156 
+],
+[
+ "Czech Republic",
+2013,
+829393,
+4700696,
+56676 
+],
+[
+ "Czech Republic",
+2014,
+835941,
+5442349,
+65104 
+],
+[
+ "Czechoslovakia",
+1961,
+641004,
+1666390,
+25997 
+],
+[
+ "Czechoslovakia",
+1962,
+669592,
+1643800,
+24549 
+],
+[
+ "Czechoslovakia",
+1963,
+716741,
+1765620,
+24634 
+],
+[
+ "Czechoslovakia",
+1964,
+824537,
+1828890,
+22181 
+],
+[
+ "Czechoslovakia",
+1965,
+822713,
+1991870,
+24211 
+],
+[
+ "Czechoslovakia",
+1966,
+888540,
+2247400,
+25293 
+],
+[
+ "Czechoslovakia",
+1967,
+927297,
+2515790,
+27130 
+],
+[
+ "Czechoslovakia",
+1968,
+997524,
+3153160,
+31610 
+],
+[
+ "Czechoslovakia",
+1969,
+1051072,
+3256650,
+30984 
+],
+[
+ "Czechoslovakia",
+1970,
+1077512,
+3173936,
+29456 
+],
+[
+ "Czechoslovakia",
+1971,
+1099756,
+3878116,
+35263 
+],
+[
+ "Czechoslovakia",
+1972,
+1192462,
+4016814,
+33685 
+],
+[
+ "Czechoslovakia",
+1973,
+1230071,
+4645797,
+37769 
+],
+[
+ "Czechoslovakia",
+1974,
+1266604,
+5059080,
+39942 
+],
+[
+ "Czechoslovakia",
+1975,
+1176024,
+4202464,
+35735 
+],
+[
+ "Czechoslovakia",
+1976,
+1275988,
+4806956,
+37672 
+],
+[
+ "Czechoslovakia",
+1977,
+1280803,
+5213632,
+40706 
+],
+[
+ "Czechoslovakia",
+1978,
+1270062,
+5600588,
+44097 
+],
+[
+ "Czechoslovakia",
+1979,
+1091551,
+3736134,
+34228 
+],
+[
+ "Czechoslovakia",
+1980,
+1188671,
+5386000,
+45311 
+],
+[
+ "Czechoslovakia",
+1981,
+1083429,
+4324783,
+39918 
+],
+[
+ "Czechoslovakia",
+1982,
+1068210,
+4606334,
+43122 
+],
+[
+ "Czechoslovakia",
+1983,
+1189538,
+5819981,
+48926 
+],
+[
+ "Czechoslovakia",
+1984,
+1201346,
+6170309,
+51362 
+],
+[
+ "Czechoslovakia",
+1985,
+1209059,
+6023006,
+49816 
+],
+[
+ "Czechoslovakia",
+1986,
+1204825,
+5305006,
+44031 
+],
+[
+ "Czechoslovakia",
+1987,
+1211845,
+6154228,
+50784 
+],
+[
+ "Czechoslovakia",
+1988,
+1239357,
+6547075,
+52826 
+],
+[
+ "Czechoslovakia",
+1989,
+1238640,
+6356066,
+51315 
+],
+[
+ "Czechoslovakia",
+1990,
+1237161,
+6706872,
+54212 
+],
+[
+ "Czechoslovakia",
+1991,
+1204325,
+6205388,
+51526 
+],
+[
+ "Czechoslovakia",
+1992,
+1111252,
+5110300,
+45987 
+],
+[
+ "Czechoslovakia",
+1993,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+1994,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+1995,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+1996,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+1997,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+1998,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+1999,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2000,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2001,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2002,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2003,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2004,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2005,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2006,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2007,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2008,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2009,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2010,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2011,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2012,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2013,
+null,
+null,
+null 
+],
+[
+ "Czechoslovakia",
+2014,
+null,
+null,
+null 
+],
+[
+ "Democratic People's Republic of Korea",
+1961,
+168000,
+85000,
+5060 
+],
+[
+ "Democratic People's Republic of Korea",
+1962,
+165000,
+87000,
+5273 
+],
+[
+ "Democratic People's Republic of Korea",
+1963,
+165000,
+94000,
+5697 
+],
+[
+ "Democratic People's Republic of Korea",
+1964,
+163000,
+98000,
+6012 
+],
+[
+ "Democratic People's Republic of Korea",
+1965,
+163000,
+88000,
+5399 
+],
+[
+ "Democratic People's Republic of Korea",
+1966,
+160000,
+96000,
+6000 
+],
+[
+ "Democratic People's Republic of Korea",
+1967,
+160000,
+91000,
+5688 
+],
+[
+ "Democratic People's Republic of Korea",
+1968,
+155000,
+87000,
+5613 
+],
+[
+ "Democratic People's Republic of Korea",
+1969,
+150000,
+88000,
+5867 
+],
+[
+ "Democratic People's Republic of Korea",
+1970,
+145000,
+88000,
+6069 
+],
+[
+ "Democratic People's Republic of Korea",
+1971,
+135000,
+91000,
+6741 
+],
+[
+ "Democratic People's Republic of Korea",
+1972,
+125000,
+87000,
+6960 
+],
+[
+ "Democratic People's Republic of Korea",
+1973,
+115000,
+98000,
+8522 
+],
+[
+ "Democratic People's Republic of Korea",
+1974,
+105000,
+102000,
+9714 
+],
+[
+ "Democratic People's Republic of Korea",
+1975,
+95000,
+106000,
+11158 
+],
+[
+ "Democratic People's Republic of Korea",
+1976,
+90000,
+108000,
+12000 
+],
+[
+ "Democratic People's Republic of Korea",
+1977,
+85000,
+115000,
+13529 
+],
+[
+ "Democratic People's Republic of Korea",
+1978,
+85000,
+111000,
+13059 
+],
+[
+ "Democratic People's Republic of Korea",
+1979,
+85000,
+115000,
+13529 
+],
+[
+ "Democratic People's Republic of Korea",
+1980,
+85000,
+99000,
+11647 
+],
+[
+ "Democratic People's Republic of Korea",
+1981,
+85000,
+114000,
+13412 
+],
+[
+ "Democratic People's Republic of Korea",
+1982,
+85000,
+121000,
+14235 
+],
+[
+ "Democratic People's Republic of Korea",
+1983,
+85000,
+124000,
+14588 
+],
+[
+ "Democratic People's Republic of Korea",
+1984,
+85000,
+132000,
+15529 
+],
+[
+ "Democratic People's Republic of Korea",
+1985,
+85000,
+127000,
+14941 
+],
+[
+ "Democratic People's Republic of Korea",
+1986,
+90000,
+143000,
+15889 
+],
+[
+ "Democratic People's Republic of Korea",
+1987,
+90000,
+133000,
+14778 
+],
+[
+ "Democratic People's Republic of Korea",
+1988,
+90000,
+128000,
+14222 
+],
+[
+ "Democratic People's Republic of Korea",
+1989,
+80000,
+129000,
+16125 
+],
+[
+ "Democratic People's Republic of Korea",
+1990,
+90000,
+116000,
+12889 
+],
+[
+ "Democratic People's Republic of Korea",
+1991,
+88200,
+135000,
+15306 
+],
+[
+ "Democratic People's Republic of Korea",
+1992,
+88558,
+123000,
+13889 
+],
+[
+ "Democratic People's Republic of Korea",
+1993,
+87197,
+123000,
+14106 
+],
+[
+ "Democratic People's Republic of Korea",
+1994,
+87484,
+125000,
+14288 
+],
+[
+ "Democratic People's Republic of Korea",
+1995,
+89705,
+125000,
+13935 
+],
+[
+ "Democratic People's Republic of Korea",
+1996,
+75000,
+1e+05,
+13333 
+],
+[
+ "Democratic People's Republic of Korea",
+1997,
+75000,
+1e+05,
+13333 
+],
+[
+ "Democratic People's Republic of Korea",
+1998,
+70000,
+165000,
+23571 
+],
+[
+ "Democratic People's Republic of Korea",
+1999,
+48000,
+97000,
+20208 
+],
+[
+ "Democratic People's Republic of Korea",
+2000,
+59000,
+50000,
+8475 
+],
+[
+ "Democratic People's Republic of Korea",
+2001,
+57270,
+123866,
+21628 
+],
+[
+ "Democratic People's Republic of Korea",
+2002,
+63000,
+145000,
+23016 
+],
+[
+ "Democratic People's Republic of Korea",
+2003,
+69000,
+161000,
+23333 
+],
+[
+ "Democratic People's Republic of Korea",
+2004,
+70000,
+175000,
+25000 
+],
+[
+ "Democratic People's Republic of Korea",
+2005,
+77000,
+193000,
+25065 
+],
+[
+ "Democratic People's Republic of Korea",
+2006,
+80000,
+199000,
+24875 
+],
+[
+ "Democratic People's Republic of Korea",
+2007,
+80000,
+195000,
+24375 
+],
+[
+ "Democratic People's Republic of Korea",
+2008,
+73000,
+175000,
+23973 
+],
+[
+ "Democratic People's Republic of Korea",
+2009,
+74700,
+169000,
+22624 
+],
+[
+ "Democratic People's Republic of Korea",
+2010,
+73000,
+160000,
+21918 
+],
+[
+ "Democratic People's Republic of Korea",
+2011,
+63000,
+127000,
+20159 
+],
+[
+ "Democratic People's Republic of Korea",
+2012,
+50000,
+74000,
+14800 
+],
+[
+ "Democratic People's Republic of Korea",
+2013,
+50000,
+75000,
+15000 
+],
+[
+ "Democratic People's Republic of Korea",
+2014,
+34000,
+45000,
+13235 
+],
+[
+ "Democratic Republic of the Congo",
+1961,
+3000,
+2127,
+7090 
+],
+[
+ "Democratic Republic of the Congo",
+1962,
+3000,
+2970,
+9900 
+],
+[
+ "Democratic Republic of the Congo",
+1963,
+3000,
+2892,
+9640 
+],
+[
+ "Democratic Republic of the Congo",
+1964,
+3000,
+3084,
+10280 
+],
+[
+ "Democratic Republic of the Congo",
+1965,
+3000,
+3000,
+10000 
+],
+[
+ "Democratic Republic of the Congo",
+1966,
+3000,
+3300,
+11000 
+],
+[
+ "Democratic Republic of the Congo",
+1967,
+4235,
+3956,
+9341 
+],
+[
+ "Democratic Republic of the Congo",
+1968,
+2806,
+2806,
+10000 
+],
+[
+ "Democratic Republic of the Congo",
+1969,
+3000,
+3420,
+11400 
+],
+[
+ "Democratic Republic of the Congo",
+1970,
+6143,
+3256,
+5300 
+],
+[
+ "Democratic Republic of the Congo",
+1971,
+4066,
+2000,
+4919 
+],
+[
+ "Democratic Republic of the Congo",
+1972,
+3813,
+1655,
+4340 
+],
+[
+ "Democratic Republic of the Congo",
+1973,
+2669,
+1324,
+4961 
+],
+[
+ "Democratic Republic of the Congo",
+1974,
+5400,
+3400,
+6296 
+],
+[
+ "Democratic Republic of the Congo",
+1975,
+5400,
+3500,
+6481 
+],
+[
+ "Democratic Republic of the Congo",
+1976,
+5400,
+3600,
+6667 
+],
+[
+ "Democratic Republic of the Congo",
+1977,
+5500,
+3500,
+6364 
+],
+[
+ "Democratic Republic of the Congo",
+1978,
+5400,
+3600,
+6667 
+],
+[
+ "Democratic Republic of the Congo",
+1979,
+4900,
+2900,
+5918 
+],
+[
+ "Democratic Republic of the Congo",
+1980,
+5100,
+3100,
+6078 
+],
+[
+ "Democratic Republic of the Congo",
+1981,
+5200,
+3100,
+5962 
+],
+[
+ "Democratic Republic of the Congo",
+1982,
+5400,
+3200,
+5926 
+],
+[
+ "Democratic Republic of the Congo",
+1983,
+5600,
+3400,
+6071 
+],
+[
+ "Democratic Republic of the Congo",
+1984,
+5700,
+3400,
+5965 
+],
+[
+ "Democratic Republic of the Congo",
+1985,
+5800,
+3400,
+5862 
+],
+[
+ "Democratic Republic of the Congo",
+1986,
+7100,
+8260,
+11634 
+],
+[
+ "Democratic Republic of the Congo",
+1987,
+7000,
+6510,
+9300 
+],
+[
+ "Democratic Republic of the Congo",
+1988,
+7200,
+6590,
+9153 
+],
+[
+ "Democratic Republic of the Congo",
+1989,
+7200,
+6670,
+9264 
+],
+[
+ "Democratic Republic of the Congo",
+1990,
+7290,
+6750,
+9259 
+],
+[
+ "Democratic Republic of the Congo",
+1991,
+7380,
+6830,
+9255 
+],
+[
+ "Democratic Republic of the Congo",
+1992,
+7470,
+9230,
+12356 
+],
+[
+ "Democratic Republic of the Congo",
+1993,
+7600,
+9730,
+12803 
+],
+[
+ "Democratic Republic of the Congo",
+1994,
+8000,
+10250,
+12813 
+],
+[
+ "Democratic Republic of the Congo",
+1995,
+8367,
+10818,
+12929 
+],
+[
+ "Democratic Republic of the Congo",
+1996,
+7949,
+10255,
+12901 
+],
+[
+ "Democratic Republic of the Congo",
+1997,
+8021,
+10342,
+12894 
+],
+[
+ "Democratic Republic of the Congo",
+1998,
+8093,
+10443,
+12904 
+],
+[
+ "Democratic Republic of the Congo",
+1999,
+7704,
+9900,
+12850 
+],
+[
+ "Democratic Republic of the Congo",
+2000,
+7304,
+9385,
+12849 
+],
+[
+ "Democratic Republic of the Congo",
+2001,
+6924,
+8897,
+12850 
+],
+[
+ "Democratic Republic of the Congo",
+2002,
+6557,
+8440,
+12872 
+],
+[
+ "Democratic Republic of the Congo",
+2003,
+7000,
+8490,
+12129 
+],
+[
+ "Democratic Republic of the Congo",
+2004,
+6650,
+8540,
+12842 
+],
+[
+ "Democratic Republic of the Congo",
+2005,
+6685,
+8590,
+12850 
+],
+[
+ "Democratic Republic of the Congo",
+2006,
+6724,
+8640,
+12849 
+],
+[
+ "Democratic Republic of the Congo",
+2007,
+6763,
+8690,
+12849 
+],
+[
+ "Democratic Republic of the Congo",
+2008,
+6802,
+8740,
+12849 
+],
+[
+ "Democratic Republic of the Congo",
+2009,
+6840,
+8790,
+12851 
+],
+[
+ "Democratic Republic of the Congo",
+2010,
+6878,
+8841,
+12854 
+],
+[
+ "Democratic Republic of the Congo",
+2011,
+7766,
+8841,
+11384 
+],
+[
+ "Democratic Republic of the Congo",
+2012,
+7500,
+9000,
+12000 
+],
+[
+ "Democratic Republic of the Congo",
+2013,
+7500,
+9200,
+12267 
+],
+[
+ "Democratic Republic of the Congo",
+2014,
+7360,
+9180,
+12473 
+],
+[
+ "Denmark",
+1961,
+105341,
+434057,
+41205 
+],
+[
+ "Denmark",
+1962,
+153953,
+643992,
+41830 
+],
+[
+ "Denmark",
+1963,
+134630,
+494060,
+36698 
+],
+[
+ "Denmark",
+1964,
+128133,
+541454,
+42257 
+],
+[
+ "Denmark",
+1965,
+126482,
+563769,
+44573 
+],
+[
+ "Denmark",
+1966,
+93674,
+400474,
+42752 
+],
+[
+ "Denmark",
+1967,
+90342,
+420312,
+46525 
+],
+[
+ "Denmark",
+1968,
+96568,
+464851,
+48137 
+],
+[
+ "Denmark",
+1969,
+98236,
+428455,
+43615 
+],
+[
+ "Denmark",
+1970,
+114245,
+512491,
+44859 
+],
+[
+ "Denmark",
+1971,
+120567,
+585206,
+48538 
+],
+[
+ "Denmark",
+1972,
+134781,
+592215,
+43939 
+],
+[
+ "Denmark",
+1973,
+122877,
+542247,
+44129 
+],
+[
+ "Denmark",
+1974,
+110571,
+591572,
+53502 
+],
+[
+ "Denmark",
+1975,
+101806,
+519381,
+51017 
+],
+[
+ "Denmark",
+1976,
+126516,
+592557,
+46837 
+],
+[
+ "Denmark",
+1977,
+116008,
+605645,
+52207 
+],
+[
+ "Denmark",
+1978,
+121891,
+642428,
+52705 
+],
+[
+ "Denmark",
+1979,
+114284,
+589886,
+51616 
+],
+[
+ "Denmark",
+1980,
+139271,
+652372,
+46842 
+],
+[
+ "Denmark",
+1981,
+150192,
+834765,
+55580 
+],
+[
+ "Denmark",
+1982,
+180874,
+1206971,
+66730 
+],
+[
+ "Denmark",
+1983,
+241834,
+1547845,
+64004 
+],
+[
+ "Denmark",
+1984,
+334000,
+2445877,
+73230 
+],
+[
+ "Denmark",
+1985,
+338537,
+1972165,
+58256 
+],
+[
+ "Denmark",
+1986,
+352965,
+2177228,
+61684 
+],
+[
+ "Denmark",
+1987,
+397525,
+2284719,
+57474 
+],
+[
+ "Denmark",
+1988,
+308118,
+2080441,
+67521 
+],
+[
+ "Denmark",
+1989,
+444503,
+3224153,
+72534 
+],
+[
+ "Denmark",
+1990,
+532949,
+3953412,
+74180 
+],
+[
+ "Denmark",
+1991,
+518715,
+3669852,
+70749 
+],
+[
+ "Denmark",
+1992,
+582504,
+3583011,
+61510 
+],
+[
+ "Denmark",
+1993,
+621000,
+4334000,
+69791 
+],
+[
+ "Denmark",
+1994,
+573568,
+3725194,
+64948 
+],
+[
+ "Denmark",
+1995,
+608000,
+4598500,
+75633 
+],
+[
+ "Denmark",
+1996,
+681000,
+4757742,
+69864 
+],
+[
+ "Denmark",
+1997,
+689000,
+4964703,
+72057 
+],
+[
+ "Denmark",
+1998,
+680000,
+4928375,
+72476 
+],
+[
+ "Denmark",
+1999,
+638000,
+4470745,
+70074 
+],
+[
+ "Denmark",
+2000,
+627486,
+4693422,
+74797 
+],
+[
+ "Denmark",
+2001,
+634040,
+4663938,
+73559 
+],
+[
+ "Denmark",
+2002,
+576625,
+4056240,
+70345 
+],
+[
+ "Denmark",
+2003,
+664341,
+4701382,
+70768 
+],
+[
+ "Denmark",
+2004,
+666400,
+4758500,
+71406 
+],
+[
+ "Denmark",
+2005,
+675700,
+4887200,
+72328 
+],
+[
+ "Denmark",
+2006,
+686300,
+4801600,
+69964 
+],
+[
+ "Denmark",
+2007,
+688800,
+4519200,
+65610 
+],
+[
+ "Denmark",
+2008,
+638200,
+5018700,
+78638 
+],
+[
+ "Denmark",
+2009,
+739100,
+5940400,
+80373 
+],
+[
+ "Denmark",
+2010,
+763600,
+5059900,
+66264 
+],
+[
+ "Denmark",
+2011,
+747000,
+4831000,
+64672 
+],
+[
+ "Denmark",
+2012,
+614100,
+4525100,
+73687 
+],
+[
+ "Denmark",
+2013,
+568200,
+4145200,
+72953 
+],
+[
+ "Denmark",
+2014,
+662100,
+4940000,
+74611 
+],
+[
+ "Ecuador",
+1961,
+78770,
+78170,
+9924 
+],
+[
+ "Ecuador",
+1962,
+85225,
+67300,
+7897 
+],
+[
+ "Ecuador",
+1963,
+66578,
+52600,
+7901 
+],
+[
+ "Ecuador",
+1964,
+70643,
+47200,
+6681 
+],
+[
+ "Ecuador",
+1965,
+68900,
+61300,
+8897 
+],
+[
+ "Ecuador",
+1966,
+65004,
+62727,
+9650 
+],
+[
+ "Ecuador",
+1967,
+79585,
+78543,
+9869 
+],
+[
+ "Ecuador",
+1968,
+79399,
+82910,
+10442 
+],
+[
+ "Ecuador",
+1969,
+100231,
+94099,
+9388 
+],
+[
+ "Ecuador",
+1970,
+76230,
+81000,
+10626 
+],
+[
+ "Ecuador",
+1971,
+75960,
+68493,
+9017 
+],
+[
+ "Ecuador",
+1972,
+56054,
+50640,
+9034 
+],
+[
+ "Ecuador",
+1973,
+46504,
+45189,
+9717 
+],
+[
+ "Ecuador",
+1974,
+56261,
+54989,
+9774 
+],
+[
+ "Ecuador",
+1975,
+70233,
+64647,
+9205 
+],
+[
+ "Ecuador",
+1976,
+76471,
+65000,
+8500 
+],
+[
+ "Ecuador",
+1977,
+40900,
+39800,
+9731 
+],
+[
+ "Ecuador",
+1978,
+26878,
+28904,
+10754 
+],
+[
+ "Ecuador",
+1979,
+30366,
+31248,
+10290 
+],
+[
+ "Ecuador",
+1980,
+32100,
+31113,
+9693 
+],
+[
+ "Ecuador",
+1981,
+37187,
+41431,
+11141 
+],
+[
+ "Ecuador",
+1982,
+33058,
+38538,
+11658 
+],
+[
+ "Ecuador",
+1983,
+25754,
+26914,
+10450 
+],
+[
+ "Ecuador",
+1984,
+24499,
+25172,
+10275 
+],
+[
+ "Ecuador",
+1985,
+18116,
+18464,
+10192 
+],
+[
+ "Ecuador",
+1986,
+41100,
+33006,
+8031 
+],
+[
+ "Ecuador",
+1987,
+39400,
+31368,
+7961 
+],
+[
+ "Ecuador",
+1988,
+39440,
+34198,
+8671 
+],
+[
+ "Ecuador",
+1989,
+38460,
+25634,
+6665 
+],
+[
+ "Ecuador",
+1990,
+37540,
+29907,
+7967 
+],
+[
+ "Ecuador",
+1991,
+37040,
+24614,
+6645 
+],
+[
+ "Ecuador",
+1992,
+40600,
+23997,
+5911 
+],
+[
+ "Ecuador",
+1993,
+38040,
+25528,
+6711 
+],
+[
+ "Ecuador",
+1994,
+32190,
+19836,
+6162 
+],
+[
+ "Ecuador",
+1995,
+28430,
+19763,
+6951 
+],
+[
+ "Ecuador",
+1996,
+29855,
+27600,
+9245 
+],
+[
+ "Ecuador",
+1997,
+26644,
+19879,
+7461 
+],
+[
+ "Ecuador",
+1998,
+30519,
+19787,
+6484 
+],
+[
+ "Ecuador",
+1999,
+27154,
+19011,
+7001 
+],
+[
+ "Ecuador",
+2000,
+20873,
+12958,
+6208 
+],
+[
+ "Ecuador",
+2001,
+22346,
+13631,
+6100 
+],
+[
+ "Ecuador",
+2002,
+15529,
+8845,
+5696 
+],
+[
+ "Ecuador",
+2003,
+13849,
+11052,
+7980 
+],
+[
+ "Ecuador",
+2004,
+12684,
+10214,
+8053 
+],
+[
+ "Ecuador",
+2005,
+11674,
+8429,
+7220 
+],
+[
+ "Ecuador",
+2006,
+9747,
+7577,
+7774 
+],
+[
+ "Ecuador",
+2007,
+11291,
+9243,
+8186 
+],
+[
+ "Ecuador",
+2008,
+10908,
+8144,
+7466 
+],
+[
+ "Ecuador",
+2009,
+13130,
+11314,
+8617 
+],
+[
+ "Ecuador",
+2010,
+8533,
+7605,
+8912 
+],
+[
+ "Ecuador",
+2011,
+6420,
+5938,
+9249 
+],
+[
+ "Ecuador",
+2012,
+9318,
+7450,
+7995 
+],
+[
+ "Ecuador",
+2013,
+8147,
+5755,
+7064 
+],
+[
+ "Ecuador",
+2014,
+5974,
+6584,
+11021 
+],
+[
+ "Egypt",
+1961,
+581409,
+1435926,
+24697 
+],
+[
+ "Egypt",
+1962,
+611226,
+1593098,
+26064 
+],
+[
+ "Egypt",
+1963,
+565000,
+1493000,
+26425 
+],
+[
+ "Egypt",
+1964,
+544393,
+1499881,
+27551 
+],
+[
+ "Egypt",
+1965,
+481000,
+1272000,
+26445 
+],
+[
+ "Egypt",
+1966,
+542000,
+1465000,
+27030 
+],
+[
+ "Egypt",
+1967,
+530000,
+1299000,
+24509 
+],
+[
+ "Egypt",
+1968,
+602000,
+1526000,
+25349 
+],
+[
+ "Egypt",
+1969,
+531000,
+1277000,
+24049 
+],
+[
+ "Egypt",
+1970,
+551145,
+1519000,
+27561 
+],
+[
+ "Egypt",
+1971,
+569628,
+1732000,
+30406 
+],
+[
+ "Egypt",
+1972,
+523420,
+1618000,
+30912 
+],
+[
+ "Egypt",
+1973,
+524867,
+1938112,
+36926 
+],
+[
+ "Egypt",
+1974,
+577000,
+1886000,
+32686 
+],
+[
+ "Egypt",
+1975,
+585592,
+2033265,
+34722 
+],
+[
+ "Egypt",
+1976,
+586000,
+1960000,
+33447 
+],
+[
+ "Egypt",
+1977,
+509304,
+1697000,
+33320 
+],
+[
+ "Egypt",
+1978,
+579710,
+1933000,
+33344 
+],
+[
+ "Egypt",
+1979,
+587231,
+1856000,
+31606 
+],
+[
+ "Egypt",
+1980,
+556995,
+1736440,
+31175 
+],
+[
+ "Egypt",
+1981,
+587830,
+1938327,
+32974 
+],
+[
+ "Egypt",
+1982,
+576917,
+2016992,
+34962 
+],
+[
+ "Egypt",
+1983,
+554500,
+1996000,
+35996 
+],
+[
+ "Egypt",
+1984,
+495034,
+1815176,
+36668 
+],
+[
+ "Egypt",
+1985,
+498000,
+1872000,
+37590 
+],
+[
+ "Egypt",
+1986,
+507000,
+1928000,
+38028 
+],
+[
+ "Egypt",
+1987,
+577000,
+2721000,
+47158 
+],
+[
+ "Egypt",
+1988,
+597350,
+2838000,
+47510 
+],
+[
+ "Egypt",
+1989,
+643921,
+3182000,
+49416 
+],
+[
+ "Egypt",
+1990,
+821301,
+4268049,
+51967 
+],
+[
+ "Egypt",
+1991,
+930702,
+4482523,
+48163 
+],
+[
+ "Egypt",
+1992,
+878846,
+4617997,
+52546 
+],
+[
+ "Egypt",
+1993,
+912324,
+4832598,
+52970 
+],
+[
+ "Egypt",
+1994,
+886950,
+4437055,
+50026 
+],
+[
+ "Egypt",
+1995,
+1055384,
+5722441,
+54221 
+],
+[
+ "Egypt",
+1996,
+1017192,
+5735367,
+56384 
+],
+[
+ "Egypt",
+1997,
+1044593,
+5849134,
+55994 
+],
+[
+ "Egypt",
+1998,
+1017282,
+6093151,
+59896 
+],
+[
+ "Egypt",
+1999,
+999998,
+6346642,
+63467 
+],
+[
+ "Egypt",
+2000,
+1034985,
+6564053,
+63422 
+],
+[
+ "Egypt",
+2001,
+983741,
+6254583,
+63580 
+],
+[
+ "Egypt",
+2002,
+1029592,
+6624868,
+64345 
+],
+[
+ "Egypt",
+2003,
+1053016,
+6844692,
+65001 
+],
+[
+ "Egypt",
+2004,
+1094741,
+7177855,
+65567 
+],
+[
+ "Egypt",
+2005,
+1253820,
+8140960,
+64929 
+],
+[
+ "Egypt",
+2006,
+1286750,
+8274230,
+64303 
+],
+[
+ "Egypt",
+2007,
+1140979,
+7379000,
+64673 
+],
+[
+ "Egypt",
+2008,
+1226651,
+7977051,
+65031 
+],
+[
+ "Egypt",
+2009,
+1335295,
+8522995,
+63829 
+],
+[
+ "Egypt",
+2010,
+1287627,
+7177399,
+55741 
+],
+[
+ "Egypt",
+2011,
+1284946,
+8407126,
+65428 
+],
+[
+ "Egypt",
+2012,
+1336234,
+8795483,
+65823 
+],
+[
+ "Egypt",
+2013,
+1418708,
+9460200,
+66682 
+],
+[
+ "Egypt",
+2014,
+1425060,
+9279804,
+65119 
+],
+[
+ "Eritrea",
+1961,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1962,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1963,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1964,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1965,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1966,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1967,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1968,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1969,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1970,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1971,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1972,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1973,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1974,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1975,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1976,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1977,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1978,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1979,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1980,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1981,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1982,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1983,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1984,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1985,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1986,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1987,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1988,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1989,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1990,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1991,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1992,
+null,
+null,
+null 
+],
+[
+ "Eritrea",
+1993,
+26500,
+5400,
+2038 
+],
+[
+ "Eritrea",
+1994,
+18150,
+13520,
+7449 
+],
+[
+ "Eritrea",
+1995,
+18744,
+9605,
+5124 
+],
+[
+ "Eritrea",
+1996,
+21438,
+7857,
+3665 
+],
+[
+ "Eritrea",
+1997,
+28061,
+9635,
+3434 
+],
+[
+ "Eritrea",
+1998,
+33434,
+31937,
+9552 
+],
+[
+ "Eritrea",
+1999,
+35739,
+27518,
+7700 
+],
+[
+ "Eritrea",
+2000,
+23182,
+13776,
+5943 
+],
+[
+ "Eritrea",
+2001,
+31300,
+36490,
+11658 
+],
+[
+ "Eritrea",
+2002,
+25592,
+4365,
+1706 
+],
+[
+ "Eritrea",
+2003,
+23928,
+4755,
+1987 
+],
+[
+ "Eritrea",
+2004,
+30373,
+9052,
+2980 
+],
+[
+ "Eritrea",
+2005,
+18642,
+21559,
+11565 
+],
+[
+ "Eritrea",
+2006,
+18588,
+21570,
+11604 
+],
+[
+ "Eritrea",
+2007,
+32488,
+27274,
+8395 
+],
+[
+ "Eritrea",
+2008,
+16300,
+5391,
+3307 
+],
+[
+ "Eritrea",
+2009,
+24417,
+26142,
+10706 
+],
+[
+ "Eritrea",
+2010,
+28200,
+32743,
+11611 
+],
+[
+ "Eritrea",
+2011,
+25650,
+28786,
+11223 
+],
+[
+ "Eritrea",
+2012,
+26000,
+33000,
+12692 
+],
+[
+ "Eritrea",
+2013,
+25000,
+30000,
+12000 
+],
+[
+ "Eritrea",
+2014,
+25470,
+29160,
+11449 
+],
+[
+ "Estonia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1970,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1971,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1972,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1973,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1974,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1975,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1976,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1977,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1978,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1979,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1980,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1981,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1982,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1983,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1984,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1985,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1986,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1987,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1988,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1989,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1990,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1991,
+null,
+null,
+null 
+],
+[
+ "Estonia",
+1992,
+47479,
+89400,
+18829 
+],
+[
+ "Estonia",
+1993,
+50300,
+105600,
+20994 
+],
+[
+ "Estonia",
+1994,
+34215,
+57091,
+16686 
+],
+[
+ "Estonia",
+1995,
+38601,
+77101,
+19974 
+],
+[
+ "Estonia",
+1996,
+45927,
+101249,
+22046 
+],
+[
+ "Estonia",
+1997,
+50887,
+111186,
+21850 
+],
+[
+ "Estonia",
+1998,
+66800,
+118011,
+17666 
+],
+[
+ "Estonia",
+1999,
+66100,
+88424,
+13377 
+],
+[
+ "Estonia",
+2000,
+68969,
+146800,
+21285 
+],
+[
+ "Estonia",
+2001,
+59638,
+133003,
+22302 
+],
+[
+ "Estonia",
+2002,
+65400,
+148420,
+22694 
+],
+[
+ "Estonia",
+2003,
+67156,
+144885,
+21574 
+],
+[
+ "Estonia",
+2004,
+78393,
+196634,
+25083 
+],
+[
+ "Estonia",
+2005,
+85473,
+263408,
+30818 
+],
+[
+ "Estonia",
+2006,
+90842,
+219590,
+24173 
+],
+[
+ "Estonia",
+2007,
+99500,
+345726,
+34746 
+],
+[
+ "Estonia",
+2008,
+107600,
+342500,
+31831 
+],
+[
+ "Estonia",
+2009,
+113619,
+342520,
+30146 
+],
+[
+ "Estonia",
+2010,
+119700,
+327600,
+27368 
+],
+[
+ "Estonia",
+2011,
+128900,
+360400,
+27960 
+],
+[
+ "Estonia",
+2012,
+124300,
+484700,
+38994 
+],
+[
+ "Estonia",
+2013,
+124200,
+406800,
+32754 
+],
+[
+ "Estonia",
+2014,
+154400,
+615500,
+39864 
+],
+[
+ "Ethiopia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1970,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1971,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1972,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1973,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1974,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1975,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1976,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1977,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1978,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1979,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1980,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1981,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1982,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1983,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1984,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1985,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1986,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1987,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1988,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1989,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1990,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1991,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1992,
+null,
+null,
+null 
+],
+[
+ "Ethiopia",
+1993,
+578230,
+895520,
+15487 
+],
+[
+ "Ethiopia",
+1994,
+746810,
+802747,
+10749 
+],
+[
+ "Ethiopia",
+1995,
+826840,
+1083680,
+13106 
+],
+[
+ "Ethiopia",
+1996,
+959450,
+1162310,
+12114 
+],
+[
+ "Ethiopia",
+1997,
+846000,
+1092820,
+12917 
+],
+[
+ "Ethiopia",
+1998,
+831770,
+1142710,
+13738 
+],
+[
+ "Ethiopia",
+1999,
+1031140,
+1149670,
+11150 
+],
+[
+ "Ethiopia",
+2000,
+1062010,
+1235270,
+11631 
+],
+[
+ "Ethiopia",
+2001,
+1203720,
+1596020,
+13259 
+],
+[
+ "Ethiopia",
+2002,
+1006271,
+1444434,
+14354 
+],
+[
+ "Ethiopia",
+2003,
+1166237,
+1618093,
+13874 
+],
+[
+ "Ethiopia",
+2004,
+1098907,
+1614441,
+14691 
+],
+[
+ "Ethiopia",
+2005,
+1398215,
+2176603,
+15567 
+],
+[
+ "Ethiopia",
+2006,
+1459540,
+2219075,
+15204 
+],
+[
+ "Ethiopia",
+2007,
+1473917,
+2463064,
+16711 
+],
+[
+ "Ethiopia",
+2008,
+1424719,
+2314489,
+16245 
+],
+[
+ "Ethiopia",
+2009,
+1683565,
+3075644,
+18269 
+],
+[
+ "Ethiopia",
+2010,
+1553240,
+2855682,
+18385 
+],
+[
+ "Ethiopia",
+2011,
+1437485,
+2916334,
+20288 
+],
+[
+ "Ethiopia",
+2012,
+1627647,
+3434706,
+21102 
+],
+[
+ "Ethiopia",
+2013,
+1605654,
+3925174,
+24446 
+],
+[
+ "Ethiopia",
+2014,
+1663845,
+4231589,
+25433 
+],
+[
+ "Ethiopia PDR",
+1961,
+912000,
+650000,
+7127 
+],
+[
+ "Ethiopia PDR",
+1962,
+919000,
+655000,
+7127 
+],
+[
+ "Ethiopia PDR",
+1963,
+928000,
+661000,
+7123 
+],
+[
+ "Ethiopia PDR",
+1964,
+920800,
+653800,
+7100 
+],
+[
+ "Ethiopia PDR",
+1965,
+962300,
+692900,
+7200 
+],
+[
+ "Ethiopia PDR",
+1966,
+988600,
+721700,
+7300 
+],
+[
+ "Ethiopia PDR",
+1967,
+1008400,
+738900,
+7327 
+],
+[
+ "Ethiopia PDR",
+1968,
+1028600,
+760000,
+7389 
+],
+[
+ "Ethiopia PDR",
+1969,
+1049200,
+782000,
+7453 
+],
+[
+ "Ethiopia PDR",
+1970,
+1070300,
+808000,
+7549 
+],
+[
+ "Ethiopia PDR",
+1971,
+1091600,
+839500,
+7691 
+],
+[
+ "Ethiopia PDR",
+1972,
+1113400,
+876000,
+7868 
+],
+[
+ "Ethiopia PDR",
+1973,
+806000,
+644800,
+8000 
+],
+[
+ "Ethiopia PDR",
+1974,
+816000,
+652800,
+8000 
+],
+[
+ "Ethiopia PDR",
+1975,
+765100,
+698900,
+9135 
+],
+[
+ "Ethiopia PDR",
+1976,
+536800,
+532490,
+9920 
+],
+[
+ "Ethiopia PDR",
+1977,
+548400,
+605210,
+11036 
+],
+[
+ "Ethiopia PDR",
+1978,
+492800,
+428910,
+8704 
+],
+[
+ "Ethiopia PDR",
+1979,
+511300,
+491400,
+9611 
+],
+[
+ "Ethiopia PDR",
+1980,
+536190,
+537446,
+10023 
+],
+[
+ "Ethiopia PDR",
+1981,
+552200,
+613227,
+11105 
+],
+[
+ "Ethiopia PDR",
+1982,
+684910,
+706597,
+10317 
+],
+[
+ "Ethiopia PDR",
+1983,
+714010,
+916614,
+12838 
+],
+[
+ "Ethiopia PDR",
+1984,
+625610,
+666052,
+10646 
+],
+[
+ "Ethiopia PDR",
+1985,
+660220,
+675620,
+10233 
+],
+[
+ "Ethiopia PDR",
+1986,
+778360,
+775257,
+9960 
+],
+[
+ "Ethiopia PDR",
+1987,
+668820,
+780210,
+11665 
+],
+[
+ "Ethiopia PDR",
+1988,
+657830,
+778763,
+11838 
+],
+[
+ "Ethiopia PDR",
+1989,
+647630,
+799936,
+12352 
+],
+[
+ "Ethiopia PDR",
+1990,
+605070,
+798757,
+13201 
+],
+[
+ "Ethiopia PDR",
+1991,
+556750,
+785878,
+14115 
+],
+[
+ "Ethiopia PDR",
+1992,
+591590,
+798467,
+13497 
+],
+[
+ "Ethiopia PDR",
+1993,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+1994,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+1995,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+1996,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+1997,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+1998,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+1999,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2000,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2001,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2002,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2003,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2004,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2005,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2006,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2007,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2008,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2009,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2010,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2011,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2012,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2013,
+null,
+null,
+null 
+],
+[
+ "Ethiopia PDR",
+2014,
+null,
+null,
+null 
+],
+[
+ "Finland",
+1961,
+237085,
+460792,
+19436 
+],
+[
+ "Finland",
+1962,
+285700,
+421500,
+14753 
+],
+[
+ "Finland",
+1963,
+238800,
+397000,
+16625 
+],
+[
+ "Finland",
+1964,
+268300,
+462500,
+17238 
+],
+[
+ "Finland",
+1965,
+267100,
+500700,
+18746 
+],
+[
+ "Finland",
+1966,
+208800,
+367800,
+17615 
+],
+[
+ "Finland",
+1967,
+252000,
+506800,
+20111 
+],
+[
+ "Finland",
+1968,
+240700,
+515500,
+21417 
+],
+[
+ "Finland",
+1969,
+203500,
+481400,
+23656 
+],
+[
+ "Finland",
+1970,
+175500,
+409300,
+23322 
+],
+[
+ "Finland",
+1971,
+173000,
+443400,
+25630 
+],
+[
+ "Finland",
+1972,
+178600,
+461900,
+25862 
+],
+[
+ "Finland",
+1973,
+187700,
+462000,
+24614 
+],
+[
+ "Finland",
+1974,
+217200,
+593100,
+27307 
+],
+[
+ "Finland",
+1975,
+218800,
+621500,
+28405 
+],
+[
+ "Finland",
+1976,
+219700,
+654100,
+29772 
+],
+[
+ "Finland",
+1977,
+127400,
+294900,
+23148 
+],
+[
+ "Finland",
+1978,
+115600,
+240600,
+20813 
+],
+[
+ "Finland",
+1979,
+99100,
+208400,
+21029 
+],
+[
+ "Finland",
+1980,
+124300,
+356700,
+28697 
+],
+[
+ "Finland",
+1981,
+107600,
+235000,
+21840 
+],
+[
+ "Finland",
+1982,
+142900,
+435400,
+30469 
+],
+[
+ "Finland",
+1983,
+159600,
+549500,
+34430 
+],
+[
+ "Finland",
+1984,
+154000,
+478300,
+31058 
+],
+[
+ "Finland",
+1985,
+157000,
+472100,
+30070 
+],
+[
+ "Finland",
+1986,
+165800,
+529100,
+31912 
+],
+[
+ "Finland",
+1987,
+139100,
+281100,
+20208 
+],
+[
+ "Finland",
+1988,
+109300,
+284600,
+26038 
+],
+[
+ "Finland",
+1989,
+151400,
+507000,
+33487 
+],
+[
+ "Finland",
+1990,
+179900,
+626900,
+34847 
+],
+[
+ "Finland",
+1991,
+118300,
+430500,
+36391 
+],
+[
+ "Finland",
+1992,
+87900,
+212300,
+24152 
+],
+[
+ "Finland",
+1993,
+99000,
+358500,
+36212 
+],
+[
+ "Finland",
+1994,
+88900,
+337400,
+37953 
+],
+[
+ "Finland",
+1995,
+100700,
+379500,
+37686 
+],
+[
+ "Finland",
+1996,
+112500,
+459300,
+40827 
+],
+[
+ "Finland",
+1997,
+124800,
+464100,
+37188 
+],
+[
+ "Finland",
+1998,
+137200,
+396900,
+28929 
+],
+[
+ "Finland",
+1999,
+117700,
+254100,
+21589 
+],
+[
+ "Finland",
+2000,
+149500,
+538300,
+36007 
+],
+[
+ "Finland",
+2001,
+144600,
+488900,
+33811 
+],
+[
+ "Finland",
+2002,
+174500,
+568600,
+32585 
+],
+[
+ "Finland",
+2003,
+191300,
+679000,
+35494 
+],
+[
+ "Finland",
+2004,
+225200,
+782300,
+34738 
+],
+[
+ "Finland",
+2005,
+214800,
+801300,
+37304 
+],
+[
+ "Finland",
+2006,
+192300,
+684100,
+35575 
+],
+[
+ "Finland",
+2007,
+202600,
+796800,
+39329 
+],
+[
+ "Finland",
+2008,
+216300,
+787500,
+36408 
+],
+[
+ "Finland",
+2009,
+216200,
+887000,
+41027 
+],
+[
+ "Finland",
+2010,
+211200,
+724400,
+34299 
+],
+[
+ "Finland",
+2011,
+254600,
+974800,
+38288 
+],
+[
+ "Finland",
+2012,
+227300,
+887100,
+39028 
+],
+[
+ "Finland",
+2013,
+227500,
+869400,
+38215 
+],
+[
+ "Finland",
+2014,
+267400,
+1088200,
+40696 
+],
+[
+ "France",
+1961,
+3997300,
+9573520,
+23950 
+],
+[
+ "France",
+1962,
+4570000,
+14053770,
+30752 
+],
+[
+ "France",
+1963,
+3849500,
+10248960,
+26624 
+],
+[
+ "France",
+1964,
+4388200,
+13837700,
+31534 
+],
+[
+ "France",
+1965,
+4520000,
+14760000,
+32655 
+],
+[
+ "France",
+1966,
+3992300,
+11296620,
+28296 
+],
+[
+ "France",
+1967,
+3928900,
+14287540,
+36365 
+],
+[
+ "France",
+1968,
+4089700,
+14984900,
+36641 
+],
+[
+ "France",
+1969,
+4034200,
+14446000,
+35809 
+],
+[
+ "France",
+1970,
+3696000,
+12649000,
+34223 
+],
+[
+ "France",
+1971,
+3947000,
+15241000,
+38614 
+],
+[
+ "France",
+1972,
+3938000,
+17996000,
+45698 
+],
+[
+ "France",
+1973,
+3961000,
+17851008,
+45067 
+],
+[
+ "France",
+1974,
+4146000,
+19007008,
+45844 
+],
+[
+ "France",
+1975,
+3875900,
+15013000,
+38734 
+],
+[
+ "France",
+1976,
+4275000,
+16126000,
+37722 
+],
+[
+ "France",
+1977,
+4125000,
+17450000,
+42303 
+],
+[
+ "France",
+1978,
+4166600,
+20967712,
+50323 
+],
+[
+ "France",
+1979,
+4087000,
+19544000,
+47820 
+],
+[
+ "France",
+1980,
+4590000,
+23781008,
+51810 
+],
+[
+ "France",
+1981,
+4742000,
+23762000,
+50110 
+],
+[
+ "France",
+1982,
+4843000,
+25358000,
+52360 
+],
+[
+ "France",
+1983,
+4826000,
+24745008,
+51274 
+],
+[
+ "France",
+1984,
+5105000,
+32977008,
+64597 
+],
+[
+ "France",
+1985,
+4797400,
+28784000,
+59999 
+],
+[
+ "France",
+1986,
+4858900,
+26474784,
+54487 
+],
+[
+ "France",
+1987,
+4932100,
+27414576,
+55584 
+],
+[
+ "France",
+1988,
+4721000,
+29038496,
+61509 
+],
+[
+ "France",
+1989,
+5013000,
+31822304,
+63480 
+],
+[
+ "France",
+1990,
+5147000,
+33345808,
+64787 
+],
+[
+ "France",
+1991,
+5144800,
+34344608,
+66756 
+],
+[
+ "France",
+1992,
+5081975,
+32545880,
+64042 
+],
+[
+ "France",
+1993,
+4513000,
+29209000,
+64722 
+],
+[
+ "France",
+1994,
+4574000,
+30500000,
+66681 
+],
+[
+ "France",
+1995,
+4745000,
+30880000,
+65079 
+],
+[
+ "France",
+1996,
+5040300,
+35948900,
+71323 
+],
+[
+ "France",
+1997,
+5110000,
+33847000,
+66237 
+],
+[
+ "France",
+1998,
+5234000,
+39809000,
+76058 
+],
+[
+ "France",
+1999,
+5115195,
+37050000,
+72431 
+],
+[
+ "France",
+2000,
+5248436,
+37353400,
+71171 
+],
+[
+ "France",
+2001,
+4766560,
+31540330,
+66170 
+],
+[
+ "France",
+2002,
+5229956,
+38939196,
+74454 
+],
+[
+ "France",
+2003,
+4876045,
+30474736,
+62499 
+],
+[
+ "France",
+2004,
+5237405,
+39692940,
+75787 
+],
+[
+ "France",
+2005,
+5277899,
+36885503,
+69887 
+],
+[
+ "France",
+2006,
+5245740,
+35363600,
+67414 
+],
+[
+ "France",
+2007,
+5238600,
+32763500,
+62542 
+],
+[
+ "France",
+2008,
+5492443,
+39006372,
+71018 
+],
+[
+ "France",
+2009,
+5147395,
+38332198,
+74469 
+],
+[
+ "France",
+2010,
+5931000,
+38207000,
+64419 
+],
+[
+ "France",
+2011,
+5825400,
+35994000,
+61788 
+],
+[
+ "France",
+2012,
+5303300,
+40300800,
+75992 
+],
+[
+ "France",
+2013,
+5323000,
+38613900,
+72542 
+],
+[
+ "France",
+2014,
+5296718,
+38966600,
+73567 
+],
+[
+ "Georgia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1970,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1971,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1972,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1973,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1974,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1975,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1976,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1977,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1978,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1979,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1980,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1981,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1982,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1983,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1984,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1985,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1986,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1987,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1988,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1989,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1990,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1991,
+null,
+null,
+null 
+],
+[
+ "Georgia",
+1992,
+107900,
+191000,
+17702 
+],
+[
+ "Georgia",
+1993,
+80000,
+114000,
+14250 
+],
+[
+ "Georgia",
+1994,
+67500,
+89400,
+13244 
+],
+[
+ "Georgia",
+1995,
+58700,
+76500,
+13032 
+],
+[
+ "Georgia",
+1996,
+76500,
+107400,
+14039 
+],
+[
+ "Georgia",
+1997,
+170500,
+291700,
+17109 
+],
+[
+ "Georgia",
+1998,
+133030,
+144629,
+10872 
+],
+[
+ "Georgia",
+1999,
+111228,
+226073,
+20325 
+],
+[
+ "Georgia",
+2000,
+85723,
+89406,
+10430 
+],
+[
+ "Georgia",
+2001,
+114006,
+306479,
+26883 
+],
+[
+ "Georgia",
+2002,
+117568,
+199675,
+16984 
+],
+[
+ "Georgia",
+2003,
+116513,
+225414,
+19347 
+],
+[
+ "Georgia",
+2004,
+102303,
+185834,
+18165 
+],
+[
+ "Georgia",
+2005,
+95598,
+190137,
+19889 
+],
+[
+ "Georgia",
+2006,
+55900,
+69700,
+12469 
+],
+[
+ "Georgia",
+2007,
+44900,
+74900,
+16682 
+],
+[
+ "Georgia",
+2008,
+47700,
+80300,
+16834 
+],
+[
+ "Georgia",
+2009,
+50200,
+53900,
+10737 
+],
+[
+ "Georgia",
+2010,
+47500,
+48400,
+10189 
+],
+[
+ "Georgia",
+2011,
+46800,
+96800,
+20684 
+],
+[
+ "Georgia",
+2012,
+47500,
+80700,
+16989 
+],
+[
+ "Georgia",
+2013,
+44100,
+81000,
+18367 
+],
+[
+ "Georgia",
+2014,
+40100,
+50200,
+12519 
+],
+[
+ "Germany",
+1961,
+1774628,
+5076707,
+28607 
+],
+[
+ "Germany",
+1962,
+1742400,
+5906465,
+33898 
+],
+[
+ "Germany",
+1963,
+1808211,
+6135981,
+33934 
+],
+[
+ "Germany",
+1964,
+1880078,
+6551198,
+34845 
+],
+[
+ "Germany",
+1965,
+1902596,
+6149342,
+32321 
+],
+[
+ "Germany",
+1966,
+1872840,
+6053960,
+32325 
+],
+[
+ "Germany",
+1967,
+1947141,
+7830615,
+40216 
+],
+[
+ "Germany",
+1968,
+2033856,
+8575084,
+42162 
+],
+[
+ "Germany",
+1969,
+2054492,
+7987161,
+38877 
+],
+[
+ "Germany",
+1970,
+2091560,
+7794037,
+37264 
+],
+[
+ "Germany",
+1971,
+2177684,
+9631772,
+44229 
+],
+[
+ "Germany",
+1972,
+2315879,
+9351589,
+40380 
+],
+[
+ "Germany",
+1973,
+2299046,
+9995657,
+43477 
+],
+[
+ "Germany",
+1974,
+2359547,
+10914574,
+46257 
+],
+[
+ "Germany",
+1975,
+2257525,
+9749836,
+43188 
+],
+[
+ "Germany",
+1976,
+2393376,
+9416595,
+39344 
+],
+[
+ "Germany",
+1977,
+2330285,
+10149096,
+43553 
+],
+[
+ "Germany",
+1978,
+2305177,
+11265143,
+48869 
+],
+[
+ "Germany",
+1979,
+2339502,
+11177128,
+47776 
+],
+[
+ "Germany",
+1980,
+2374806,
+11253864,
+47389 
+],
+[
+ "Germany",
+1981,
+2306455,
+11254906,
+48797 
+],
+[
+ "Germany",
+1982,
+2168642,
+11370906,
+52433 
+],
+[
+ "Germany",
+1983,
+2409210,
+12548219,
+52084 
+],
+[
+ "Germany",
+1984,
+2380860,
+14125965,
+59331 
+],
+[
+ "Germany",
+1985,
+2367540,
+13801524,
+58295 
+],
+[
+ "Germany",
+1986,
+2396842,
+14601295,
+60919 
+],
+[
+ "Germany",
+1987,
+2418963,
+13971181,
+57757 
+],
+[
+ "Germany",
+1988,
+2508698,
+15620731,
+62266 
+],
+[
+ "Germany",
+1989,
+2553725,
+14509067,
+56815 
+],
+[
+ "Germany",
+1990,
+2429610,
+15241870,
+62734 
+],
+[
+ "Germany",
+1991,
+2453332,
+16611967,
+67712 
+],
+[
+ "Germany",
+1992,
+2598471,
+15541661,
+59811 
+],
+[
+ "Germany",
+1993,
+2394600,
+15766500,
+65842 
+],
+[
+ "Germany",
+1994,
+2445800,
+16538600,
+67620 
+],
+[
+ "Germany",
+1995,
+2578800,
+17763000,
+68881 
+],
+[
+ "Germany",
+1996,
+2594418,
+18921680,
+72932 
+],
+[
+ "Germany",
+1997,
+2727898,
+19826800,
+72682 
+],
+[
+ "Germany",
+1998,
+2802455,
+20187492,
+72035 
+],
+[
+ "Germany",
+1999,
+2601122,
+19615366,
+75411 
+],
+[
+ "Germany",
+2000,
+2968940,
+21621548,
+72826 
+],
+[
+ "Germany",
+2001,
+2897202,
+22837836,
+78827 
+],
+[
+ "Germany",
+2002,
+3014620,
+20817740,
+69056 
+],
+[
+ "Germany",
+2003,
+2963731,
+19259811,
+64985 
+],
+[
+ "Germany",
+2004,
+3111651,
+25427210,
+81716 
+],
+[
+ "Germany",
+2005,
+3173800,
+23692700,
+74651 
+],
+[
+ "Germany",
+2006,
+3114700,
+22427900,
+72007 
+],
+[
+ "Germany",
+2007,
+2992075,
+20828077,
+69611 
+],
+[
+ "Germany",
+2008,
+3213485,
+25988565,
+80873 
+],
+[
+ "Germany",
+2009,
+3226036,
+25192350,
+78091 
+],
+[
+ "Germany",
+2010,
+3297700,
+24106744,
+73102 
+],
+[
+ "Germany",
+2011,
+3248200,
+22782700,
+70139 
+],
+[
+ "Germany",
+2012,
+3056700,
+22409300,
+73312 
+],
+[
+ "Germany",
+2013,
+3128200,
+25019100,
+79979 
+],
+[
+ "Germany",
+2014,
+3219700,
+27784700,
+86296 
+],
+[
+ "Greece",
+1961,
+1172900,
+1527870,
+13026 
+],
+[
+ "Greece",
+1962,
+1193200,
+1722137,
+14433 
+],
+[
+ "Greece",
+1963,
+1078200,
+1416932,
+13142 
+],
+[
+ "Greece",
+1964,
+1263120,
+2088000,
+16530 
+],
+[
+ "Greece",
+1965,
+1258130,
+2071988,
+16469 
+],
+[
+ "Greece",
+1966,
+1132300,
+2020033,
+17840 
+],
+[
+ "Greece",
+1967,
+1051050,
+1935922,
+18419 
+],
+[
+ "Greece",
+1968,
+1097720,
+1568000,
+14284 
+],
+[
+ "Greece",
+1969,
+1078210,
+1723594,
+15986 
+],
+[
+ "Greece",
+1970,
+974800,
+1930736,
+19806 
+],
+[
+ "Greece",
+1971,
+976600,
+1946000,
+19926 
+],
+[
+ "Greece",
+1972,
+885000,
+1768000,
+19977 
+],
+[
+ "Greece",
+1973,
+845000,
+1682000,
+19905 
+],
+[
+ "Greece",
+1974,
+916000,
+2153000,
+23504 
+],
+[
+ "Greece",
+1975,
+925000,
+2120000,
+22919 
+],
+[
+ "Greece",
+1976,
+931000,
+2376000,
+25521 
+],
+[
+ "Greece",
+1977,
+939000,
+1766516,
+18813 
+],
+[
+ "Greece",
+1978,
+993800,
+2704452,
+27213 
+],
+[
+ "Greece",
+1979,
+990500,
+2407000,
+24301 
+],
+[
+ "Greece",
+1980,
+1012000,
+2970000,
+29348 
+],
+[
+ "Greece",
+1981,
+1064000,
+2932000,
+27556 
+],
+[
+ "Greece",
+1982,
+1056000,
+3039000,
+28778 
+],
+[
+ "Greece",
+1983,
+984000,
+2059000,
+20925 
+],
+[
+ "Greece",
+1984,
+867000,
+2316000,
+26713 
+],
+[
+ "Greece",
+1985,
+883000,
+1807000,
+20464 
+],
+[
+ "Greece",
+1986,
+908000,
+2389000,
+26311 
+],
+[
+ "Greece",
+1987,
+891000,
+2314000,
+25971 
+],
+[
+ "Greece",
+1988,
+893000,
+2514000,
+28152 
+],
+[
+ "Greece",
+1989,
+915700,
+2762000,
+30163 
+],
+[
+ "Greece",
+1990,
+1003000,
+1939000,
+19332 
+],
+[
+ "Greece",
+1991,
+1014000,
+3162000,
+31183 
+],
+[
+ "Greece",
+1992,
+941000,
+2288000,
+24315 
+],
+[
+ "Greece",
+1993,
+905000,
+2078000,
+22961 
+],
+[
+ "Greece",
+1994,
+898000,
+2470000,
+27506 
+],
+[
+ "Greece",
+1995,
+878800,
+2314838,
+26341 
+],
+[
+ "Greece",
+1996,
+864854,
+2086000,
+24120 
+],
+[
+ "Greece",
+1997,
+861000,
+2081000,
+24170 
+],
+[
+ "Greece",
+1998,
+846000,
+2063000,
+24385 
+],
+[
+ "Greece",
+1999,
+826700,
+1977000,
+23914 
+],
+[
+ "Greece",
+2000,
+857800,
+2326000,
+27116 
+],
+[
+ "Greece",
+2001,
+875300,
+2196000,
+25089 
+],
+[
+ "Greece",
+2002,
+870000,
+2039000,
+23437 
+],
+[
+ "Greece",
+2003,
+847900,
+1703000,
+20085 
+],
+[
+ "Greece",
+2004,
+845062,
+2092097,
+24757 
+],
+[
+ "Greece",
+2005,
+843900,
+2044149,
+24223 
+],
+[
+ "Greece",
+2006,
+777901,
+1778170,
+22859 
+],
+[
+ "Greece",
+2007,
+728795,
+1629072,
+22353 
+],
+[
+ "Greece",
+2008,
+657100,
+1939300,
+29513 
+],
+[
+ "Greece",
+2009,
+698000,
+1830000,
+26218 
+],
+[
+ "Greece",
+2010,
+510000,
+1663070,
+32609 
+],
+[
+ "Greece",
+2011,
+544000,
+1702020,
+31287 
+],
+[
+ "Greece",
+2012,
+688991,
+1837072,
+26663 
+],
+[
+ "Greece",
+2013,
+667045,
+1857198,
+27842 
+],
+[
+ "Greece",
+2014,
+536800,
+1651300,
+30762 
+],
+[
+ "Guatemala",
+1961,
+33686,
+24656,
+7319 
+],
+[
+ "Guatemala",
+1962,
+39119,
+32079,
+8200 
+],
+[
+ "Guatemala",
+1963,
+38000,
+35609,
+9371 
+],
+[
+ "Guatemala",
+1964,
+38800,
+36100,
+9304 
+],
+[
+ "Guatemala",
+1965,
+27400,
+27164,
+9914 
+],
+[
+ "Guatemala",
+1966,
+30940,
+29642,
+9580 
+],
+[
+ "Guatemala",
+1967,
+36326,
+31555,
+8687 
+],
+[
+ "Guatemala",
+1968,
+30197,
+33140,
+10975 
+],
+[
+ "Guatemala",
+1969,
+30262,
+31208,
+10313 
+],
+[
+ "Guatemala",
+1970,
+32741,
+36025,
+11003 
+],
+[
+ "Guatemala",
+1971,
+31067,
+38031,
+12242 
+],
+[
+ "Guatemala",
+1972,
+34111,
+46715,
+13695 
+],
+[
+ "Guatemala",
+1973,
+27950,
+47104,
+16853 
+],
+[
+ "Guatemala",
+1974,
+43441,
+51106,
+11764 
+],
+[
+ "Guatemala",
+1975,
+38601,
+45382,
+11757 
+],
+[
+ "Guatemala",
+1976,
+36663,
+47864,
+13055 
+],
+[
+ "Guatemala",
+1977,
+44800,
+55752,
+12445 
+],
+[
+ "Guatemala",
+1978,
+52400,
+59616,
+11377 
+],
+[
+ "Guatemala",
+1979,
+36120,
+56764,
+15715 
+],
+[
+ "Guatemala",
+1980,
+39773,
+58128,
+14615 
+],
+[
+ "Guatemala",
+1981,
+31500,
+55300,
+17556 
+],
+[
+ "Guatemala",
+1982,
+29610,
+48600,
+16413 
+],
+[
+ "Guatemala",
+1983,
+33180,
+69600,
+20976 
+],
+[
+ "Guatemala",
+1984,
+32200,
+90700,
+28168 
+],
+[
+ "Guatemala",
+1985,
+31500,
+53800,
+17079 
+],
+[
+ "Guatemala",
+1986,
+26390,
+52744,
+19986 
+],
+[
+ "Guatemala",
+1987,
+22680,
+45418,
+20026 
+],
+[
+ "Guatemala",
+1988,
+24990,
+49895,
+19966 
+],
+[
+ "Guatemala",
+1989,
+22120,
+44225,
+19993 
+],
+[
+ "Guatemala",
+1990,
+16030,
+32033,
+19983 
+],
+[
+ "Guatemala",
+1991,
+11270,
+22680,
+20124 
+],
+[
+ "Guatemala",
+1992,
+11340,
+22680,
+20000 
+],
+[
+ "Guatemala",
+1993,
+12180,
+24267,
+19924 
+],
+[
+ "Guatemala",
+1994,
+12368,
+26004,
+21025 
+],
+[
+ "Guatemala",
+1995,
+12390,
+26003,
+20987 
+],
+[
+ "Guatemala",
+1996,
+11270,
+23690,
+21020 
+],
+[
+ "Guatemala",
+1997,
+11270,
+23000,
+20408 
+],
+[
+ "Guatemala",
+1998,
+7420,
+14633,
+19721 
+],
+[
+ "Guatemala",
+1999,
+4200,
+8246,
+19633 
+],
+[
+ "Guatemala",
+2000,
+4550,
+9525,
+20934 
+],
+[
+ "Guatemala",
+2001,
+4620,
+9525,
+20617 
+],
+[
+ "Guatemala",
+2002,
+4690,
+9072,
+19343 
+],
+[
+ "Guatemala",
+2003,
+5000,
+8000,
+16000 
+],
+[
+ "Guatemala",
+2004,
+4900,
+9700,
+19796 
+],
+[
+ "Guatemala",
+2005,
+5000,
+11339,
+22678 
+],
+[
+ "Guatemala",
+2006,
+699,
+1610,
+23033 
+],
+[
+ "Guatemala",
+2007,
+700,
+1556,
+22229 
+],
+[
+ "Guatemala",
+2008,
+704,
+1510,
+21449 
+],
+[
+ "Guatemala",
+2009,
+683,
+1619,
+23704 
+],
+[
+ "Guatemala",
+2010,
+678,
+1493,
+22021 
+],
+[
+ "Guatemala",
+2011,
+700,
+1467,
+20957 
+],
+[
+ "Guatemala",
+2012,
+700,
+1537,
+21957 
+],
+[
+ "Guatemala",
+2013,
+700,
+1556,
+22229 
+],
+[
+ "Guatemala",
+2014,
+769,
+1624,
+21118 
+],
+[
+ "Honduras",
+1961,
+1025,
+802,
+7824 
+],
+[
+ "Honduras",
+1962,
+934,
+755,
+8084 
+],
+[
+ "Honduras",
+1963,
+833,
+691,
+8295 
+],
+[
+ "Honduras",
+1964,
+697,
+560,
+8034 
+],
+[
+ "Honduras",
+1965,
+602,
+528,
+8771 
+],
+[
+ "Honduras",
+1966,
+614,
+538,
+8762 
+],
+[
+ "Honduras",
+1967,
+628,
+549,
+8742 
+],
+[
+ "Honduras",
+1968,
+641,
+564,
+8799 
+],
+[
+ "Honduras",
+1969,
+821,
+681,
+8295 
+],
+[
+ "Honduras",
+1970,
+821,
+681,
+8295 
+],
+[
+ "Honduras",
+1971,
+821,
+700,
+8526 
+],
+[
+ "Honduras",
+1972,
+800,
+700,
+8750 
+],
+[
+ "Honduras",
+1973,
+800,
+700,
+8750 
+],
+[
+ "Honduras",
+1974,
+600,
+500,
+8333 
+],
+[
+ "Honduras",
+1975,
+600,
+500,
+8333 
+],
+[
+ "Honduras",
+1976,
+600,
+500,
+8333 
+],
+[
+ "Honduras",
+1977,
+600,
+500,
+8333 
+],
+[
+ "Honduras",
+1978,
+1000,
+1000,
+10000 
+],
+[
+ "Honduras",
+1979,
+900,
+700,
+7778 
+],
+[
+ "Honduras",
+1980,
+900,
+700,
+7778 
+],
+[
+ "Honduras",
+1981,
+1100,
+700,
+6364 
+],
+[
+ "Honduras",
+1982,
+1100,
+700,
+6364 
+],
+[
+ "Honduras",
+1983,
+1100,
+650,
+5909 
+],
+[
+ "Honduras",
+1984,
+1100,
+650,
+5909 
+],
+[
+ "Honduras",
+1985,
+1000,
+600,
+6000 
+],
+[
+ "Honduras",
+1986,
+1000,
+600,
+6000 
+],
+[
+ "Honduras",
+1987,
+1100,
+650,
+5909 
+],
+[
+ "Honduras",
+1988,
+1200,
+680,
+5667 
+],
+[
+ "Honduras",
+1989,
+1200,
+700,
+5833 
+],
+[
+ "Honduras",
+1990,
+1300,
+750,
+5769 
+],
+[
+ "Honduras",
+1991,
+1468,
+760,
+5177 
+],
+[
+ "Honduras",
+1992,
+1350,
+800,
+5926 
+],
+[
+ "Honduras",
+1993,
+1359,
+805,
+5923 
+],
+[
+ "Honduras",
+1994,
+1400,
+850,
+6071 
+],
+[
+ "Honduras",
+1995,
+1360,
+900,
+6618 
+],
+[
+ "Honduras",
+1996,
+1352,
+917,
+6783 
+],
+[
+ "Honduras",
+1997,
+1500,
+1000,
+6667 
+],
+[
+ "Honduras",
+1998,
+2000,
+1000,
+5000 
+],
+[
+ "Honduras",
+1999,
+2000,
+950,
+4750 
+],
+[
+ "Honduras",
+2000,
+2000,
+802,
+4010 
+],
+[
+ "Honduras",
+2001,
+2000,
+797,
+3985 
+],
+[
+ "Honduras",
+2002,
+2000,
+765,
+3825 
+],
+[
+ "Honduras",
+2003,
+2000,
+1000,
+5000 
+],
+[
+ "Honduras",
+2004,
+1876,
+844,
+4499 
+],
+[
+ "Honduras",
+2005,
+1775,
+893,
+5031 
+],
+[
+ "Honduras",
+2006,
+1851,
+946,
+5111 
+],
+[
+ "Honduras",
+2007,
+2165,
+1242,
+5737 
+],
+[
+ "Honduras",
+2008,
+1824,
+1048,
+5746 
+],
+[
+ "Honduras",
+2009,
+1927,
+1117,
+5797 
+],
+[
+ "Honduras",
+2010,
+2686,
+937,
+3488 
+],
+[
+ "Honduras",
+2011,
+2717,
+1089,
+4008 
+],
+[
+ "Honduras",
+2012,
+2600,
+950,
+3654 
+],
+[
+ "Honduras",
+2013,
+2600,
+1000,
+3846 
+],
+[
+ "Honduras",
+2014,
+2500,
+1030,
+4120 
+],
+[
+ "Hungary",
+1961,
+1013700,
+1935700,
+19095 
+],
+[
+ "Hungary",
+1962,
+1103037,
+1973137,
+17888 
+],
+[
+ "Hungary",
+1963,
+1014049,
+1592851,
+15708 
+],
+[
+ "Hungary",
+1964,
+1154747,
+2142857,
+18557 
+],
+[
+ "Hungary",
+1965,
+1130414,
+2453283,
+21703 
+],
+[
+ "Hungary",
+1966,
+1081799,
+2348683,
+21711 
+],
+[
+ "Hungary",
+1967,
+1166862,
+3021625,
+25895 
+],
+[
+ "Hungary",
+1968,
+1331206,
+3360554,
+25244 
+],
+[
+ "Hungary",
+1969,
+1321000,
+3585385,
+27141 
+],
+[
+ "Hungary",
+1970,
+1274000,
+2722523,
+21370 
+],
+[
+ "Hungary",
+1971,
+1273000,
+3921939,
+30809 
+],
+[
+ "Hungary",
+1972,
+1317000,
+4094570,
+31090 
+],
+[
+ "Hungary",
+1973,
+1294038,
+4502385,
+34793 
+],
+[
+ "Hungary",
+1974,
+1324849,
+4970811,
+37520 
+],
+[
+ "Hungary",
+1975,
+1250873,
+4007324,
+32036 
+],
+[
+ "Hungary",
+1976,
+1325285,
+5148100,
+38845 
+],
+[
+ "Hungary",
+1977,
+1311219,
+5319049,
+40566 
+],
+[
+ "Hungary",
+1978,
+1324270,
+5677255,
+42871 
+],
+[
+ "Hungary",
+1979,
+1135350,
+3708866,
+32667 
+],
+[
+ "Hungary",
+1980,
+1275598,
+6077330,
+47643 
+],
+[
+ "Hungary",
+1981,
+1150656,
+4613863,
+40098 
+],
+[
+ "Hungary",
+1982,
+1309536,
+5761862,
+43999 
+],
+[
+ "Hungary",
+1983,
+1354926,
+5985098,
+44173 
+],
+[
+ "Hungary",
+1984,
+1360565,
+7391963,
+54330 
+],
+[
+ "Hungary",
+1985,
+1357776,
+6578346,
+48449 
+],
+[
+ "Hungary",
+1986,
+1328000,
+5793015,
+43622 
+],
+[
+ "Hungary",
+1987,
+1300639,
+5747761,
+44192 
+],
+[
+ "Hungary",
+1988,
+1280729,
+7025775,
+54858 
+],
+[
+ "Hungary",
+1989,
+1242233,
+6539521,
+52643 
+],
+[
+ "Hungary",
+1990,
+1220818,
+6198256,
+50771 
+],
+[
+ "Hungary",
+1991,
+1157600,
+6007888,
+51900 
+],
+[
+ "Hungary",
+1992,
+848430,
+3453112,
+40700 
+],
+[
+ "Hungary",
+1993,
+985548,
+3020655,
+30649 
+],
+[
+ "Hungary",
+1994,
+1058749,
+4873751,
+46033 
+],
+[
+ "Hungary",
+1995,
+1108000,
+4614200,
+41644 
+],
+[
+ "Hungary",
+1996,
+1193340,
+3911820,
+32780 
+],
+[
+ "Hungary",
+1997,
+1247569,
+5258817,
+42153 
+],
+[
+ "Hungary",
+1998,
+1183540,
+4898634,
+41390 
+],
+[
+ "Hungary",
+1999,
+734100,
+2638970,
+35948 
+],
+[
+ "Hungary",
+2000,
+1024430,
+3692470,
+36044 
+],
+[
+ "Hungary",
+2001,
+1205610,
+5196760,
+43105 
+],
+[
+ "Hungary",
+2002,
+1110471,
+3910244,
+35212 
+],
+[
+ "Hungary",
+2003,
+1113755,
+2941248,
+26408 
+],
+[
+ "Hungary",
+2004,
+1173800,
+6006820,
+51174 
+],
+[
+ "Hungary",
+2005,
+1130719,
+5088219,
+45000 
+],
+[
+ "Hungary",
+2006,
+1074735,
+4376235,
+40719 
+],
+[
+ "Hungary",
+2007,
+1111269,
+3986708,
+35875 
+],
+[
+ "Hungary",
+2008,
+1125629,
+5630833,
+50024 
+],
+[
+ "Hungary",
+2009,
+1146456,
+4419163,
+38546 
+],
+[
+ "Hungary",
+2010,
+1011182,
+3745190,
+37038 
+],
+[
+ "Hungary",
+2011,
+978000,
+4107000,
+41994 
+],
+[
+ "Hungary",
+2012,
+1070020,
+4010990,
+37485 
+],
+[
+ "Hungary",
+2013,
+1090480,
+5058300,
+46386 
+],
+[
+ "Hungary",
+2014,
+1112730,
+5261890,
+47288 
+],
+[
+ "India",
+1961,
+12927000,
+10997000,
+8507 
+],
+[
+ "India",
+1962,
+13570000,
+12072000,
+8896 
+],
+[
+ "India",
+1963,
+13590000,
+10776000,
+7929 
+],
+[
+ "India",
+1964,
+13499000,
+9853000,
+7299 
+],
+[
+ "India",
+1965,
+13422000,
+12257000,
+9132 
+],
+[
+ "India",
+1966,
+12572000,
+10394000,
+8268 
+],
+[
+ "India",
+1967,
+12838000,
+11393000,
+8874 
+],
+[
+ "India",
+1968,
+14998200,
+16540100,
+11028 
+],
+[
+ "India",
+1969,
+15958100,
+18651600,
+11688 
+],
+[
+ "India",
+1970,
+16625500,
+20093296,
+12086 
+],
+[
+ "India",
+1971,
+18240496,
+23832496,
+13066 
+],
+[
+ "India",
+1972,
+19138896,
+26409904,
+13799 
+],
+[
+ "India",
+1973,
+19463600,
+24734608,
+12708 
+],
+[
+ "India",
+1974,
+18583008,
+21778000,
+11719 
+],
+[
+ "India",
+1975,
+18010304,
+24104400,
+13384 
+],
+[
+ "India",
+1976,
+20453808,
+28846304,
+14103 
+],
+[
+ "India",
+1977,
+20921504,
+29009904,
+13866 
+],
+[
+ "India",
+1978,
+21455696,
+31749200,
+14798 
+],
+[
+ "India",
+1979,
+22641200,
+35507808,
+15683 
+],
+[
+ "India",
+1980,
+22171696,
+31830000,
+14356 
+],
+[
+ "India",
+1981,
+22278800,
+36312608,
+16299 
+],
+[
+ "India",
+1982,
+22144400,
+37451808,
+16913 
+],
+[
+ "India",
+1983,
+23567408,
+42793904,
+18158 
+],
+[
+ "India",
+1984,
+24672000,
+45476000,
+18432 
+],
+[
+ "India",
+1985,
+23564896,
+44068800,
+18701 
+],
+[
+ "India",
+1986,
+22997408,
+47051808,
+20460 
+],
+[
+ "India",
+1987,
+23131200,
+44322896,
+19162 
+],
+[
+ "India",
+1988,
+23062704,
+46169408,
+20019 
+],
+[
+ "India",
+1989,
+24109104,
+54110208,
+22444 
+],
+[
+ "India",
+1990,
+23501904,
+49849504,
+21211 
+],
+[
+ "India",
+1991,
+24167104,
+55134496,
+22814 
+],
+[
+ "India",
+1992,
+23261904,
+55689504,
+23940 
+],
+[
+ "India",
+1993,
+24588900,
+57210100,
+23267 
+],
+[
+ "India",
+1994,
+25147300,
+59840000,
+23796 
+],
+[
+ "India",
+1995,
+25700000,
+65767400,
+25590 
+],
+[
+ "India",
+1996,
+25011000,
+62097400,
+24828 
+],
+[
+ "India",
+1997,
+25887100,
+69350200,
+26789 
+],
+[
+ "India",
+1998,
+26696100,
+66345000,
+24852 
+],
+[
+ "India",
+1999,
+27523300,
+71287504,
+25901 
+],
+[
+ "India",
+2000,
+27486000,
+76368896,
+27785 
+],
+[
+ "India",
+2001,
+25730600,
+69680896,
+27081 
+],
+[
+ "India",
+2002,
+26344700,
+72766304,
+27621 
+],
+[
+ "India",
+2003,
+25195700,
+65760800,
+26100 
+],
+[
+ "India",
+2004,
+26594700,
+72156200,
+27132 
+],
+[
+ "India",
+2005,
+26382900,
+68636900,
+26016 
+],
+[
+ "India",
+2006,
+26483600,
+69354500,
+26188 
+],
+[
+ "India",
+2007,
+27994500,
+75806700,
+27079 
+],
+[
+ "India",
+2008,
+28038600,
+78570200,
+28022 
+],
+[
+ "India",
+2009,
+27752400,
+80679400,
+29071 
+],
+[
+ "India",
+2010,
+28457400,
+80803600,
+28395 
+],
+[
+ "India",
+2011,
+29068600,
+86874000,
+29886 
+],
+[
+ "India",
+2012,
+29860000,
+94880000,
+31775 
+],
+[
+ "India",
+2013,
+29650000,
+93510000,
+31538 
+],
+[
+ "India",
+2014,
+31188000,
+94483000,
+30295 
+],
+[
+ "Iran (Islamic Republic of)",
+1961,
+3600000,
+2869119,
+7970 
+],
+[
+ "Iran (Islamic Republic of)",
+1962,
+3550000,
+2754740,
+7760 
+],
+[
+ "Iran (Islamic Republic of)",
+1963,
+3400000,
+2468140,
+7259 
+],
+[
+ "Iran (Islamic Republic of)",
+1964,
+3700000,
+2622578,
+7088 
+],
+[
+ "Iran (Islamic Republic of)",
+1965,
+4700000,
+3647713,
+7761 
+],
+[
+ "Iran (Islamic Republic of)",
+1966,
+5476000,
+4380982,
+8000 
+],
+[
+ "Iran (Islamic Republic of)",
+1967,
+4750000,
+3800000,
+8000 
+],
+[
+ "Iran (Islamic Republic of)",
+1968,
+5500000,
+4400000,
+8000 
+],
+[
+ "Iran (Islamic Republic of)",
+1969,
+5125000,
+4100000,
+8000 
+],
+[
+ "Iran (Islamic Republic of)",
+1970,
+5327000,
+4262000,
+8001 
+],
+[
+ "Iran (Islamic Republic of)",
+1971,
+5096656,
+3700000,
+7260 
+],
+[
+ "Iran (Islamic Republic of)",
+1972,
+5469000,
+4546000,
+8312 
+],
+[
+ "Iran (Islamic Republic of)",
+1973,
+5690000,
+4600000,
+8084 
+],
+[
+ "Iran (Islamic Republic of)",
+1974,
+5892000,
+4700000,
+7977 
+],
+[
+ "Iran (Islamic Republic of)",
+1975,
+5993000,
+5507000,
+9189 
+],
+[
+ "Iran (Islamic Republic of)",
+1976,
+5759310,
+6044000,
+10494 
+],
+[
+ "Iran (Islamic Republic of)",
+1977,
+5450710,
+5517200,
+10122 
+],
+[
+ "Iran (Islamic Republic of)",
+1978,
+5442000,
+5660000,
+10401 
+],
+[
+ "Iran (Islamic Republic of)",
+1979,
+5351698,
+6025148,
+11258 
+],
+[
+ "Iran (Islamic Republic of)",
+1980,
+5953700,
+5849800,
+9825 
+],
+[
+ "Iran (Islamic Republic of)",
+1981,
+6268885,
+5652852,
+9017 
+],
+[
+ "Iran (Islamic Republic of)",
+1982,
+6191777,
+6660072,
+10756 
+],
+[
+ "Iran (Islamic Republic of)",
+1983,
+6042201,
+5956162,
+9858 
+],
+[
+ "Iran (Islamic Republic of)",
+1984,
+5736390,
+6206681,
+10820 
+],
+[
+ "Iran (Islamic Republic of)",
+1985,
+6194534,
+6630522,
+10704 
+],
+[
+ "Iran (Islamic Republic of)",
+1986,
+6304020,
+7556390,
+11987 
+],
+[
+ "Iran (Islamic Republic of)",
+1987,
+6591066,
+7601280,
+11533 
+],
+[
+ "Iran (Islamic Republic of)",
+1988,
+6552570,
+7260230,
+11080 
+],
+[
+ "Iran (Islamic Republic of)",
+1989,
+6256892,
+6010024,
+9605 
+],
+[
+ "Iran (Islamic Republic of)",
+1990,
+6278006,
+8011675,
+12761 
+],
+[
+ "Iran (Islamic Republic of)",
+1991,
+6557760,
+8792670,
+13408 
+],
+[
+ "Iran (Islamic Republic of)",
+1992,
+6930460,
+10178690,
+14687 
+],
+[
+ "Iran (Islamic Republic of)",
+1993,
+7190140,
+10732340,
+14926 
+],
+[
+ "Iran (Islamic Republic of)",
+1994,
+6781766,
+10869560,
+16028 
+],
+[
+ "Iran (Islamic Republic of)",
+1995,
+6567440,
+11227540,
+17096 
+],
+[
+ "Iran (Islamic Republic of)",
+1996,
+6327930,
+10015183,
+15827 
+],
+[
+ "Iran (Islamic Republic of)",
+1997,
+6298995,
+10044716,
+15947 
+],
+[
+ "Iran (Islamic Republic of)",
+1998,
+6179747,
+11955083,
+19346 
+],
+[
+ "Iran (Islamic Republic of)",
+1999,
+4739058,
+8673197,
+18302 
+],
+[
+ "Iran (Islamic Republic of)",
+2000,
+5100717,
+8087756,
+15856 
+],
+[
+ "Iran (Islamic Republic of)",
+2001,
+5553132,
+9458618,
+17033 
+],
+[
+ "Iran (Islamic Republic of)",
+2002,
+6241000,
+12450000,
+19949 
+],
+[
+ "Iran (Islamic Republic of)",
+2003,
+6409406,
+13439565,
+20969 
+],
+[
+ "Iran (Islamic Republic of)",
+2004,
+6605320,
+14568481,
+22056 
+],
+[
+ "Iran (Islamic Republic of)",
+2005,
+6950720,
+14307970,
+20585 
+],
+[
+ "Iran (Islamic Republic of)",
+2006,
+6200000,
+14663745,
+23651 
+],
+[
+ "Iran (Islamic Republic of)",
+2007,
+7222300,
+15886600,
+21997 
+],
+[
+ "Iran (Islamic Republic of)",
+2008,
+5250205,
+7956647,
+15155 
+],
+[
+ "Iran (Islamic Republic of)",
+2009,
+6647371,
+13484465,
+20285 
+],
+[
+ "Iran (Islamic Republic of)",
+2010,
+7035015,
+13499996,
+19190 
+],
+[
+ "Iran (Islamic Republic of)",
+2011,
+6377003,
+8677966,
+13608 
+],
+[
+ "Iran (Islamic Republic of)",
+2012,
+6539006,
+8816001,
+13482 
+],
+[
+ "Iran (Islamic Republic of)",
+2013,
+6399992,
+9304246,
+14538 
+],
+[
+ "Iran (Islamic Republic of)",
+2014,
+5920000,
+8652000,
+14615 
+],
+[
+ "Iraq",
+1961,
+1100000,
+857350,
+7794 
+],
+[
+ "Iraq",
+1962,
+1400000,
+1085494,
+7754 
+],
+[
+ "Iraq",
+1963,
+850000,
+488254,
+5744 
+],
+[
+ "Iraq",
+1964,
+1300000,
+807013,
+6208 
+],
+[
+ "Iraq",
+1965,
+1400000,
+1005288,
+7181 
+],
+[
+ "Iraq",
+1966,
+1300000,
+825955,
+6354 
+],
+[
+ "Iraq",
+1967,
+1350000,
+860000,
+6370 
+],
+[
+ "Iraq",
+1968,
+1500000,
+1537000,
+10247 
+],
+[
+ "Iraq",
+1969,
+1300000,
+1183000,
+9100 
+],
+[
+ "Iraq",
+1970,
+1400000,
+1236000,
+8829 
+],
+[
+ "Iraq",
+1971,
+948250,
+822300,
+8672 
+],
+[
+ "Iraq",
+1972,
+1910000,
+2625000,
+13743 
+],
+[
+ "Iraq",
+1973,
+1156000,
+957000,
+8279 
+],
+[
+ "Iraq",
+1974,
+1633325,
+1339000,
+8198 
+],
+[
+ "Iraq",
+1975,
+1407650,
+845400,
+6006 
+],
+[
+ "Iraq",
+1976,
+1499300,
+1302400,
+8687 
+],
+[
+ "Iraq",
+1977,
+857600,
+695700,
+8112 
+],
+[
+ "Iraq",
+1978,
+1495650,
+909800,
+6083 
+],
+[
+ "Iraq",
+1979,
+1077800,
+684800,
+6354 
+],
+[
+ "Iraq",
+1980,
+1373975,
+975600,
+7101 
+],
+[
+ "Iraq",
+1981,
+1192500,
+902000,
+7564 
+],
+[
+ "Iraq",
+1982,
+1168450,
+965100,
+8260 
+],
+[
+ "Iraq",
+1983,
+1191325,
+841000,
+7059 
+],
+[
+ "Iraq",
+1984,
+492700,
+470900,
+9558 
+],
+[
+ "Iraq",
+1985,
+1540225,
+1405500,
+9125 
+],
+[
+ "Iraq",
+1986,
+1240000,
+1036000,
+8355 
+],
+[
+ "Iraq",
+1987,
+858975,
+722200,
+8408 
+],
+[
+ "Iraq",
+1988,
+1041125,
+929200,
+8925 
+],
+[
+ "Iraq",
+1989,
+586850,
+491400,
+8374 
+],
+[
+ "Iraq",
+1990,
+1180575,
+1195800,
+10129 
+],
+[
+ "Iraq",
+1991,
+1832775,
+1476400,
+8056 
+],
+[
+ "Iraq",
+1992,
+1677000,
+1006000,
+5999 
+],
+[
+ "Iraq",
+1993,
+2013000,
+1187000,
+5897 
+],
+[
+ "Iraq",
+1994,
+1806000,
+1342000,
+7431 
+],
+[
+ "Iraq",
+1995,
+1535000,
+1236000,
+8052 
+],
+[
+ "Iraq",
+1996,
+1500000,
+1300000,
+8667 
+],
+[
+ "Iraq",
+1997,
+1405000,
+1063000,
+7566 
+],
+[
+ "Iraq",
+1998,
+1400000,
+1130000,
+8071 
+],
+[
+ "Iraq",
+1999,
+1300000,
+8e+05,
+6154 
+],
+[
+ "Iraq",
+2000,
+1200000,
+384000,
+3200 
+],
+[
+ "Iraq",
+2001,
+1220000,
+903400,
+7405 
+],
+[
+ "Iraq",
+2002,
+1648750,
+2589000,
+15703 
+],
+[
+ "Iraq",
+2003,
+1713750,
+2329000,
+13590 
+],
+[
+ "Iraq",
+2004,
+1539750,
+1832000,
+11898 
+],
+[
+ "Iraq",
+2005,
+2549750,
+2228000,
+8738 
+],
+[
+ "Iraq",
+2006,
+1513500,
+2086000,
+13783 
+],
+[
+ "Iraq",
+2007,
+1569900,
+2202800,
+14031 
+],
+[
+ "Iraq",
+2008,
+917546,
+1255000,
+13678 
+],
+[
+ "Iraq",
+2009,
+906589,
+1700390,
+18756 
+],
+[
+ "Iraq",
+2010,
+1383303,
+2748840,
+19872 
+],
+[
+ "Iraq",
+2011,
+1436614,
+2808900,
+19552 
+],
+[
+ "Iraq",
+2012,
+1266391,
+3062312,
+24181 
+],
+[
+ "Iraq",
+2013,
+1811295,
+4178379,
+23068 
+],
+[
+ "Iraq",
+2014,
+1655000,
+3800000,
+22961 
+],
+[
+ "Ireland",
+1961,
+139534,
+469900,
+33676 
+],
+[
+ "Ireland",
+1962,
+127069,
+439000,
+34548 
+],
+[
+ "Ireland",
+1963,
+94169,
+300600,
+31921 
+],
+[
+ "Ireland",
+1964,
+86763,
+271600,
+31304 
+],
+[
+ "Ireland",
+1965,
+73720,
+232660,
+31560 
+],
+[
+ "Ireland",
+1966,
+53130,
+185300,
+34877 
+],
+[
+ "Ireland",
+1967,
+76810,
+298000,
+38797 
+],
+[
+ "Ireland",
+1968,
+90490,
+412300,
+45563 
+],
+[
+ "Ireland",
+1969,
+82555,
+362800,
+43946 
+],
+[
+ "Ireland",
+1970,
+94695,
+381000,
+40234 
+],
+[
+ "Ireland",
+1971,
+90934,
+380200,
+41811 
+],
+[
+ "Ireland",
+1972,
+67986,
+270400,
+39773 
+],
+[
+ "Ireland",
+1973,
+58478,
+228900,
+39143 
+],
+[
+ "Ireland",
+1974,
+57021,
+245000,
+42967 
+],
+[
+ "Ireland",
+1975,
+44575,
+195000,
+43746 
+],
+[
+ "Ireland",
+1976,
+50384,
+2e+05,
+39695 
+],
+[
+ "Ireland",
+1977,
+48400,
+250000,
+51653 
+],
+[
+ "Ireland",
+1978,
+49412,
+253000,
+51202 
+],
+[
+ "Ireland",
+1979,
+48846,
+252000,
+51591 
+],
+[
+ "Ireland",
+1980,
+53000,
+272000,
+51321 
+],
+[
+ "Ireland",
+1981,
+49300,
+286000,
+58012 
+],
+[
+ "Ireland",
+1982,
+57100,
+4e+05,
+70053 
+],
+[
+ "Ireland",
+1983,
+59000,
+387000,
+65593 
+],
+[
+ "Ireland",
+1984,
+77300,
+602000,
+77878 
+],
+[
+ "Ireland",
+1985,
+78100,
+495000,
+63380 
+],
+[
+ "Ireland",
+1986,
+76100,
+424000,
+55716 
+],
+[
+ "Ireland",
+1987,
+56900,
+402000,
+70650 
+],
+[
+ "Ireland",
+1988,
+58600,
+455000,
+77645 
+],
+[
+ "Ireland",
+1989,
+60700,
+459000,
+75618 
+],
+[
+ "Ireland",
+1990,
+70100,
+598000,
+85307 
+],
+[
+ "Ireland",
+1991,
+85700,
+673000,
+78530 
+],
+[
+ "Ireland",
+1992,
+90600,
+713000,
+78698 
+],
+[
+ "Ireland",
+1993,
+79200,
+539000,
+68056 
+],
+[
+ "Ireland",
+1994,
+74100,
+572000,
+77193 
+],
+[
+ "Ireland",
+1995,
+70700,
+583000,
+82461 
+],
+[
+ "Ireland",
+1996,
+85700,
+771000,
+89965 
+],
+[
+ "Ireland",
+1997,
+93900,
+725000,
+77210 
+],
+[
+ "Ireland",
+1998,
+83800,
+673000,
+80310 
+],
+[
+ "Ireland",
+1999,
+68100,
+597000,
+87665 
+],
+[
+ "Ireland",
+2000,
+78000,
+737400,
+94538 
+],
+[
+ "Ireland",
+2001,
+84900,
+769200,
+90601 
+],
+[
+ "Ireland",
+2002,
+102700,
+867200,
+84440 
+],
+[
+ "Ireland",
+2003,
+95700,
+794100,
+82978 
+],
+[
+ "Ireland",
+2004,
+102700,
+1019200,
+99241 
+],
+[
+ "Ireland",
+2005,
+95200,
+802700,
+84317 
+],
+[
+ "Ireland",
+2006,
+87500,
+801000,
+91543 
+],
+[
+ "Ireland",
+2007,
+84300,
+713400,
+84626 
+],
+[
+ "Ireland",
+2008,
+110700,
+993000,
+89702 
+],
+[
+ "Ireland",
+2009,
+84500,
+690000,
+81657 
+],
+[
+ "Ireland",
+2010,
+77800,
+669000,
+85990 
+],
+[
+ "Ireland",
+2011,
+94200,
+929000,
+98620 
+],
+[
+ "Ireland",
+2012,
+98000,
+708000,
+72245 
+],
+[
+ "Ireland",
+2013,
+60600,
+545000,
+89934 
+],
+[
+ "Ireland",
+2014,
+71600,
+717000,
+100140 
+],
+[
+ "Israel",
+1961,
+62900,
+65900,
+10477 
+],
+[
+ "Israel",
+1962,
+47590,
+51700,
+10864 
+],
+[
+ "Israel",
+1963,
+52350,
+54700,
+10449 
+],
+[
+ "Israel",
+1964,
+55830,
+126500,
+22658 
+],
+[
+ "Israel",
+1965,
+71985,
+150000,
+20838 
+],
+[
+ "Israel",
+1966,
+76420,
+100600,
+13164 
+],
+[
+ "Israel",
+1967,
+93675,
+221600,
+23656 
+],
+[
+ "Israel",
+1968,
+102050,
+175000,
+17148 
+],
+[
+ "Israel",
+1969,
+112735,
+155800,
+13820 
+],
+[
+ "Israel",
+1970,
+107420,
+125000,
+11637 
+],
+[
+ "Israel",
+1971,
+112950,
+199500,
+17663 
+],
+[
+ "Israel",
+1972,
+108675,
+301400,
+27734 
+],
+[
+ "Israel",
+1973,
+100610,
+241500,
+24004 
+],
+[
+ "Israel",
+1974,
+111630,
+274000,
+24545 
+],
+[
+ "Israel",
+1975,
+104490,
+243300,
+23285 
+],
+[
+ "Israel",
+1976,
+108220,
+205500,
+18989 
+],
+[
+ "Israel",
+1977,
+103880,
+220000,
+21178 
+],
+[
+ "Israel",
+1978,
+86940,
+167000,
+19209 
+],
+[
+ "Israel",
+1979,
+85580,
+133200,
+15564 
+],
+[
+ "Israel",
+1980,
+97630,
+253200,
+25935 
+],
+[
+ "Israel",
+1981,
+103890,
+215000,
+20695 
+],
+[
+ "Israel",
+1982,
+89590,
+147000,
+16408 
+],
+[
+ "Israel",
+1983,
+102610,
+335000,
+32648 
+],
+[
+ "Israel",
+1984,
+86370,
+130000,
+15052 
+],
+[
+ "Israel",
+1985,
+82270,
+127700,
+15522 
+],
+[
+ "Israel",
+1986,
+90300,
+168500,
+18660 
+],
+[
+ "Israel",
+1987,
+94900,
+298000,
+31401 
+],
+[
+ "Israel",
+1988,
+88160,
+211000,
+23934 
+],
+[
+ "Israel",
+1989,
+91800,
+201700,
+21972 
+],
+[
+ "Israel",
+1990,
+90913,
+291200,
+32031 
+],
+[
+ "Israel",
+1991,
+84399,
+180000,
+21327 
+],
+[
+ "Israel",
+1992,
+87855,
+254100,
+28923 
+],
+[
+ "Israel",
+1993,
+79830,
+217000,
+27183 
+],
+[
+ "Israel",
+1994,
+78460,
+103230,
+13157 
+],
+[
+ "Israel",
+1995,
+79680,
+242000,
+30371 
+],
+[
+ "Israel",
+1996,
+80970,
+185000,
+22848 
+],
+[
+ "Israel",
+1997,
+82530,
+116000,
+14055 
+],
+[
+ "Israel",
+1998,
+85746,
+155000,
+18077 
+],
+[
+ "Israel",
+1999,
+63547,
+29000,
+4564 
+],
+[
+ "Israel",
+2000,
+64151,
+94000,
+14653 
+],
+[
+ "Israel",
+2001,
+81300,
+157970,
+19431 
+],
+[
+ "Israel",
+2002,
+83770,
+177275,
+21162 
+],
+[
+ "Israel",
+2003,
+72810,
+184300,
+25312 
+],
+[
+ "Israel",
+2004,
+70510,
+154300,
+21883 
+],
+[
+ "Israel",
+2005,
+85600,
+200800,
+23458 
+],
+[
+ "Israel",
+2006,
+84900,
+131200,
+15453 
+],
+[
+ "Israel",
+2007,
+85900,
+158921,
+18501 
+],
+[
+ "Israel",
+2008,
+66100,
+75734,
+11457 
+],
+[
+ "Israel",
+2009,
+64400,
+132963,
+20646 
+],
+[
+ "Israel",
+2010,
+64160,
+112324,
+17507 
+],
+[
+ "Israel",
+2011,
+60620,
+122024,
+20129 
+],
+[
+ "Israel",
+2012,
+68100,
+189487,
+27825 
+],
+[
+ "Israel",
+2013,
+64010,
+151800,
+23715 
+],
+[
+ "Israel",
+2014,
+61600,
+126300,
+20503 
+],
+[
+ "Italy",
+1961,
+4345449,
+8301200,
+19103 
+],
+[
+ "Italy",
+1962,
+4555528,
+9496900,
+20847 
+],
+[
+ "Italy",
+1963,
+4394395,
+8126800,
+18494 
+],
+[
+ "Italy",
+1964,
+4408076,
+8585800,
+19477 
+],
+[
+ "Italy",
+1965,
+4288403,
+9775900,
+22796 
+],
+[
+ "Italy",
+1966,
+4274116,
+9399600,
+21992 
+],
+[
+ "Italy",
+1967,
+4011844,
+9595600,
+23918 
+],
+[
+ "Italy",
+1968,
+4280082,
+9655400,
+22559 
+],
+[
+ "Italy",
+1969,
+4217920,
+9584600,
+22724 
+],
+[
+ "Italy",
+1970,
+4138372,
+9688600,
+23412 
+],
+[
+ "Italy",
+1971,
+3910000,
+9993900,
+25560 
+],
+[
+ "Italy",
+1972,
+3804000,
+9255000,
+24330 
+],
+[
+ "Italy",
+1973,
+3590200,
+8811400,
+24543 
+],
+[
+ "Italy",
+1974,
+3712300,
+9576700,
+25797 
+],
+[
+ "Italy",
+1975,
+3544500,
+9480000,
+26746 
+],
+[
+ "Italy",
+1976,
+3544000,
+9105800,
+25694 
+],
+[
+ "Italy",
+1977,
+2796438,
+6238300,
+22308 
+],
+[
+ "Italy",
+1978,
+3472000,
+9190500,
+26470 
+],
+[
+ "Italy",
+1979,
+3452300,
+8980300,
+26013 
+],
+[
+ "Italy",
+1980,
+3408100,
+9156000,
+26865 
+],
+[
+ "Italy",
+1981,
+3258713,
+8830300,
+27098 
+],
+[
+ "Italy",
+1982,
+3326698,
+8968300,
+26959 
+],
+[
+ "Italy",
+1983,
+3332993,
+8717400,
+26155 
+],
+[
+ "Italy",
+1984,
+3273876,
+10057300,
+30720 
+],
+[
+ "Italy",
+1985,
+3034002,
+8460700,
+27886 
+],
+[
+ "Italy",
+1986,
+3135660,
+9102100,
+29028 
+],
+[
+ "Italy",
+1987,
+3086861,
+9381000,
+30390 
+],
+[
+ "Italy",
+1988,
+2875916,
+7951900,
+27650 
+],
+[
+ "Italy",
+1989,
+2943542,
+7412900,
+25184 
+],
+[
+ "Italy",
+1990,
+2772759,
+8108500,
+29243 
+],
+[
+ "Italy",
+1991,
+2683014,
+9415660,
+35094 
+],
+[
+ "Italy",
+1992,
+2517407,
+8938421,
+35506 
+],
+[
+ "Italy",
+1993,
+2299228,
+8169800,
+35533 
+],
+[
+ "Italy",
+1994,
+2371390,
+8251400,
+34796 
+],
+[
+ "Italy",
+1995,
+2482120,
+7946080,
+32013 
+],
+[
+ "Italy",
+1996,
+2407992,
+7987241,
+33170 
+],
+[
+ "Italy",
+1997,
+2366121,
+6758351,
+28563 
+],
+[
+ "Italy",
+1998,
+2327950,
+8338301,
+35818 
+],
+[
+ "Italy",
+1999,
+2387266,
+7742800,
+32434 
+],
+[
+ "Italy",
+2000,
+2322840,
+7463968,
+32133 
+],
+[
+ "Italy",
+2001,
+2289372,
+6413300,
+28013 
+],
+[
+ "Italy",
+2002,
+2415535,
+7547763,
+31247 
+],
+[
+ "Italy",
+2003,
+2266760,
+6229453,
+27482 
+],
+[
+ "Italy",
+2004,
+2353972,
+8638721,
+36698 
+],
+[
+ "Italy",
+2005,
+2122896,
+7717129,
+36352 
+],
+[
+ "Italy",
+2006,
+1925651,
+7181720,
+37295 
+],
+[
+ "Italy",
+2007,
+2100437,
+7170181,
+34137 
+],
+[
+ "Italy",
+2008,
+2288849,
+8855440,
+38689 
+],
+[
+ "Italy",
+2009,
+1822355,
+6534746,
+35859 
+],
+[
+ "Italy",
+2010,
+1830475,
+6849858,
+37421 
+],
+[
+ "Italy",
+2011,
+1732580,
+6641807,
+38335 
+],
+[
+ "Italy",
+2012,
+1853637,
+7654248,
+41293 
+],
+[
+ "Italy",
+2013,
+1902157,
+7312025,
+38441 
+],
+[
+ "Italy",
+2014,
+1874179,
+7141926,
+38107 
+],
+[
+ "Japan",
+1961,
+648700,
+1781000,
+27455 
+],
+[
+ "Japan",
+1962,
+642000,
+1631000,
+25405 
+],
+[
+ "Japan",
+1963,
+583700,
+715500,
+12258 
+],
+[
+ "Japan",
+1964,
+508200,
+1244000,
+24479 
+],
+[
+ "Japan",
+1965,
+475900,
+1287000,
+27043 
+],
+[
+ "Japan",
+1966,
+421200,
+1024000,
+24311 
+],
+[
+ "Japan",
+1967,
+366600,
+996900,
+27193 
+],
+[
+ "Japan",
+1968,
+322400,
+1012000,
+31390 
+],
+[
+ "Japan",
+1969,
+286500,
+757900,
+26454 
+],
+[
+ "Japan",
+1970,
+229200,
+473600,
+20663 
+],
+[
+ "Japan",
+1971,
+166300,
+440300,
+26476 
+],
+[
+ "Japan",
+1972,
+113700,
+283900,
+24969 
+],
+[
+ "Japan",
+1973,
+74900,
+202300,
+27009 
+],
+[
+ "Japan",
+1974,
+82800,
+231700,
+27983 
+],
+[
+ "Japan",
+1975,
+89600,
+240700,
+26864 
+],
+[
+ "Japan",
+1976,
+89100,
+222400,
+24961 
+],
+[
+ "Japan",
+1977,
+86000,
+236400,
+27488 
+],
+[
+ "Japan",
+1978,
+112000,
+366700,
+32741 
+],
+[
+ "Japan",
+1979,
+149000,
+541300,
+36329 
+],
+[
+ "Japan",
+1980,
+191100,
+582800,
+30497 
+],
+[
+ "Japan",
+1981,
+224400,
+587400,
+26176 
+],
+[
+ "Japan",
+1982,
+227800,
+741800,
+32564 
+],
+[
+ "Japan",
+1983,
+229400,
+695300,
+30310 
+],
+[
+ "Japan",
+1984,
+231900,
+740500,
+31932 
+],
+[
+ "Japan",
+1985,
+234000,
+874200,
+37359 
+],
+[
+ "Japan",
+1986,
+245500,
+875700,
+35670 
+],
+[
+ "Japan",
+1987,
+271100,
+863700,
+31859 
+],
+[
+ "Japan",
+1988,
+282000,
+1021000,
+36206 
+],
+[
+ "Japan",
+1989,
+283800,
+984500,
+34690 
+],
+[
+ "Japan",
+1990,
+260400,
+951500,
+36540 
+],
+[
+ "Japan",
+1991,
+238700,
+759000,
+31797 
+],
+[
+ "Japan",
+1992,
+214500,
+758700,
+35371 
+],
+[
+ "Japan",
+1993,
+183600,
+637800,
+34739 
+],
+[
+ "Japan",
+1994,
+151900,
+564800,
+37182 
+],
+[
+ "Japan",
+1995,
+151300,
+443600,
+29319 
+],
+[
+ "Japan",
+1996,
+158500,
+478100,
+30164 
+],
+[
+ "Japan",
+1997,
+157500,
+573100,
+36387 
+],
+[
+ "Japan",
+1998,
+162200,
+569500,
+35111 
+],
+[
+ "Japan",
+1999,
+168800,
+583100,
+34544 
+],
+[
+ "Japan",
+2000,
+183000,
+688200,
+37607 
+],
+[
+ "Japan",
+2001,
+196900,
+699900,
+35546 
+],
+[
+ "Japan",
+2002,
+206900,
+827800,
+40010 
+],
+[
+ "Japan",
+2003,
+212200,
+855900,
+40335 
+],
+[
+ "Japan",
+2004,
+212600,
+860300,
+40466 
+],
+[
+ "Japan",
+2005,
+213500,
+874700,
+40970 
+],
+[
+ "Japan",
+2006,
+218300,
+837200,
+38351 
+],
+[
+ "Japan",
+2007,
+209700,
+910100,
+43400 
+],
+[
+ "Japan",
+2008,
+208800,
+881200,
+42203 
+],
+[
+ "Japan",
+2009,
+208300,
+674200,
+32367 
+],
+[
+ "Japan",
+2010,
+206900,
+571300,
+27612 
+],
+[
+ "Japan",
+2011,
+211500,
+746300,
+35286 
+],
+[
+ "Japan",
+2012,
+209200,
+857800,
+41004 
+],
+[
+ "Japan",
+2013,
+210200,
+811700,
+38616 
+],
+[
+ "Japan",
+2014,
+212600,
+852400,
+40094 
+],
+[
+ "Jordan",
+1961,
+273230,
+138200,
+5058 
+],
+[
+ "Jordan",
+1962,
+284810,
+111900,
+3929 
+],
+[
+ "Jordan",
+1963,
+205720,
+75800,
+3685 
+],
+[
+ "Jordan",
+1964,
+296672,
+294702,
+9934 
+],
+[
+ "Jordan",
+1965,
+278873,
+277863,
+9964 
+],
+[
+ "Jordan",
+1966,
+213890,
+101150,
+4729 
+],
+[
+ "Jordan",
+1967,
+225980,
+167200,
+7399 
+],
+[
+ "Jordan",
+1968,
+218430,
+95090,
+4353 
+],
+[
+ "Jordan",
+1969,
+164042,
+159332,
+9713 
+],
+[
+ "Jordan",
+1970,
+222839,
+54155,
+2430 
+],
+[
+ "Jordan",
+1971,
+243944,
+168079,
+6890 
+],
+[
+ "Jordan",
+1972,
+223667,
+211412,
+9452 
+],
+[
+ "Jordan",
+1973,
+113392,
+50420,
+4447 
+],
+[
+ "Jordan",
+1974,
+246196,
+244465,
+9930 
+],
+[
+ "Jordan",
+1975,
+118532,
+50016,
+4220 
+],
+[
+ "Jordan",
+1976,
+136946,
+66654,
+4867 
+],
+[
+ "Jordan",
+1977,
+126452,
+62485,
+4941 
+],
+[
+ "Jordan",
+1978,
+134570,
+53320,
+3962 
+],
+[
+ "Jordan",
+1979,
+98957,
+16465,
+1664 
+],
+[
+ "Jordan",
+1980,
+133182,
+133535,
+10027 
+],
+[
+ "Jordan",
+1981,
+99150,
+50613,
+5105 
+],
+[
+ "Jordan",
+1982,
+101965,
+52250,
+5124 
+],
+[
+ "Jordan",
+1983,
+110659,
+100800,
+9109 
+],
+[
+ "Jordan",
+1984,
+64232,
+49716,
+7740 
+],
+[
+ "Jordan",
+1985,
+94356,
+62827,
+6659 
+],
+[
+ "Jordan",
+1986,
+46599,
+30842,
+6619 
+],
+[
+ "Jordan",
+1987,
+79981,
+79806,
+9978 
+],
+[
+ "Jordan",
+1988,
+69904,
+78773,
+11269 
+],
+[
+ "Jordan",
+1989,
+54085,
+54520,
+10080 
+],
+[
+ "Jordan",
+1990,
+57306,
+82870,
+14461 
+],
+[
+ "Jordan",
+1991,
+51443,
+61844,
+12022 
+],
+[
+ "Jordan",
+1992,
+51340,
+75435,
+14693 
+],
+[
+ "Jordan",
+1993,
+37575,
+76800,
+20439 
+],
+[
+ "Jordan",
+1994,
+29715,
+57400,
+19317 
+],
+[
+ "Jordan",
+1995,
+40555,
+58457,
+14414 
+],
+[
+ "Jordan",
+1996,
+28349,
+42678,
+15054 
+],
+[
+ "Jordan",
+1997,
+37920,
+41782,
+11018 
+],
+[
+ "Jordan",
+1998,
+28835,
+35974,
+12476 
+],
+[
+ "Jordan",
+1999,
+4087,
+9250,
+22633 
+],
+[
+ "Jordan",
+2000,
+18204,
+25433,
+13971 
+],
+[
+ "Jordan",
+2001,
+13449,
+19293,
+14345 
+],
+[
+ "Jordan",
+2002,
+32745,
+43771,
+13367 
+],
+[
+ "Jordan",
+2003,
+29781,
+42526,
+14280 
+],
+[
+ "Jordan",
+2004,
+10728,
+13166,
+12273 
+],
+[
+ "Jordan",
+2005,
+29292,
+34363,
+11731 
+],
+[
+ "Jordan",
+2006,
+26920,
+22928,
+8517 
+],
+[
+ "Jordan",
+2007,
+20760,
+20997,
+10114 
+],
+[
+ "Jordan",
+2008,
+12456,
+7835,
+6290 
+],
+[
+ "Jordan",
+2009,
+15878,
+12484,
+7862 
+],
+[
+ "Jordan",
+2010,
+21466,
+22125,
+10307 
+],
+[
+ "Jordan",
+2011,
+14330,
+19801,
+13818 
+],
+[
+ "Jordan",
+2012,
+15499,
+19205,
+12391 
+],
+[
+ "Jordan",
+2013,
+21379,
+29517,
+13807 
+],
+[
+ "Jordan",
+2014,
+23018,
+27452,
+11926 
+],
+[
+ "Kazakhstan",
+1961,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1962,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1963,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1964,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1965,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1966,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1967,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1968,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1969,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1970,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1971,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1972,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1973,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1974,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1975,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1976,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1977,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1978,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1979,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1980,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1981,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1982,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1983,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1984,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1985,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1986,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1987,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1988,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1989,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1990,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1991,
+null,
+null,
+null 
+],
+[
+ "Kazakhstan",
+1992,
+13722900,
+18285008,
+13324 
+],
+[
+ "Kazakhstan",
+1993,
+12622000,
+11585000,
+9178 
+],
+[
+ "Kazakhstan",
+1994,
+12086000,
+9052000,
+7490 
+],
+[
+ "Kazakhstan",
+1995,
+11290800,
+6490000,
+5748 
+],
+[
+ "Kazakhstan",
+1996,
+11226800,
+7678070,
+6839 
+],
+[
+ "Kazakhstan",
+1997,
+10660700,
+8954950,
+8400 
+],
+[
+ "Kazakhstan",
+1998,
+9126900,
+4746300,
+5200 
+],
+[
+ "Kazakhstan",
+1999,
+8736300,
+11241900,
+12868 
+],
+[
+ "Kazakhstan",
+2000,
+10050100,
+9073500,
+9028 
+],
+[
+ "Kazakhstan",
+2001,
+10766100,
+12706800,
+11803 
+],
+[
+ "Kazakhstan",
+2002,
+11656532,
+12699975,
+10895 
+],
+[
+ "Kazakhstan",
+2003,
+11255667,
+11537400,
+10250 
+],
+[
+ "Kazakhstan",
+2004,
+11785200,
+9936932,
+8432 
+],
+[
+ "Kazakhstan",
+2005,
+11813200,
+11198400,
+9480 
+],
+[
+ "Kazakhstan",
+2006,
+11861200,
+13460500,
+11348 
+],
+[
+ "Kazakhstan",
+2007,
+12683000,
+16466870,
+12983 
+],
+[
+ "Kazakhstan",
+2008,
+12906300,
+12538200,
+9715 
+],
+[
+ "Kazakhstan",
+2009,
+14329400,
+17052000,
+11900 
+],
+[
+ "Kazakhstan",
+2010,
+13138000,
+9638400,
+7336 
+],
+[
+ "Kazakhstan",
+2011,
+13686400,
+22732070,
+16609 
+],
+[
+ "Kazakhstan",
+2012,
+14410900,
+9841300,
+6829 
+],
+[
+ "Kazakhstan",
+2013,
+12953500,
+13940800,
+10762 
+],
+[
+ "Kazakhstan",
+2014,
+11923000,
+12996900,
+10901 
+],
+[
+ "Kenya",
+1961,
+100300,
+109400,
+10907 
+],
+[
+ "Kenya",
+1962,
+91400,
+84200,
+9212 
+],
+[
+ "Kenya",
+1963,
+98600,
+110400,
+11197 
+],
+[
+ "Kenya",
+1964,
+112500,
+134700,
+11973 
+],
+[
+ "Kenya",
+1965,
+113800,
+172200,
+15132 
+],
+[
+ "Kenya",
+1966,
+108500,
+128400,
+11834 
+],
+[
+ "Kenya",
+1967,
+120922,
+162200,
+13414 
+],
+[
+ "Kenya",
+1968,
+133100,
+216300,
+16251 
+],
+[
+ "Kenya",
+1969,
+139800,
+241600,
+17282 
+],
+[
+ "Kenya",
+1970,
+137300,
+221486,
+16132 
+],
+[
+ "Kenya",
+1971,
+121403,
+205743,
+16947 
+],
+[
+ "Kenya",
+1972,
+113766,
+164383,
+14449 
+],
+[
+ "Kenya",
+1973,
+1e+05,
+136284,
+13628 
+],
+[
+ "Kenya",
+1974,
+105000,
+172332,
+16413 
+],
+[
+ "Kenya",
+1975,
+104000,
+158059,
+15198 
+],
+[
+ "Kenya",
+1976,
+119704,
+200274,
+16731 
+],
+[
+ "Kenya",
+1977,
+120000,
+178160,
+14847 
+],
+[
+ "Kenya",
+1978,
+119000,
+175121,
+14716 
+],
+[
+ "Kenya",
+1979,
+117000,
+207268,
+17715 
+],
+[
+ "Kenya",
+1980,
+1e+05,
+215674,
+21567 
+],
+[
+ "Kenya",
+1981,
+99900,
+214400,
+21461 
+],
+[
+ "Kenya",
+1982,
+118800,
+247500,
+20833 
+],
+[
+ "Kenya",
+1983,
+120000,
+253000,
+21083 
+],
+[
+ "Kenya",
+1984,
+105000,
+144590,
+13770 
+],
+[
+ "Kenya",
+1985,
+132664,
+250735,
+18900 
+],
+[
+ "Kenya",
+1986,
+138672,
+258840,
+18666 
+],
+[
+ "Kenya",
+1987,
+157611,
+233645,
+14824 
+],
+[
+ "Kenya",
+1988,
+149740,
+244525,
+16330 
+],
+[
+ "Kenya",
+1989,
+153420,
+243000,
+15839 
+],
+[
+ "Kenya",
+1990,
+150695,
+249411,
+16551 
+],
+[
+ "Kenya",
+1991,
+143072,
+264457,
+18484 
+],
+[
+ "Kenya",
+1992,
+153420,
+297000,
+19359 
+],
+[
+ "Kenya",
+1993,
+154240,
+212776,
+13795 
+],
+[
+ "Kenya",
+1994,
+134000,
+297000,
+22164 
+],
+[
+ "Kenya",
+1995,
+148425,
+312644,
+21064 
+],
+[
+ "Kenya",
+1996,
+156626,
+315000,
+20112 
+],
+[
+ "Kenya",
+1997,
+156214,
+252000,
+16132 
+],
+[
+ "Kenya",
+1998,
+142902,
+270810,
+18951 
+],
+[
+ "Kenya",
+1999,
+128092,
+211788,
+16534 
+],
+[
+ "Kenya",
+2000,
+131834,
+204232,
+15492 
+],
+[
+ "Kenya",
+2001,
+129209,
+256997,
+19890 
+],
+[
+ "Kenya",
+2002,
+144794,
+307215,
+21217 
+],
+[
+ "Kenya",
+2003,
+151135,
+378665,
+25055 
+],
+[
+ "Kenya",
+2004,
+152826,
+379425,
+24827 
+],
+[
+ "Kenya",
+2005,
+159477,
+368879,
+23131 
+],
+[
+ "Kenya",
+2006,
+150488,
+329193,
+21875 
+],
+[
+ "Kenya",
+2007,
+104176,
+322320,
+30940 
+],
+[
+ "Kenya",
+2008,
+130273,
+336688,
+25845 
+],
+[
+ "Kenya",
+2009,
+131594,
+219301,
+16665 
+],
+[
+ "Kenya",
+2010,
+160043,
+511994,
+31991 
+],
+[
+ "Kenya",
+2011,
+131509,
+268482,
+20415 
+],
+[
+ "Kenya",
+2012,
+148703,
+441944,
+29720 
+],
+[
+ "Kenya",
+2013,
+162900,
+449641,
+27602 
+],
+[
+ "Kenya",
+2014,
+147210,
+328637,
+22324 
+],
+[
+ "Kuwait",
+1961,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1962,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1963,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1964,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1965,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1966,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1967,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1968,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1969,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1970,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1971,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1972,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1973,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1974,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1975,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1976,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1977,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1978,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1979,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1980,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1981,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1982,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1983,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1984,
+null,
+null,
+null 
+],
+[
+ "Kuwait",
+1985,
+20,
+5,
+2500 
+],
+[
+ "Kuwait",
+1986,
+21,
+7,
+3333 
+],
+[
+ "Kuwait",
+1987,
+35,
+15,
+4286 
+],
+[
+ "Kuwait",
+1988,
+8,
+23,
+28750 
+],
+[
+ "Kuwait",
+1989,
+25,
+79,
+31600 
+],
+[
+ "Kuwait",
+1990,
+16,
+50,
+31250 
+],
+[
+ "Kuwait",
+1991,
+1,
+3,
+30000 
+],
+[
+ "Kuwait",
+1992,
+8,
+24,
+30000 
+],
+[
+ "Kuwait",
+1993,
+10,
+30,
+30000 
+],
+[
+ "Kuwait",
+1994,
+14,
+43,
+30714 
+],
+[
+ "Kuwait",
+1995,
+12,
+37,
+30833 
+],
+[
+ "Kuwait",
+1996,
+2,
+7,
+35000 
+],
+[
+ "Kuwait",
+1997,
+99,
+296,
+29899 
+],
+[
+ "Kuwait",
+1998,
+188,
+431,
+22926 
+],
+[
+ "Kuwait",
+1999,
+193,
+445,
+23057 
+],
+[
+ "Kuwait",
+2000,
+159,
+365,
+22956 
+],
+[
+ "Kuwait",
+2001,
+250,
+306,
+12240 
+],
+[
+ "Kuwait",
+2002,
+316,
+727,
+23006 
+],
+[
+ "Kuwait",
+2003,
+221,
+509,
+23032 
+],
+[
+ "Kuwait",
+2004,
+289,
+509,
+17612 
+],
+[
+ "Kuwait",
+2005,
+290,
+509,
+17552 
+],
+[
+ "Kuwait",
+2006,
+290,
+510,
+17586 
+],
+[
+ "Kuwait",
+2007,
+110,
+260,
+23636 
+],
+[
+ "Kuwait",
+2008,
+110,
+260,
+23636 
+],
+[
+ "Kuwait",
+2009,
+357,
+840,
+23529 
+],
+[
+ "Kuwait",
+2010,
+69,
+162,
+23478 
+],
+[
+ "Kuwait",
+2011,
+40,
+130,
+32500 
+],
+[
+ "Kuwait",
+2012,
+28,
+116,
+41429 
+],
+[
+ "Kuwait",
+2013,
+9,
+37,
+41111 
+],
+[
+ "Kuwait",
+2014,
+14,
+56,
+40000 
+],
+[
+ "Kyrgyzstan",
+1961,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1962,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1963,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1964,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1965,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1966,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1967,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1968,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1969,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1970,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1971,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1972,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1973,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1974,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1975,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1976,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1977,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1978,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1979,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1980,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1981,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1982,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1983,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1984,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1985,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1986,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1987,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1988,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1989,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1990,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1991,
+null,
+null,
+null 
+],
+[
+ "Kyrgyzstan",
+1992,
+248400,
+679000,
+27335 
+],
+[
+ "Kyrgyzstan",
+1993,
+338300,
+830700,
+24555 
+],
+[
+ "Kyrgyzstan",
+1994,
+333100,
+608400,
+18265 
+],
+[
+ "Kyrgyzstan",
+1995,
+363900,
+625000,
+17175 
+],
+[
+ "Kyrgyzstan",
+1996,
+451500,
+964100,
+21353 
+],
+[
+ "Kyrgyzstan",
+1997,
+549600,
+1273660,
+23174 
+],
+[
+ "Kyrgyzstan",
+1998,
+510500,
+1203676,
+23578 
+],
+[
+ "Kyrgyzstan",
+1999,
+482700,
+1109107,
+22977 
+],
+[
+ "Kyrgyzstan",
+2000,
+443688,
+1039109,
+23420 
+],
+[
+ "Kyrgyzstan",
+2001,
+478470,
+1190600,
+24883 
+],
+[
+ "Kyrgyzstan",
+2002,
+505100,
+1162567,
+23017 
+],
+[
+ "Kyrgyzstan",
+2003,
+428652,
+1013718,
+23649 
+],
+[
+ "Kyrgyzstan",
+2004,
+410052,
+998248,
+24344 
+],
+[
+ "Kyrgyzstan",
+2005,
+423948,
+950076,
+22410 
+],
+[
+ "Kyrgyzstan",
+2006,
+406260,
+840299,
+20684 
+],
+[
+ "Kyrgyzstan",
+2007,
+354699,
+708877,
+19985 
+],
+[
+ "Kyrgyzstan",
+2008,
+384600,
+746200,
+19402 
+],
+[
+ "Kyrgyzstan",
+2009,
+402002,
+1056656,
+26285 
+],
+[
+ "Kyrgyzstan",
+2010,
+375238,
+813300,
+21674 
+],
+[
+ "Kyrgyzstan",
+2011,
+372967,
+799841,
+21445 
+],
+[
+ "Kyrgyzstan",
+2012,
+322679,
+540531,
+16751 
+],
+[
+ "Kyrgyzstan",
+2013,
+346410,
+819383,
+23654 
+],
+[
+ "Kyrgyzstan",
+2014,
+339027,
+572734,
+16893 
+],
+[
+ "Latvia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1970,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1971,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1972,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1973,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1974,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1975,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1976,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1977,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1978,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1979,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1980,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1981,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1982,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1983,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1984,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1985,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1986,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1987,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1988,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1989,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1990,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1991,
+null,
+null,
+null 
+],
+[
+ "Latvia",
+1992,
+128600,
+332400,
+25848 
+],
+[
+ "Latvia",
+1993,
+169100,
+338300,
+20006 
+],
+[
+ "Latvia",
+1994,
+94600,
+199400,
+21078 
+],
+[
+ "Latvia",
+1995,
+109600,
+243700,
+22235 
+],
+[
+ "Latvia",
+1996,
+149200,
+357500,
+23961 
+],
+[
+ "Latvia",
+1997,
+152300,
+394600,
+25909 
+],
+[
+ "Latvia",
+1998,
+150884,
+385300,
+25536 
+],
+[
+ "Latvia",
+1999,
+146000,
+351900,
+24103 
+],
+[
+ "Latvia",
+2000,
+158087,
+427396,
+27035 
+],
+[
+ "Latvia",
+2001,
+166800,
+451700,
+27080 
+],
+[
+ "Latvia",
+2002,
+153500,
+519500,
+33844 
+],
+[
+ "Latvia",
+2003,
+167800,
+468400,
+27914 
+],
+[
+ "Latvia",
+2004,
+169900,
+499900,
+29423 
+],
+[
+ "Latvia",
+2005,
+187400,
+676500,
+36099 
+],
+[
+ "Latvia",
+2006,
+215100,
+598300,
+27815 
+],
+[
+ "Latvia",
+2007,
+224600,
+807300,
+35944 
+],
+[
+ "Latvia",
+2008,
+256600,
+989600,
+38566 
+],
+[
+ "Latvia",
+2009,
+285700,
+1036400,
+36276 
+],
+[
+ "Latvia",
+2010,
+299100,
+1035400,
+34617 
+],
+[
+ "Latvia",
+2011,
+307600,
+937000,
+30462 
+],
+[
+ "Latvia",
+2012,
+352400,
+1539800,
+43695 
+],
+[
+ "Latvia",
+2013,
+369300,
+1435000,
+38857 
+],
+[
+ "Latvia",
+2014,
+391600,
+1467500,
+37474 
+],
+[
+ "Lebanon",
+1961,
+68800,
+68500,
+9956 
+],
+[
+ "Lebanon",
+1962,
+68635,
+75247,
+10963 
+],
+[
+ "Lebanon",
+1963,
+55000,
+60000,
+10909 
+],
+[
+ "Lebanon",
+1964,
+70000,
+59500,
+8500 
+],
+[
+ "Lebanon",
+1965,
+76400,
+55000,
+7199 
+],
+[
+ "Lebanon",
+1966,
+68079,
+69992,
+10281 
+],
+[
+ "Lebanon",
+1967,
+66522,
+67690,
+10176 
+],
+[
+ "Lebanon",
+1968,
+68051,
+47673,
+7005 
+],
+[
+ "Lebanon",
+1969,
+43192,
+32956,
+7630 
+],
+[
+ "Lebanon",
+1970,
+47562,
+43005,
+9042 
+],
+[
+ "Lebanon",
+1971,
+48294,
+40971,
+8484 
+],
+[
+ "Lebanon",
+1972,
+50504,
+63686,
+12610 
+],
+[
+ "Lebanon",
+1973,
+50125,
+55138,
+11000 
+],
+[
+ "Lebanon",
+1974,
+52006,
+75560,
+14529 
+],
+[
+ "Lebanon",
+1975,
+52000,
+65000,
+12500 
+],
+[
+ "Lebanon",
+1976,
+37000,
+40000,
+10811 
+],
+[
+ "Lebanon",
+1977,
+45000,
+50000,
+11111 
+],
+[
+ "Lebanon",
+1978,
+45000,
+45000,
+10000 
+],
+[
+ "Lebanon",
+1979,
+45000,
+40000,
+8889 
+],
+[
+ "Lebanon",
+1980,
+15000,
+20000,
+13333 
+],
+[
+ "Lebanon",
+1981,
+17000,
+22000,
+12941 
+],
+[
+ "Lebanon",
+1982,
+18000,
+23000,
+12778 
+],
+[
+ "Lebanon",
+1983,
+18000,
+20000,
+11111 
+],
+[
+ "Lebanon",
+1984,
+15000,
+18000,
+12000 
+],
+[
+ "Lebanon",
+1985,
+17000,
+22500,
+13235 
+],
+[
+ "Lebanon",
+1986,
+20000,
+30000,
+15000 
+],
+[
+ "Lebanon",
+1987,
+25240,
+49218,
+19500 
+],
+[
+ "Lebanon",
+1988,
+25743,
+51490,
+20002 
+],
+[
+ "Lebanon",
+1989,
+26250,
+56438,
+21500 
+],
+[
+ "Lebanon",
+1990,
+26390,
+52000,
+19704 
+],
+[
+ "Lebanon",
+1991,
+26276,
+58594,
+22299 
+],
+[
+ "Lebanon",
+1992,
+27000,
+61580,
+22807 
+],
+[
+ "Lebanon",
+1993,
+24000,
+55000,
+22917 
+],
+[
+ "Lebanon",
+1994,
+23681,
+52675,
+22244 
+],
+[
+ "Lebanon",
+1995,
+24230,
+60005,
+24765 
+],
+[
+ "Lebanon",
+1996,
+23595,
+58342,
+24726 
+],
+[
+ "Lebanon",
+1997,
+35906,
+58394,
+16263 
+],
+[
+ "Lebanon",
+1998,
+39000,
+80600,
+20667 
+],
+[
+ "Lebanon",
+1999,
+38800,
+73000,
+18814 
+],
+[
+ "Lebanon",
+2000,
+40000,
+108100,
+27025 
+],
+[
+ "Lebanon",
+2001,
+43600,
+139500,
+31995 
+],
+[
+ "Lebanon",
+2002,
+43500,
+119000,
+27356 
+],
+[
+ "Lebanon",
+2003,
+45808,
+116300,
+25389 
+],
+[
+ "Lebanon",
+2004,
+46620,
+136800,
+29344 
+],
+[
+ "Lebanon",
+2005,
+49500,
+143700,
+29030 
+],
+[
+ "Lebanon",
+2006,
+52900,
+153400,
+28998 
+],
+[
+ "Lebanon",
+2007,
+52800,
+116200,
+22008 
+],
+[
+ "Lebanon",
+2008,
+49900,
+143700,
+28798 
+],
+[
+ "Lebanon",
+2009,
+39800,
+111400,
+27990 
+],
+[
+ "Lebanon",
+2010,
+29840,
+83000,
+27815 
+],
+[
+ "Lebanon",
+2011,
+35000,
+125000,
+35714 
+],
+[
+ "Lebanon",
+2012,
+38000,
+150000,
+39474 
+],
+[
+ "Lebanon",
+2013,
+37000,
+140000,
+37838 
+],
+[
+ "Lebanon",
+2014,
+36800,
+140000,
+38043 
+],
+[
+ "Lesotho",
+1961,
+66532,
+57540,
+8648 
+],
+[
+ "Lesotho",
+1962,
+70000,
+55000,
+7857 
+],
+[
+ "Lesotho",
+1963,
+70000,
+55000,
+7857 
+],
+[
+ "Lesotho",
+1964,
+70000,
+54000,
+7714 
+],
+[
+ "Lesotho",
+1965,
+69800,
+50000,
+7163 
+],
+[
+ "Lesotho",
+1966,
+71200,
+58000,
+8146 
+],
+[
+ "Lesotho",
+1967,
+73400,
+50000,
+6812 
+],
+[
+ "Lesotho",
+1968,
+82700,
+53780,
+6503 
+],
+[
+ "Lesotho",
+1969,
+95200,
+59696,
+6271 
+],
+[
+ "Lesotho",
+1970,
+87724,
+57552,
+6561 
+],
+[
+ "Lesotho",
+1971,
+95030,
+57903,
+6093 
+],
+[
+ "Lesotho",
+1972,
+106392,
+24000,
+2256 
+],
+[
+ "Lesotho",
+1973,
+75000,
+36000,
+4800 
+],
+[
+ "Lesotho",
+1974,
+76592,
+57000,
+7442 
+],
+[
+ "Lesotho",
+1975,
+55118,
+45337,
+8225 
+],
+[
+ "Lesotho",
+1976,
+55872,
+44640,
+7990 
+],
+[
+ "Lesotho",
+1977,
+41676,
+61381,
+14728 
+],
+[
+ "Lesotho",
+1978,
+42610,
+57906,
+13590 
+],
+[
+ "Lesotho",
+1979,
+35307,
+33629,
+9525 
+],
+[
+ "Lesotho",
+1980,
+28952,
+28194,
+9738 
+],
+[
+ "Lesotho",
+1981,
+19932,
+16993,
+8525 
+],
+[
+ "Lesotho",
+1982,
+23894,
+14462,
+6053 
+],
+[
+ "Lesotho",
+1983,
+29004,
+14810,
+5106 
+],
+[
+ "Lesotho",
+1984,
+29513,
+17127,
+5803 
+],
+[
+ "Lesotho",
+1985,
+36270,
+18434,
+5082 
+],
+[
+ "Lesotho",
+1986,
+19028,
+11009,
+5786 
+],
+[
+ "Lesotho",
+1987,
+27603,
+18547,
+6719 
+],
+[
+ "Lesotho",
+1988,
+29904,
+19237,
+6433 
+],
+[
+ "Lesotho",
+1989,
+43650,
+29698,
+6804 
+],
+[
+ "Lesotho",
+1990,
+40851,
+33162,
+8118 
+],
+[
+ "Lesotho",
+1991,
+34933,
+6844,
+1959 
+],
+[
+ "Lesotho",
+1992,
+13816,
+11854,
+8580 
+],
+[
+ "Lesotho",
+1993,
+11088,
+8127,
+7330 
+],
+[
+ "Lesotho",
+1994,
+28472,
+11955,
+4199 
+],
+[
+ "Lesotho",
+1995,
+17195,
+10603,
+6166 
+],
+[
+ "Lesotho",
+1996,
+22186,
+31300,
+14108 
+],
+[
+ "Lesotho",
+1997,
+20700,
+33722,
+16291 
+],
+[
+ "Lesotho",
+1998,
+20014,
+29641,
+14810 
+],
+[
+ "Lesotho",
+1999,
+20880,
+15426,
+7388 
+],
+[
+ "Lesotho",
+2000,
+23744,
+15545,
+6547 
+],
+[
+ "Lesotho",
+2001,
+24740,
+50755,
+20515 
+],
+[
+ "Lesotho",
+2002,
+36599,
+26250,
+7172 
+],
+[
+ "Lesotho",
+2003,
+37092,
+21805,
+5879 
+],
+[
+ "Lesotho",
+2004,
+25335,
+16216,
+6401 
+],
+[
+ "Lesotho",
+2005,
+19072,
+13797,
+7234 
+],
+[
+ "Lesotho",
+2006,
+22663,
+6085,
+2685 
+],
+[
+ "Lesotho",
+2007,
+9165,
+3956,
+4316 
+],
+[
+ "Lesotho",
+2008,
+15405,
+3720,
+2415 
+],
+[
+ "Lesotho",
+2009,
+21365,
+7420,
+3473 
+],
+[
+ "Lesotho",
+2010,
+13693,
+20119,
+14693 
+],
+[
+ "Lesotho",
+2011,
+20136,
+20065,
+9965 
+],
+[
+ "Lesotho",
+2012,
+12170,
+10516,
+8641 
+],
+[
+ "Lesotho",
+2013,
+15000,
+13000,
+8667 
+],
+[
+ "Lesotho",
+2014,
+15000,
+13000,
+8667 
+],
+[
+ "Libya",
+1961,
+106000,
+29992,
+2829 
+],
+[
+ "Libya",
+1962,
+160000,
+33600,
+2100 
+],
+[
+ "Libya",
+1963,
+150000,
+34100,
+2273 
+],
+[
+ "Libya",
+1964,
+150000,
+28000,
+1867 
+],
+[
+ "Libya",
+1965,
+179946,
+56913,
+3163 
+],
+[
+ "Libya",
+1966,
+194935,
+57788,
+2964 
+],
+[
+ "Libya",
+1967,
+229556,
+62221,
+2710 
+],
+[
+ "Libya",
+1968,
+227790,
+52041,
+2285 
+],
+[
+ "Libya",
+1969,
+269237,
+78421,
+2913 
+],
+[
+ "Libya",
+1970,
+156735,
+27189,
+1735 
+],
+[
+ "Libya",
+1971,
+53490,
+17726,
+3314 
+],
+[
+ "Libya",
+1972,
+109737,
+41585,
+3790 
+],
+[
+ "Libya",
+1973,
+148949,
+67327,
+4520 
+],
+[
+ "Libya",
+1974,
+132681,
+38682,
+2915 
+],
+[
+ "Libya",
+1975,
+200500,
+75134,
+3747 
+],
+[
+ "Libya",
+1976,
+296600,
+133101,
+4488 
+],
+[
+ "Libya",
+1977,
+201839,
+48117,
+2384 
+],
+[
+ "Libya",
+1978,
+266180,
+99295,
+3730 
+],
+[
+ "Libya",
+1979,
+264000,
+110000,
+4167 
+],
+[
+ "Libya",
+1980,
+272000,
+140500,
+5165 
+],
+[
+ "Libya",
+1981,
+215700,
+123110,
+5707 
+],
+[
+ "Libya",
+1982,
+242000,
+188000,
+7769 
+],
+[
+ "Libya",
+1983,
+248000,
+209737,
+8457 
+],
+[
+ "Libya",
+1984,
+257000,
+183634,
+7145 
+],
+[
+ "Libya",
+1985,
+2e+05,
+149000,
+7450 
+],
+[
+ "Libya",
+1986,
+220000,
+190000,
+8636 
+],
+[
+ "Libya",
+1987,
+191491,
+172000,
+8982 
+],
+[
+ "Libya",
+1988,
+193093,
+161011,
+8339 
+],
+[
+ "Libya",
+1989,
+228482,
+185000,
+8097 
+],
+[
+ "Libya",
+1990,
+104538,
+128760,
+12317 
+],
+[
+ "Libya",
+1991,
+105000,
+130000,
+12381 
+],
+[
+ "Libya",
+1992,
+99748,
+125000,
+12532 
+],
+[
+ "Libya",
+1993,
+150000,
+126000,
+8400 
+],
+[
+ "Libya",
+1994,
+155000,
+120000,
+7742 
+],
+[
+ "Libya",
+1995,
+160000,
+117000,
+7313 
+],
+[
+ "Libya",
+1996,
+170000,
+124000,
+7294 
+],
+[
+ "Libya",
+1997,
+155000,
+156400,
+10090 
+],
+[
+ "Libya",
+1998,
+160000,
+140000,
+8750 
+],
+[
+ "Libya",
+1999,
+165000,
+130000,
+7879 
+],
+[
+ "Libya",
+2000,
+157293,
+125000,
+7947 
+],
+[
+ "Libya",
+2001,
+169012,
+125000,
+7396 
+],
+[
+ "Libya",
+2002,
+165294,
+125000,
+7562 
+],
+[
+ "Libya",
+2003,
+197624,
+125000,
+6325 
+],
+[
+ "Libya",
+2004,
+198197,
+125000,
+6307 
+],
+[
+ "Libya",
+2005,
+165000,
+125000,
+7576 
+],
+[
+ "Libya",
+2006,
+132000,
+104000,
+7879 
+],
+[
+ "Libya",
+2007,
+132000,
+104000,
+7879 
+],
+[
+ "Libya",
+2008,
+132000,
+104000,
+7879 
+],
+[
+ "Libya",
+2009,
+133000,
+105000,
+7895 
+],
+[
+ "Libya",
+2010,
+135000,
+106000,
+7852 
+],
+[
+ "Libya",
+2011,
+150000,
+166000,
+11067 
+],
+[
+ "Libya",
+2012,
+165000,
+2e+05,
+12121 
+],
+[
+ "Libya",
+2013,
+160000,
+2e+05,
+12500 
+],
+[
+ "Libya",
+2014,
+160000,
+2e+05,
+12500 
+],
+[
+ "Lithuania",
+1961,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1962,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1963,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1964,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1965,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1966,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1967,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1968,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1969,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1970,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1971,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1972,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1973,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1974,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1975,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1976,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1977,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1978,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1979,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1980,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1981,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1982,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1983,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1984,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1985,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1986,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1987,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1988,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1989,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1990,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1991,
+null,
+null,
+null 
+],
+[
+ "Lithuania",
+1992,
+283500,
+833800,
+29411 
+],
+[
+ "Lithuania",
+1993,
+375500,
+890600,
+23718 
+],
+[
+ "Lithuania",
+1994,
+270000,
+549400,
+20348 
+],
+[
+ "Lithuania",
+1995,
+260600,
+637300,
+24455 
+],
+[
+ "Lithuania",
+1996,
+347700,
+936200,
+26926 
+],
+[
+ "Lithuania",
+1997,
+375600,
+1127400,
+30016 
+],
+[
+ "Lithuania",
+1998,
+359600,
+1031000,
+28671 
+],
+[
+ "Lithuania",
+1999,
+333700,
+870900,
+26098 
+],
+[
+ "Lithuania",
+2000,
+370400,
+1237600,
+33413 
+],
+[
+ "Lithuania",
+2001,
+352200,
+1076300,
+30559 
+],
+[
+ "Lithuania",
+2002,
+335100,
+1217600,
+36335 
+],
+[
+ "Lithuania",
+2003,
+336500,
+1204100,
+35783 
+],
+[
+ "Lithuania",
+2004,
+355100,
+1430200,
+40276 
+],
+[
+ "Lithuania",
+2005,
+369500,
+1379400,
+37332 
+],
+[
+ "Lithuania",
+2006,
+343800,
+809800,
+23554 
+],
+[
+ "Lithuania",
+2007,
+354600,
+1390700,
+39219 
+],
+[
+ "Lithuania",
+2008,
+403500,
+1722500,
+42689 
+],
+[
+ "Lithuania",
+2009,
+5e+05,
+2100200,
+42004 
+],
+[
+ "Lithuania",
+2010,
+517600,
+1710400,
+33045 
+],
+[
+ "Lithuania",
+2011,
+551100,
+1869000,
+33914 
+],
+[
+ "Lithuania",
+2012,
+627000,
+2998900,
+47829 
+],
+[
+ "Lithuania",
+2013,
+667400,
+2871300,
+43022 
+],
+[
+ "Lithuania",
+2014,
+708000,
+3230600,
+45630 
+],
+[
+ "Luxembourg",
+1961,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1962,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1963,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1964,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1965,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1966,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1967,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1968,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1969,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1970,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1971,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1972,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1973,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1974,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1975,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1976,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1977,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1978,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1979,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1980,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1981,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1982,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1983,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1984,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1985,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1986,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1987,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1988,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1989,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1990,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1991,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1992,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1993,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1994,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1995,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1996,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1997,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1998,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+1999,
+null,
+null,
+null 
+],
+[
+ "Luxembourg",
+2000,
+10971,
+61184,
+55769 
+],
+[
+ "Luxembourg",
+2001,
+9825,
+54022,
+54984 
+],
+[
+ "Luxembourg",
+2002,
+12009,
+71656,
+59669 
+],
+[
+ "Luxembourg",
+2003,
+11187,
+68648,
+61364 
+],
+[
+ "Luxembourg",
+2004,
+11720,
+79978,
+68241 
+],
+[
+ "Luxembourg",
+2005,
+11927,
+71745,
+60153 
+],
+[
+ "Luxembourg",
+2006,
+12665,
+75603,
+59694 
+],
+[
+ "Luxembourg",
+2007,
+12586,
+70469,
+55990 
+],
+[
+ "Luxembourg",
+2008,
+14675,
+97760,
+66617 
+],
+[
+ "Luxembourg",
+2009,
+13841,
+90903,
+65677 
+],
+[
+ "Luxembourg",
+2010,
+14009,
+83474,
+59586 
+],
+[
+ "Luxembourg",
+2011,
+13897,
+76839,
+55290 
+],
+[
+ "Luxembourg",
+2012,
+13500,
+79198,
+58665 
+],
+[
+ "Luxembourg",
+2013,
+14300,
+91057,
+63676 
+],
+[
+ "Luxembourg",
+2014,
+12665,
+77943,
+61541 
+],
+[
+ "Madagascar",
+1961,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1962,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1963,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1964,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1965,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1966,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1967,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1968,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1969,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1970,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1971,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1972,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1973,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1974,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1975,
+null,
+null,
+null 
+],
+[
+ "Madagascar",
+1976,
+174,
+260,
+14943 
+],
+[
+ "Madagascar",
+1977,
+324,
+483,
+14907 
+],
+[
+ "Madagascar",
+1978,
+260,
+420,
+16154 
+],
+[
+ "Madagascar",
+1979,
+82,
+147,
+17927 
+],
+[
+ "Madagascar",
+1980,
+200,
+323,
+16150 
+],
+[
+ "Madagascar",
+1981,
+182,
+300,
+16484 
+],
+[
+ "Madagascar",
+1982,
+200,
+300,
+15000 
+],
+[
+ "Madagascar",
+1983,
+200,
+300,
+15000 
+],
+[
+ "Madagascar",
+1984,
+200,
+300,
+15000 
+],
+[
+ "Madagascar",
+1985,
+200,
+300,
+15000 
+],
+[
+ "Madagascar",
+1986,
+365,
+563,
+15425 
+],
+[
+ "Madagascar",
+1987,
+189,
+337,
+17831 
+],
+[
+ "Madagascar",
+1988,
+600,
+1000,
+16667 
+],
+[
+ "Madagascar",
+1989,
+1800,
+3000,
+16667 
+],
+[
+ "Madagascar",
+1990,
+2500,
+5000,
+20000 
+],
+[
+ "Madagascar",
+1991,
+4000,
+9000,
+22500 
+],
+[
+ "Madagascar",
+1992,
+4000,
+10000,
+25000 
+],
+[
+ "Madagascar",
+1993,
+3000,
+8000,
+26667 
+],
+[
+ "Madagascar",
+1994,
+2000,
+4000,
+20000 
+],
+[
+ "Madagascar",
+1995,
+7000,
+14000,
+20000 
+],
+[
+ "Madagascar",
+1996,
+2000,
+4000,
+20000 
+],
+[
+ "Madagascar",
+1997,
+2000,
+5000,
+25000 
+],
+[
+ "Madagascar",
+1998,
+4000,
+10000,
+25000 
+],
+[
+ "Madagascar",
+1999,
+4036,
+10000,
+24777 
+],
+[
+ "Madagascar",
+2000,
+4044,
+9000,
+22255 
+],
+[
+ "Madagascar",
+2001,
+4200,
+10000,
+23810 
+],
+[
+ "Madagascar",
+2002,
+4213,
+10000,
+23736 
+],
+[
+ "Madagascar",
+2003,
+4226,
+10970,
+25958 
+],
+[
+ "Madagascar",
+2004,
+4285,
+11891,
+27750 
+],
+[
+ "Madagascar",
+2005,
+4300,
+13314,
+30963 
+],
+[
+ "Madagascar",
+2006,
+4300,
+10000,
+23256 
+],
+[
+ "Madagascar",
+2007,
+4500,
+11000,
+24444 
+],
+[
+ "Madagascar",
+2008,
+4200,
+10000,
+23810 
+],
+[
+ "Madagascar",
+2009,
+4595,
+11430,
+24875 
+],
+[
+ "Madagascar",
+2010,
+5006,
+11854,
+23680 
+],
+[
+ "Madagascar",
+2011,
+4553,
+10000,
+21964 
+],
+[
+ "Madagascar",
+2012,
+4000,
+10000,
+25000 
+],
+[
+ "Madagascar",
+2013,
+2800,
+5000,
+17857 
+],
+[
+ "Madagascar",
+2014,
+2500,
+5000,
+20000 
+],
+[
+ "Malawi",
+1961,
+100,
+150,
+15000 
+],
+[
+ "Malawi",
+1962,
+100,
+150,
+15000 
+],
+[
+ "Malawi",
+1963,
+110,
+178,
+16182 
+],
+[
+ "Malawi",
+1964,
+200,
+300,
+15000 
+],
+[
+ "Malawi",
+1965,
+250,
+500,
+20000 
+],
+[
+ "Malawi",
+1966,
+300,
+611,
+20367 
+],
+[
+ "Malawi",
+1967,
+300,
+764,
+25467 
+],
+[
+ "Malawi",
+1968,
+300,
+630,
+21000 
+],
+[
+ "Malawi",
+1969,
+300,
+665,
+22167 
+],
+[
+ "Malawi",
+1970,
+700,
+1814,
+25914 
+],
+[
+ "Malawi",
+1971,
+300,
+665,
+22167 
+],
+[
+ "Malawi",
+1972,
+400,
+855,
+21375 
+],
+[
+ "Malawi",
+1973,
+300,
+605,
+20167 
+],
+[
+ "Malawi",
+1974,
+260,
+544,
+20923 
+],
+[
+ "Malawi",
+1975,
+300,
+635,
+21167 
+],
+[
+ "Malawi",
+1976,
+440,
+919,
+20886 
+],
+[
+ "Malawi",
+1977,
+200,
+407,
+20350 
+],
+[
+ "Malawi",
+1978,
+200,
+500,
+25000 
+],
+[
+ "Malawi",
+1979,
+400,
+500,
+12500 
+],
+[
+ "Malawi",
+1980,
+400,
+500,
+12500 
+],
+[
+ "Malawi",
+1981,
+720,
+688,
+9556 
+],
+[
+ "Malawi",
+1982,
+700,
+700,
+10000 
+],
+[
+ "Malawi",
+1983,
+2103,
+700,
+3329 
+],
+[
+ "Malawi",
+1984,
+1980,
+1644,
+8303 
+],
+[
+ "Malawi",
+1985,
+1126,
+787,
+6989 
+],
+[
+ "Malawi",
+1986,
+1513,
+1287,
+8506 
+],
+[
+ "Malawi",
+1987,
+2525,
+1669,
+6610 
+],
+[
+ "Malawi",
+1988,
+2593,
+1869,
+7208 
+],
+[
+ "Malawi",
+1989,
+2211,
+1481,
+6698 
+],
+[
+ "Malawi",
+1990,
+2119,
+1639,
+7735 
+],
+[
+ "Malawi",
+1991,
+1494,
+877,
+5870 
+],
+[
+ "Malawi",
+1992,
+1446,
+613,
+4239 
+],
+[
+ "Malawi",
+1993,
+1608,
+1014,
+6306 
+],
+[
+ "Malawi",
+1994,
+927,
+208,
+2244 
+],
+[
+ "Malawi",
+1995,
+2290,
+1572,
+6865 
+],
+[
+ "Malawi",
+1996,
+2686,
+2315,
+8619 
+],
+[
+ "Malawi",
+1997,
+2271,
+1339,
+5896 
+],
+[
+ "Malawi",
+1998,
+2483,
+1842,
+7418 
+],
+[
+ "Malawi",
+1999,
+2101,
+1655,
+7877 
+],
+[
+ "Malawi",
+2000,
+2278,
+1815,
+7968 
+],
+[
+ "Malawi",
+2001,
+2493,
+2241,
+8989 
+],
+[
+ "Malawi",
+2002,
+2720,
+1520,
+5588 
+],
+[
+ "Malawi",
+2003,
+2000,
+1502,
+7510 
+],
+[
+ "Malawi",
+2004,
+2213,
+1668,
+7537 
+],
+[
+ "Malawi",
+2005,
+1987,
+1730,
+8707 
+],
+[
+ "Malawi",
+2006,
+1656,
+1999,
+12071 
+],
+[
+ "Malawi",
+2007,
+2005,
+4605,
+22968 
+],
+[
+ "Malawi",
+2008,
+1479,
+2386,
+16133 
+],
+[
+ "Malawi",
+2009,
+1726,
+2590,
+15006 
+],
+[
+ "Malawi",
+2010,
+1548,
+2341,
+15123 
+],
+[
+ "Malawi",
+2011,
+1216,
+1850,
+15214 
+],
+[
+ "Malawi",
+2012,
+1295,
+1956,
+15104 
+],
+[
+ "Malawi",
+2013,
+1269,
+1784,
+14058 
+],
+[
+ "Malawi",
+2014,
+1300,
+1900,
+14615 
+],
+[
+ "Mali",
+1961,
+2500,
+3750,
+15000 
+],
+[
+ "Mali",
+1962,
+2500,
+3500,
+14000 
+],
+[
+ "Mali",
+1963,
+2300,
+3000,
+13043 
+],
+[
+ "Mali",
+1964,
+1800,
+2000,
+11111 
+],
+[
+ "Mali",
+1965,
+1800,
+2000,
+11111 
+],
+[
+ "Mali",
+1966,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1967,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1968,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1969,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1970,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1971,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1972,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1973,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1974,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1975,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1976,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1977,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1978,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1979,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1980,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1981,
+1500,
+2000,
+13333 
+],
+[
+ "Mali",
+1982,
+1500,
+1500,
+10000 
+],
+[
+ "Mali",
+1983,
+1500,
+1500,
+10000 
+],
+[
+ "Mali",
+1984,
+1500,
+1500,
+10000 
+],
+[
+ "Mali",
+1985,
+798,
+1444,
+18095 
+],
+[
+ "Mali",
+1986,
+1498,
+1013,
+6762 
+],
+[
+ "Mali",
+1987,
+1152,
+1425,
+12370 
+],
+[
+ "Mali",
+1988,
+738,
+1115,
+15108 
+],
+[
+ "Mali",
+1989,
+1310,
+1710,
+13053 
+],
+[
+ "Mali",
+1990,
+1723,
+2066,
+11991 
+],
+[
+ "Mali",
+1991,
+1270,
+2540,
+20000 
+],
+[
+ "Mali",
+1992,
+898,
+1256,
+13987 
+],
+[
+ "Mali",
+1993,
+715,
+2210,
+30909 
+],
+[
+ "Mali",
+1994,
+1628,
+2650,
+16278 
+],
+[
+ "Mali",
+1995,
+2923,
+6150,
+21040 
+],
+[
+ "Mali",
+1996,
+1607,
+3159,
+19658 
+],
+[
+ "Mali",
+1997,
+2133,
+2720,
+12752 
+],
+[
+ "Mali",
+1998,
+2680,
+6680,
+24925 
+],
+[
+ "Mali",
+1999,
+3496,
+7585,
+21696 
+],
+[
+ "Mali",
+2000,
+2640,
+6208,
+23515 
+],
+[
+ "Mali",
+2001,
+3706,
+9253,
+24968 
+],
+[
+ "Mali",
+2002,
+1753,
+4621,
+26361 
+],
+[
+ "Mali",
+2003,
+2328,
+7626,
+32758 
+],
+[
+ "Mali",
+2004,
+3000,
+8942,
+29807 
+],
+[
+ "Mali",
+2005,
+2184,
+4805,
+22001 
+],
+[
+ "Mali",
+2006,
+3535,
+8565,
+24229 
+],
+[
+ "Mali",
+2007,
+3430,
+8585,
+25029 
+],
+[
+ "Mali",
+2008,
+5394,
+13116,
+24316 
+],
+[
+ "Mali",
+2009,
+5101,
+15132,
+29665 
+],
+[
+ "Mali",
+2010,
+9515,
+23788,
+25001 
+],
+[
+ "Mali",
+2011,
+9844,
+33842,
+34378 
+],
+[
+ "Mali",
+2012,
+9947,
+40071,
+40285 
+],
+[
+ "Mali",
+2013,
+6900,
+27430,
+39754 
+],
+[
+ "Mali",
+2014,
+10281,
+45668,
+44420 
+],
+[
+ "Malta",
+1961,
+2069,
+2844,
+13746 
+],
+[
+ "Malta",
+1962,
+2069,
+2844,
+13746 
+],
+[
+ "Malta",
+1963,
+1845,
+2953,
+16005 
+],
+[
+ "Malta",
+1964,
+1873,
+2770,
+14789 
+],
+[
+ "Malta",
+1965,
+1586,
+2540,
+16015 
+],
+[
+ "Malta",
+1966,
+1555,
+2337,
+15029 
+],
+[
+ "Malta",
+1967,
+1548,
+2217,
+14322 
+],
+[
+ "Malta",
+1968,
+1344,
+1352,
+10060 
+],
+[
+ "Malta",
+1969,
+1268,
+1750,
+13801 
+],
+[
+ "Malta",
+1970,
+1243,
+1847,
+14859 
+],
+[
+ "Malta",
+1971,
+1130,
+2383,
+21088 
+],
+[
+ "Malta",
+1972,
+1044,
+2390,
+22893 
+],
+[
+ "Malta",
+1973,
+912,
+2098,
+23004 
+],
+[
+ "Malta",
+1974,
+968,
+1780,
+18388 
+],
+[
+ "Malta",
+1975,
+1061,
+2337,
+22026 
+],
+[
+ "Malta",
+1976,
+1118,
+3106,
+27782 
+],
+[
+ "Malta",
+1977,
+1003,
+3454,
+34437 
+],
+[
+ "Malta",
+1978,
+1063,
+2983,
+28062 
+],
+[
+ "Malta",
+1979,
+1227,
+3345,
+27262 
+],
+[
+ "Malta",
+1980,
+1248,
+4352,
+34872 
+],
+[
+ "Malta",
+1981,
+1239,
+4845,
+39104 
+],
+[
+ "Malta",
+1982,
+1804,
+7814,
+43315 
+],
+[
+ "Malta",
+1983,
+1949,
+7738,
+39702 
+],
+[
+ "Malta",
+1984,
+1370,
+5000,
+36496 
+],
+[
+ "Malta",
+1985,
+1326,
+5000,
+37707 
+],
+[
+ "Malta",
+1986,
+1300,
+5000,
+38462 
+],
+[
+ "Malta",
+1987,
+1300,
+4800,
+36923 
+],
+[
+ "Malta",
+1988,
+1300,
+4700,
+36154 
+],
+[
+ "Malta",
+1989,
+1300,
+4875,
+37500 
+],
+[
+ "Malta",
+1990,
+1278,
+4900,
+38341 
+],
+[
+ "Malta",
+1991,
+1400,
+5100,
+36429 
+],
+[
+ "Malta",
+1992,
+1600,
+5500,
+34375 
+],
+[
+ "Malta",
+1993,
+2000,
+5800,
+29000 
+],
+[
+ "Malta",
+1994,
+2200,
+6000,
+27273 
+],
+[
+ "Malta",
+1995,
+2400,
+6300,
+26250 
+],
+[
+ "Malta",
+1996,
+1100,
+4200,
+38182 
+],
+[
+ "Malta",
+1997,
+2200,
+9036,
+41073 
+],
+[
+ "Malta",
+1998,
+2167,
+9000,
+41532 
+],
+[
+ "Malta",
+1999,
+2208,
+7832,
+35471 
+],
+[
+ "Malta",
+2000,
+2381,
+9556,
+40134 
+],
+[
+ "Malta",
+2001,
+2400,
+9600,
+40000 
+],
+[
+ "Malta",
+2002,
+2000,
+10000,
+50000 
+],
+[
+ "Malta",
+2003,
+2400,
+9600,
+40000 
+],
+[
+ "Malta",
+2004,
+2454,
+11630,
+47392 
+],
+[
+ "Malta",
+2005,
+2394,
+10344,
+43208 
+],
+[
+ "Malta",
+2006,
+2600,
+10500,
+40385 
+],
+[
+ "Malta",
+2007,
+2800,
+12000,
+42857 
+],
+[
+ "Malta",
+2008,
+3000,
+14500,
+48333 
+],
+[
+ "Malta",
+2009,
+2800,
+13800,
+49286 
+],
+[
+ "Malta",
+2010,
+3000,
+16000,
+53333 
+],
+[
+ "Malta",
+2011,
+2900,
+13700,
+47241 
+],
+[
+ "Malta",
+2012,
+2800,
+16000,
+57143 
+],
+[
+ "Malta",
+2013,
+2800,
+15000,
+53571 
+],
+[
+ "Malta",
+2014,
+3010,
+16230,
+53920 
+],
+[
+ "Mauritania",
+1961,
+450,
+100,
+2222 
+],
+[
+ "Mauritania",
+1962,
+450,
+100,
+2222 
+],
+[
+ "Mauritania",
+1963,
+450,
+95,
+2111 
+],
+[
+ "Mauritania",
+1964,
+450,
+90,
+2000 
+],
+[
+ "Mauritania",
+1965,
+450,
+100,
+2222 
+],
+[
+ "Mauritania",
+1966,
+330,
+200,
+6061 
+],
+[
+ "Mauritania",
+1967,
+380,
+230,
+6053 
+],
+[
+ "Mauritania",
+1968,
+380,
+230,
+6053 
+],
+[
+ "Mauritania",
+1969,
+380,
+240,
+6316 
+],
+[
+ "Mauritania",
+1970,
+380,
+240,
+6316 
+],
+[
+ "Mauritania",
+1971,
+310,
+200,
+6452 
+],
+[
+ "Mauritania",
+1972,
+360,
+200,
+5556 
+],
+[
+ "Mauritania",
+1973,
+300,
+150,
+5000 
+],
+[
+ "Mauritania",
+1974,
+300,
+150,
+5000 
+],
+[
+ "Mauritania",
+1975,
+310,
+150,
+4839 
+],
+[
+ "Mauritania",
+1976,
+420,
+250,
+5952 
+],
+[
+ "Mauritania",
+1977,
+400,
+300,
+7500 
+],
+[
+ "Mauritania",
+1978,
+340,
+180,
+5294 
+],
+[
+ "Mauritania",
+1979,
+400,
+200,
+5000 
+],
+[
+ "Mauritania",
+1980,
+400,
+210,
+5250 
+],
+[
+ "Mauritania",
+1981,
+450,
+300,
+6667 
+],
+[
+ "Mauritania",
+1982,
+450,
+310,
+6889 
+],
+[
+ "Mauritania",
+1983,
+460,
+320,
+6957 
+],
+[
+ "Mauritania",
+1984,
+500,
+500,
+10000 
+],
+[
+ "Mauritania",
+1985,
+500,
+500,
+10000 
+],
+[
+ "Mauritania",
+1986,
+500,
+500,
+10000 
+],
+[
+ "Mauritania",
+1987,
+510,
+520,
+10196 
+],
+[
+ "Mauritania",
+1988,
+512,
+530,
+10352 
+],
+[
+ "Mauritania",
+1989,
+512,
+540,
+10547 
+],
+[
+ "Mauritania",
+1990,
+520,
+560,
+10769 
+],
+[
+ "Mauritania",
+1991,
+500,
+600,
+12000 
+],
+[
+ "Mauritania",
+1992,
+470,
+580,
+12340 
+],
+[
+ "Mauritania",
+1993,
+400,
+400,
+10000 
+],
+[
+ "Mauritania",
+1994,
+452,
+491,
+10863 
+],
+[
+ "Mauritania",
+1995,
+623,
+526,
+8443 
+],
+[
+ "Mauritania",
+1996,
+669,
+556,
+8311 
+],
+[
+ "Mauritania",
+1997,
+400,
+400,
+10000 
+],
+[
+ "Mauritania",
+1998,
+330,
+493,
+14939 
+],
+[
+ "Mauritania",
+1999,
+350,
+504,
+14400 
+],
+[
+ "Mauritania",
+2000,
+324,
+467,
+14414 
+],
+[
+ "Mauritania",
+2001,
+303,
+322,
+10627 
+],
+[
+ "Mauritania",
+2002,
+309,
+500,
+16181 
+],
+[
+ "Mauritania",
+2003,
+360,
+600,
+16667 
+],
+[
+ "Mauritania",
+2004,
+320,
+797,
+24906 
+],
+[
+ "Mauritania",
+2005,
+300,
+574,
+19133 
+],
+[
+ "Mauritania",
+2006,
+500,
+1000,
+20000 
+],
+[
+ "Mauritania",
+2007,
+1000,
+2000,
+20000 
+],
+[
+ "Mauritania",
+2008,
+2000,
+4000,
+20000 
+],
+[
+ "Mauritania",
+2009,
+1726,
+3414,
+19780 
+],
+[
+ "Mauritania",
+2010,
+1159,
+2413,
+20820 
+],
+[
+ "Mauritania",
+2011,
+1803,
+2888,
+16018 
+],
+[
+ "Mauritania",
+2012,
+1700,
+2800,
+16471 
+],
+[
+ "Mauritania",
+2013,
+1750,
+2900,
+16571 
+],
+[
+ "Mauritania",
+2014,
+1700,
+2990,
+17588 
+],
+[
+ "Mexico",
+1961,
+836538,
+1401909,
+16758 
+],
+[
+ "Mexico",
+1962,
+747728,
+1455256,
+19462 
+],
+[
+ "Mexico",
+1963,
+819210,
+1702989,
+20788 
+],
+[
+ "Mexico",
+1964,
+818325,
+2203066,
+26922 
+],
+[
+ "Mexico",
+1965,
+858259,
+2150354,
+25055 
+],
+[
+ "Mexico",
+1966,
+730793,
+1647368,
+22542 
+],
+[
+ "Mexico",
+1967,
+778374,
+2122389,
+27267 
+],
+[
+ "Mexico",
+1968,
+790646,
+2080725,
+26317 
+],
+[
+ "Mexico",
+1969,
+841279,
+2326055,
+27649 
+],
+[
+ "Mexico",
+1970,
+886169,
+2676451,
+30202 
+],
+[
+ "Mexico",
+1971,
+614180,
+1830845,
+29810 
+],
+[
+ "Mexico",
+1972,
+686665,
+1809018,
+26345 
+],
+[
+ "Mexico",
+1973,
+640456,
+2090845,
+32646 
+],
+[
+ "Mexico",
+1974,
+774149,
+2788677,
+36022 
+],
+[
+ "Mexico",
+1975,
+778237,
+2798219,
+35956 
+],
+[
+ "Mexico",
+1976,
+894140,
+3363299,
+37615 
+],
+[
+ "Mexico",
+1977,
+708863,
+2455774,
+34644 
+],
+[
+ "Mexico",
+1978,
+759526,
+2784660,
+36663 
+],
+[
+ "Mexico",
+1979,
+584226,
+2286525,
+39138 
+],
+[
+ "Mexico",
+1980,
+723804,
+2784914,
+38476 
+],
+[
+ "Mexico",
+1981,
+859760,
+3193234,
+37141 
+],
+[
+ "Mexico",
+1982,
+1008056,
+4391421,
+43563 
+],
+[
+ "Mexico",
+1983,
+857043,
+3463296,
+40410 
+],
+[
+ "Mexico",
+1984,
+1033854,
+4505245,
+43577 
+],
+[
+ "Mexico",
+1985,
+1217082,
+5214315,
+42843 
+],
+[
+ "Mexico",
+1986,
+1202232,
+4769411,
+39671 
+],
+[
+ "Mexico",
+1987,
+988097,
+4415391,
+44686 
+],
+[
+ "Mexico",
+1988,
+912762,
+3665126,
+40154 
+],
+[
+ "Mexico",
+1989,
+1144176,
+4374739,
+38235 
+],
+[
+ "Mexico",
+1990,
+932763,
+3930934,
+42143 
+],
+[
+ "Mexico",
+1991,
+983892,
+4060738,
+41272 
+],
+[
+ "Mexico",
+1992,
+915882,
+3620503,
+39530 
+],
+[
+ "Mexico",
+1993,
+877598,
+3582450,
+40821 
+],
+[
+ "Mexico",
+1994,
+964572,
+4150920,
+43034 
+],
+[
+ "Mexico",
+1995,
+929331,
+3468220,
+37320 
+],
+[
+ "Mexico",
+1996,
+809240,
+3375008,
+41706 
+],
+[
+ "Mexico",
+1997,
+772303,
+3656594,
+47347 
+],
+[
+ "Mexico",
+1998,
+768844,
+3235080,
+42077 
+],
+[
+ "Mexico",
+1999,
+652312,
+3020889,
+46310 
+],
+[
+ "Mexico",
+2000,
+707768,
+3493210,
+49355 
+],
+[
+ "Mexico",
+2001,
+687248,
+3275460,
+47661 
+],
+[
+ "Mexico",
+2002,
+634559,
+3236183,
+50999 
+],
+[
+ "Mexico",
+2003,
+604700,
+2715800,
+44912 
+],
+[
+ "Mexico",
+2004,
+517300,
+2321200,
+44871 
+],
+[
+ "Mexico",
+2005,
+634548,
+3015177,
+47517 
+],
+[
+ "Mexico",
+2006,
+646231,
+3378116,
+52274 
+],
+[
+ "Mexico",
+2007,
+691679,
+3515392,
+50824 
+],
+[
+ "Mexico",
+2008,
+801735,
+4019400,
+50134 
+],
+[
+ "Mexico",
+2009,
+828408,
+4116161,
+49688 
+],
+[
+ "Mexico",
+2010,
+678550,
+3676707,
+54185 
+],
+[
+ "Mexico",
+2011,
+662221,
+3627511,
+54778 
+],
+[
+ "Mexico",
+2012,
+578836,
+3274337,
+56568 
+],
+[
+ "Mexico",
+2013,
+634241,
+3357307,
+52934 
+],
+[
+ "Mexico",
+2014,
+706611,
+3669814,
+51935 
+],
+[
+ "Mongolia",
+1961,
+267000,
+98400,
+3685 
+],
+[
+ "Mongolia",
+1962,
+320000,
+288400,
+9013 
+],
+[
+ "Mongolia",
+1963,
+348000,
+291000,
+8362 
+],
+[
+ "Mongolia",
+1964,
+356000,
+335200,
+9416 
+],
+[
+ "Mongolia",
+1965,
+362000,
+291000,
+8039 
+],
+[
+ "Mongolia",
+1966,
+343000,
+227000,
+6618 
+],
+[
+ "Mongolia",
+1967,
+344000,
+289000,
+8401 
+],
+[
+ "Mongolia",
+1968,
+346000,
+188000,
+5434 
+],
+[
+ "Mongolia",
+1969,
+347000,
+114000,
+3285 
+],
+[
+ "Mongolia",
+1970,
+348000,
+250200,
+7190 
+],
+[
+ "Mongolia",
+1971,
+333000,
+316400,
+9502 
+],
+[
+ "Mongolia",
+1972,
+314000,
+169700,
+5404 
+],
+[
+ "Mongolia",
+1973,
+307000,
+339600,
+11062 
+],
+[
+ "Mongolia",
+1974,
+305000,
+250200,
+8203 
+],
+[
+ "Mongolia",
+1975,
+316000,
+365700,
+11573 
+],
+[
+ "Mongolia",
+1976,
+324000,
+280000,
+8642 
+],
+[
+ "Mongolia",
+1977,
+351000,
+318000,
+9060 
+],
+[
+ "Mongolia",
+1978,
+415000,
+279000,
+6723 
+],
+[
+ "Mongolia",
+1979,
+423000,
+240000,
+5674 
+],
+[
+ "Mongolia",
+1980,
+408000,
+229800,
+5632 
+],
+[
+ "Mongolia",
+1981,
+409700,
+295500,
+7213 
+],
+[
+ "Mongolia",
+1982,
+431000,
+440100,
+10211 
+],
+[
+ "Mongolia",
+1983,
+444200,
+647600,
+14579 
+],
+[
+ "Mongolia",
+1984,
+460765,
+460400,
+9992 
+],
+[
+ "Mongolia",
+1985,
+482070,
+688500,
+14282 
+],
+[
+ "Mongolia",
+1986,
+467300,
+663700,
+14203 
+],
+[
+ "Mongolia",
+1987,
+467777,
+543332,
+11615 
+],
+[
+ "Mongolia",
+1988,
+490319,
+672187,
+13709 
+],
+[
+ "Mongolia",
+1989,
+528000,
+686900,
+13009 
+],
+[
+ "Mongolia",
+1990,
+532945,
+596200,
+11187 
+],
+[
+ "Mongolia",
+1991,
+530490,
+538200,
+10145 
+],
+[
+ "Mongolia",
+1992,
+526328,
+453200,
+8611 
+],
+[
+ "Mongolia",
+1993,
+498100,
+450200,
+9038 
+],
+[
+ "Mongolia",
+1994,
+429500,
+321900,
+7495 
+],
+[
+ "Mongolia",
+1995,
+348500,
+256700,
+7366 
+],
+[
+ "Mongolia",
+1996,
+324817,
+215282,
+6628 
+],
+[
+ "Mongolia",
+1997,
+312168,
+237700,
+7614 
+],
+[
+ "Mongolia",
+1998,
+301108,
+191836,
+6371 
+],
+[
+ "Mongolia",
+1999,
+273105,
+166700,
+6104 
+],
+[
+ "Mongolia",
+2000,
+178571,
+138722,
+7768 
+],
+[
+ "Mongolia",
+2001,
+192640,
+138700,
+7200 
+],
+[
+ "Mongolia",
+2002,
+208644,
+123064,
+5898 
+],
+[
+ "Mongolia",
+2003,
+202638,
+160362,
+7914 
+],
+[
+ "Mongolia",
+2004,
+168015,
+135622,
+8072 
+],
+[
+ "Mongolia",
+2005,
+153754,
+73419,
+4775 
+],
+[
+ "Mongolia",
+2006,
+117965,
+127757,
+10830 
+],
+[
+ "Mongolia",
+2007,
+116651,
+109560,
+9392 
+],
+[
+ "Mongolia",
+2008,
+150017,
+209830,
+13987 
+],
+[
+ "Mongolia",
+2009,
+248908,
+388122,
+15593 
+],
+[
+ "Mongolia",
+2010,
+250233,
+345458,
+13805 
+],
+[
+ "Mongolia",
+2011,
+291350,
+435889,
+14961 
+],
+[
+ "Mongolia",
+2012,
+297318,
+465294,
+15650 
+],
+[
+ "Mongolia",
+2013,
+275554,
+368379,
+13369 
+],
+[
+ "Mongolia",
+2014,
+291247,
+489295,
+16800 
+],
+[
+ "Montenegro",
+1961,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1962,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1963,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1964,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1965,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1966,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1967,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1968,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1969,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1970,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1971,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1972,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1973,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1974,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1975,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1976,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1977,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1978,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1979,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1980,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1981,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1982,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1983,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1984,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1985,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1986,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1987,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1988,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1989,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1990,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1991,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1992,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1993,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1994,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1995,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1996,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1997,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1998,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+1999,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+2000,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+2001,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+2002,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+2003,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+2004,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+2005,
+null,
+null,
+null 
+],
+[
+ "Montenegro",
+2006,
+808,
+2497,
+30903 
+],
+[
+ "Montenegro",
+2007,
+808,
+1969,
+24369 
+],
+[
+ "Montenegro",
+2008,
+826,
+2856,
+34576 
+],
+[
+ "Montenegro",
+2009,
+846,
+3044,
+35981 
+],
+[
+ "Montenegro",
+2010,
+734,
+2465,
+33583 
+],
+[
+ "Montenegro",
+2011,
+756,
+2446,
+32354 
+],
+[
+ "Montenegro",
+2012,
+773,
+2151,
+27827 
+],
+[
+ "Montenegro",
+2013,
+670,
+2301,
+34357 
+],
+[
+ "Montenegro",
+2014,
+739,
+2159,
+29215 
+],
+[
+ "Morocco",
+1961,
+1590000,
+720000,
+4528 
+],
+[
+ "Morocco",
+1962,
+1460000,
+1500000,
+10274 
+],
+[
+ "Morocco",
+1963,
+1650000,
+1440000,
+8727 
+],
+[
+ "Morocco",
+1964,
+1530000,
+1440000,
+9412 
+],
+[
+ "Morocco",
+1965,
+1660000,
+1580000,
+9518 
+],
+[
+ "Morocco",
+1966,
+1885000,
+1150000,
+6101 
+],
+[
+ "Morocco",
+1967,
+2036000,
+1506500,
+7399 
+],
+[
+ "Morocco",
+1968,
+1929800,
+2550000,
+13214 
+],
+[
+ "Morocco",
+1969,
+1959000,
+1469000,
+7499 
+],
+[
+ "Morocco",
+1970,
+1892000,
+1800500,
+9516 
+],
+[
+ "Morocco",
+1971,
+2006000,
+2188100,
+10908 
+],
+[
+ "Morocco",
+1972,
+1998400,
+2160770,
+10813 
+],
+[
+ "Morocco",
+1973,
+2039300,
+1574000,
+7718 
+],
+[
+ "Morocco",
+1974,
+1917000,
+1853000,
+9666 
+],
+[
+ "Morocco",
+1975,
+1691100,
+1574820,
+9312 
+],
+[
+ "Morocco",
+1976,
+1921600,
+2188940,
+11391 
+],
+[
+ "Morocco",
+1977,
+2029400,
+1287600,
+6345 
+],
+[
+ "Morocco",
+1978,
+1753600,
+1876450,
+10701 
+],
+[
+ "Morocco",
+1979,
+1656400,
+1796000,
+10843 
+],
+[
+ "Morocco",
+1980,
+1714700,
+1811000,
+10562 
+],
+[
+ "Morocco",
+1981,
+1647000,
+892000,
+5416 
+],
+[
+ "Morocco",
+1982,
+1685800,
+2183400,
+12952 
+],
+[
+ "Morocco",
+1983,
+1976000,
+1970200,
+9971 
+],
+[
+ "Morocco",
+1984,
+1855800,
+1989480,
+10720 
+],
+[
+ "Morocco",
+1985,
+1894000,
+2358000,
+12450 
+],
+[
+ "Morocco",
+1986,
+2222620,
+3809100,
+17138 
+],
+[
+ "Morocco",
+1987,
+2288200,
+2427360,
+10608 
+],
+[
+ "Morocco",
+1988,
+2316400,
+4019340,
+17352 
+],
+[
+ "Morocco",
+1989,
+2629500,
+3926960,
+14934 
+],
+[
+ "Morocco",
+1990,
+2719200,
+3613890,
+13290 
+],
+[
+ "Morocco",
+1991,
+2641300,
+4938920,
+18699 
+],
+[
+ "Morocco",
+1992,
+2228300,
+1562160,
+7011 
+],
+[
+ "Morocco",
+1993,
+2310400,
+1573020,
+6808 
+],
+[
+ "Morocco",
+1994,
+3049700,
+5523210,
+18111 
+],
+[
+ "Morocco",
+1995,
+1967900,
+1090710,
+5543 
+],
+[
+ "Morocco",
+1996,
+3212400,
+5915790,
+18415 
+],
+[
+ "Morocco",
+1997,
+2492900,
+2316490,
+9292 
+],
+[
+ "Morocco",
+1998,
+3087000,
+4378480,
+14184 
+],
+[
+ "Morocco",
+1999,
+2690600,
+2153540,
+8004 
+],
+[
+ "Morocco",
+2000,
+2901600,
+1380700,
+4758 
+],
+[
+ "Morocco",
+2001,
+2700600,
+3316380,
+12280 
+],
+[
+ "Morocco",
+2002,
+2625400,
+3358680,
+12793 
+],
+[
+ "Morocco",
+2003,
+2988900,
+5146840,
+17220 
+],
+[
+ "Morocco",
+2004,
+3063700,
+5539840,
+18082 
+],
+[
+ "Morocco",
+2005,
+2965800,
+3043080,
+10261 
+],
+[
+ "Morocco",
+2006,
+3106700,
+6326760,
+20365 
+],
+[
+ "Morocco",
+2007,
+2571900,
+1582630,
+6154 
+],
+[
+ "Morocco",
+2008,
+2858100,
+3769450,
+13189 
+],
+[
+ "Morocco",
+2009,
+2977600,
+6371430,
+21398 
+],
+[
+ "Morocco",
+2010,
+2852400,
+4876140,
+17095 
+],
+[
+ "Morocco",
+2011,
+3088000,
+6017821,
+19488 
+],
+[
+ "Morocco",
+2012,
+3142000,
+3878000,
+12342 
+],
+[
+ "Morocco",
+2013,
+3204230,
+6933982,
+21640 
+],
+[
+ "Morocco",
+2014,
+2986200,
+5115890,
+17132 
+],
+[
+ "Mozambique",
+1961,
+11500,
+8800,
+7652 
+],
+[
+ "Mozambique",
+1962,
+7600,
+6000,
+7895 
+],
+[
+ "Mozambique",
+1963,
+14700,
+14000,
+9524 
+],
+[
+ "Mozambique",
+1964,
+11400,
+8000,
+7018 
+],
+[
+ "Mozambique",
+1965,
+10000,
+10000,
+10000 
+],
+[
+ "Mozambique",
+1966,
+10000,
+11000,
+11000 
+],
+[
+ "Mozambique",
+1967,
+10000,
+8624,
+8624 
+],
+[
+ "Mozambique",
+1968,
+10000,
+9202,
+9202 
+],
+[
+ "Mozambique",
+1969,
+6000,
+5200,
+8667 
+],
+[
+ "Mozambique",
+1970,
+10000,
+9202,
+9202 
+],
+[
+ "Mozambique",
+1971,
+13000,
+13600,
+10462 
+],
+[
+ "Mozambique",
+1972,
+9000,
+9000,
+10000 
+],
+[
+ "Mozambique",
+1973,
+6000,
+8000,
+13333 
+],
+[
+ "Mozambique",
+1974,
+6000,
+6000,
+10000 
+],
+[
+ "Mozambique",
+1975,
+3000,
+3000,
+10000 
+],
+[
+ "Mozambique",
+1976,
+5000,
+3000,
+6000 
+],
+[
+ "Mozambique",
+1977,
+5000,
+2000,
+4000 
+],
+[
+ "Mozambique",
+1978,
+5000,
+3000,
+6000 
+],
+[
+ "Mozambique",
+1979,
+4000,
+2523,
+6308 
+],
+[
+ "Mozambique",
+1980,
+3000,
+3000,
+10000 
+],
+[
+ "Mozambique",
+1981,
+5500,
+10000,
+18182 
+],
+[
+ "Mozambique",
+1982,
+5000,
+8000,
+16000 
+],
+[
+ "Mozambique",
+1983,
+4000,
+6000,
+15000 
+],
+[
+ "Mozambique",
+1984,
+4000,
+6000,
+15000 
+],
+[
+ "Mozambique",
+1985,
+4000,
+5000,
+12500 
+],
+[
+ "Mozambique",
+1986,
+4000,
+5000,
+12500 
+],
+[
+ "Mozambique",
+1987,
+4000,
+3000,
+7500 
+],
+[
+ "Mozambique",
+1988,
+4000,
+5000,
+12500 
+],
+[
+ "Mozambique",
+1989,
+4000,
+5000,
+12500 
+],
+[
+ "Mozambique",
+1990,
+3812,
+6862,
+18001 
+],
+[
+ "Mozambique",
+1991,
+2000,
+3000,
+15000 
+],
+[
+ "Mozambique",
+1992,
+1800,
+2000,
+11111 
+],
+[
+ "Mozambique",
+1993,
+1772,
+2530,
+14278 
+],
+[
+ "Mozambique",
+1994,
+1988,
+2522,
+12686 
+],
+[
+ "Mozambique",
+1995,
+2258,
+2658,
+11771 
+],
+[
+ "Mozambique",
+1996,
+2193,
+3134,
+14291 
+],
+[
+ "Mozambique",
+1997,
+2436,
+2920,
+11987 
+],
+[
+ "Mozambique",
+1998,
+2630,
+3089,
+11745 
+],
+[
+ "Mozambique",
+1999,
+2463,
+2986,
+12123 
+],
+[
+ "Mozambique",
+2000,
+1500,
+1500,
+10000 
+],
+[
+ "Mozambique",
+2001,
+2000,
+2000,
+10000 
+],
+[
+ "Mozambique",
+2002,
+2600,
+2700,
+10385 
+],
+[
+ "Mozambique",
+2003,
+3200,
+3800,
+11875 
+],
+[
+ "Mozambique",
+2004,
+4600,
+5000,
+10870 
+],
+[
+ "Mozambique",
+2005,
+5600,
+6200,
+11071 
+],
+[
+ "Mozambique",
+2006,
+6800,
+8400,
+12353 
+],
+[
+ "Mozambique",
+2007,
+8500,
+10000,
+11765 
+],
+[
+ "Mozambique",
+2008,
+10000,
+12500,
+12500 
+],
+[
+ "Mozambique",
+2009,
+12000,
+15000,
+12500 
+],
+[
+ "Mozambique",
+2010,
+13369,
+17870,
+13367 
+],
+[
+ "Mozambique",
+2011,
+11941,
+20350,
+17042 
+],
+[
+ "Mozambique",
+2012,
+17727,
+17653,
+9958 
+],
+[
+ "Mozambique",
+2013,
+18081,
+19800,
+10951 
+],
+[
+ "Mozambique",
+2014,
+19000,
+20710,
+10900 
+],
+[
+ "Myanmar",
+1961,
+24156,
+7436,
+3078 
+],
+[
+ "Myanmar",
+1962,
+35917,
+14811,
+4124 
+],
+[
+ "Myanmar",
+1963,
+58110,
+32435,
+5582 
+],
+[
+ "Myanmar",
+1964,
+80107,
+54168,
+6762 
+],
+[
+ "Myanmar",
+1965,
+111356,
+71773,
+6445 
+],
+[
+ "Myanmar",
+1966,
+151770,
+96277,
+6344 
+],
+[
+ "Myanmar",
+1967,
+134148,
+66790,
+4979 
+],
+[
+ "Myanmar",
+1968,
+88753,
+51149,
+5763 
+],
+[
+ "Myanmar",
+1969,
+55177,
+25846,
+4684 
+],
+[
+ "Myanmar",
+1970,
+60216,
+33420,
+5550 
+],
+[
+ "Myanmar",
+1971,
+64233,
+40099,
+6243 
+],
+[
+ "Myanmar",
+1972,
+48925,
+26904,
+5499 
+],
+[
+ "Myanmar",
+1973,
+48721,
+26695,
+5479 
+],
+[
+ "Myanmar",
+1974,
+54126,
+24654,
+4555 
+],
+[
+ "Myanmar",
+1975,
+85309,
+63570,
+7452 
+],
+[
+ "Myanmar",
+1976,
+86669,
+56556,
+6526 
+],
+[
+ "Myanmar",
+1977,
+86979,
+76393,
+8783 
+],
+[
+ "Myanmar",
+1978,
+91354,
+93692,
+10256 
+],
+[
+ "Myanmar",
+1979,
+82662,
+41640,
+5037 
+],
+[
+ "Myanmar",
+1980,
+82114,
+90852,
+11064 
+],
+[
+ "Myanmar",
+1981,
+105196,
+116763,
+11100 
+],
+[
+ "Myanmar",
+1982,
+92884,
+123913,
+13341 
+],
+[
+ "Myanmar",
+1983,
+102966,
+130041,
+12630 
+],
+[
+ "Myanmar",
+1984,
+133961,
+213557,
+15942 
+],
+[
+ "Myanmar",
+1985,
+118334,
+206272,
+17431 
+],
+[
+ "Myanmar",
+1986,
+110880,
+189934,
+17130 
+],
+[
+ "Myanmar",
+1987,
+110843,
+191755,
+17300 
+],
+[
+ "Myanmar",
+1988,
+119770,
+156866,
+13097 
+],
+[
+ "Myanmar",
+1989,
+121204,
+130138,
+10737 
+],
+[
+ "Myanmar",
+1990,
+130103,
+124167,
+9544 
+],
+[
+ "Myanmar",
+1991,
+136506,
+123446,
+9043 
+],
+[
+ "Myanmar",
+1992,
+147110,
+143315,
+9742 
+],
+[
+ "Myanmar",
+1993,
+145354,
+138543,
+9531 
+],
+[
+ "Myanmar",
+1994,
+114529,
+108599,
+9482 
+],
+[
+ "Myanmar",
+1995,
+106916,
+89101,
+8334 
+],
+[
+ "Myanmar",
+1996,
+91100,
+77950,
+8557 
+],
+[
+ "Myanmar",
+1997,
+95100,
+91000,
+9569 
+],
+[
+ "Myanmar",
+1998,
+96086,
+92000,
+9575 
+],
+[
+ "Myanmar",
+1999,
+105323,
+115000,
+10919 
+],
+[
+ "Myanmar",
+2000,
+80214,
+93000,
+11594 
+],
+[
+ "Myanmar",
+2001,
+79268,
+94000,
+11859 
+],
+[
+ "Myanmar",
+2002,
+83000,
+106000,
+12771 
+],
+[
+ "Myanmar",
+2003,
+95151,
+122000,
+12822 
+],
+[
+ "Myanmar",
+2004,
+95222,
+150000,
+15753 
+],
+[
+ "Myanmar",
+2005,
+112000,
+156000,
+13929 
+],
+[
+ "Myanmar",
+2006,
+92000,
+140000,
+15217 
+],
+[
+ "Myanmar",
+2007,
+98000,
+155000,
+15816 
+],
+[
+ "Myanmar",
+2008,
+99733,
+173173,
+17364 
+],
+[
+ "Myanmar",
+2009,
+103436,
+182056,
+17601 
+],
+[
+ "Myanmar",
+2010,
+101456,
+184006,
+18137 
+],
+[
+ "Myanmar",
+2011,
+95406,
+172571,
+18088 
+],
+[
+ "Myanmar",
+2012,
+98400,
+180000,
+18293 
+],
+[
+ "Myanmar",
+2013,
+1e+05,
+186000,
+18600 
+],
+[
+ "Myanmar",
+2014,
+97600,
+185000,
+18955 
+],
+[
+ "Namibia",
+1961,
+600,
+592,
+9867 
+],
+[
+ "Namibia",
+1962,
+400,
+482,
+12050 
+],
+[
+ "Namibia",
+1963,
+450,
+600,
+13333 
+],
+[
+ "Namibia",
+1964,
+450,
+600,
+13333 
+],
+[
+ "Namibia",
+1965,
+450,
+700,
+15556 
+],
+[
+ "Namibia",
+1966,
+400,
+600,
+15000 
+],
+[
+ "Namibia",
+1967,
+400,
+600,
+15000 
+],
+[
+ "Namibia",
+1968,
+400,
+600,
+15000 
+],
+[
+ "Namibia",
+1969,
+400,
+700,
+17500 
+],
+[
+ "Namibia",
+1970,
+400,
+700,
+17500 
+],
+[
+ "Namibia",
+1971,
+400,
+700,
+17500 
+],
+[
+ "Namibia",
+1972,
+400,
+700,
+17500 
+],
+[
+ "Namibia",
+1973,
+400,
+700,
+17500 
+],
+[
+ "Namibia",
+1974,
+400,
+800,
+20000 
+],
+[
+ "Namibia",
+1975,
+400,
+800,
+20000 
+],
+[
+ "Namibia",
+1976,
+400,
+800,
+20000 
+],
+[
+ "Namibia",
+1977,
+400,
+800,
+20000 
+],
+[
+ "Namibia",
+1978,
+400,
+800,
+20000 
+],
+[
+ "Namibia",
+1979,
+400,
+1000,
+25000 
+],
+[
+ "Namibia",
+1980,
+600,
+1500,
+25000 
+],
+[
+ "Namibia",
+1981,
+700,
+2000,
+28571 
+],
+[
+ "Namibia",
+1982,
+800,
+2500,
+31250 
+],
+[
+ "Namibia",
+1983,
+1000,
+3000,
+30000 
+],
+[
+ "Namibia",
+1984,
+1200,
+3500,
+29167 
+],
+[
+ "Namibia",
+1985,
+1500,
+4000,
+26667 
+],
+[
+ "Namibia",
+1986,
+2000,
+5922,
+29610 
+],
+[
+ "Namibia",
+1987,
+1800,
+4960,
+27556 
+],
+[
+ "Namibia",
+1988,
+1750,
+4609,
+26337 
+],
+[
+ "Namibia",
+1989,
+900,
+4380,
+48667 
+],
+[
+ "Namibia",
+1990,
+1000,
+4425,
+44250 
+],
+[
+ "Namibia",
+1991,
+1000,
+5900,
+59000 
+],
+[
+ "Namibia",
+1992,
+600,
+3116,
+51933 
+],
+[
+ "Namibia",
+1993,
+1300,
+5700,
+43846 
+],
+[
+ "Namibia",
+1994,
+1200,
+6300,
+52500 
+],
+[
+ "Namibia",
+1995,
+1160,
+6400,
+55172 
+],
+[
+ "Namibia",
+1996,
+1300,
+5700,
+43846 
+],
+[
+ "Namibia",
+1997,
+1234,
+5721,
+46361 
+],
+[
+ "Namibia",
+1998,
+1069,
+5274,
+49336 
+],
+[
+ "Namibia",
+1999,
+1000,
+3644,
+36440 
+],
+[
+ "Namibia",
+2000,
+1066,
+3429,
+32167 
+],
+[
+ "Namibia",
+2001,
+1012,
+6119,
+60464 
+],
+[
+ "Namibia",
+2002,
+1646,
+10489,
+63724 
+],
+[
+ "Namibia",
+2003,
+1646,
+10289,
+62509 
+],
+[
+ "Namibia",
+2004,
+1985,
+8262,
+41622 
+],
+[
+ "Namibia",
+2005,
+2434,
+11015,
+45255 
+],
+[
+ "Namibia",
+2006,
+2168,
+12858,
+59308 
+],
+[
+ "Namibia",
+2007,
+2369,
+12163,
+51342 
+],
+[
+ "Namibia",
+2008,
+2374,
+14581,
+61420 
+],
+[
+ "Namibia",
+2009,
+1852,
+12448,
+67214 
+],
+[
+ "Namibia",
+2010,
+1900,
+12500,
+65789 
+],
+[
+ "Namibia",
+2011,
+2200,
+16300,
+74091 
+],
+[
+ "Namibia",
+2012,
+2000,
+14500,
+72500 
+],
+[
+ "Namibia",
+2013,
+2000,
+15000,
+75000 
+],
+[
+ "Namibia",
+2014,
+1500,
+10000,
+66667 
+],
+[
+ "Nepal",
+1961,
+110000,
+135000,
+12273 
+],
+[
+ "Nepal",
+1962,
+112000,
+138000,
+12321 
+],
+[
+ "Nepal",
+1963,
+112000,
+137578,
+12284 
+],
+[
+ "Nepal",
+1964,
+113000,
+138500,
+12257 
+],
+[
+ "Nepal",
+1965,
+1e+05,
+126000,
+12600 
+],
+[
+ "Nepal",
+1966,
+118000,
+147000,
+12458 
+],
+[
+ "Nepal",
+1967,
+126000,
+159000,
+12619 
+],
+[
+ "Nepal",
+1968,
+192255,
+204957,
+10661 
+],
+[
+ "Nepal",
+1969,
+207915,
+232780,
+11196 
+],
+[
+ "Nepal",
+1970,
+225575,
+264670,
+11733 
+],
+[
+ "Nepal",
+1971,
+228400,
+193360,
+8466 
+],
+[
+ "Nepal",
+1972,
+239183,
+223194,
+9332 
+],
+[
+ "Nepal",
+1973,
+259438,
+312494,
+12045 
+],
+[
+ "Nepal",
+1974,
+273925,
+308389,
+11258 
+],
+[
+ "Nepal",
+1975,
+290823,
+330815,
+11375 
+],
+[
+ "Nepal",
+1976,
+328574,
+387007,
+11778 
+],
+[
+ "Nepal",
+1977,
+348280,
+361853,
+10390 
+],
+[
+ "Nepal",
+1978,
+367240,
+411270,
+11199 
+],
+[
+ "Nepal",
+1979,
+356180,
+415230,
+11658 
+],
+[
+ "Nepal",
+1980,
+366860,
+439990,
+11993 
+],
+[
+ "Nepal",
+1981,
+391790,
+477190,
+12180 
+],
+[
+ "Nepal",
+1982,
+399890,
+525930,
+13152 
+],
+[
+ "Nepal",
+1983,
+483820,
+656630,
+13572 
+],
+[
+ "Nepal",
+1984,
+471750,
+633700,
+13433 
+],
+[
+ "Nepal",
+1985,
+451890,
+533720,
+11811 
+],
+[
+ "Nepal",
+1986,
+482820,
+598000,
+12386 
+],
+[
+ "Nepal",
+1987,
+535530,
+701040,
+13091 
+],
+[
+ "Nepal",
+1988,
+596750,
+744600,
+12478 
+],
+[
+ "Nepal",
+1989,
+599290,
+830050,
+13851 
+],
+[
+ "Nepal",
+1990,
+604240,
+854960,
+14149 
+],
+[
+ "Nepal",
+1991,
+592740,
+835970,
+14103 
+],
+[
+ "Nepal",
+1992,
+571260,
+761960,
+13338 
+],
+[
+ "Nepal",
+1993,
+613980,
+765000,
+12460 
+],
+[
+ "Nepal",
+1994,
+611309,
+898892,
+14704 
+],
+[
+ "Nepal",
+1995,
+634000,
+914000,
+14416 
+],
+[
+ "Nepal",
+1996,
+653500,
+1012930,
+15500 
+],
+[
+ "Nepal",
+1997,
+667000,
+1072000,
+16072 
+],
+[
+ "Nepal",
+1998,
+647210,
+1000770,
+15463 
+],
+[
+ "Nepal",
+1999,
+640802,
+1086480,
+16955 
+],
+[
+ "Nepal",
+2000,
+660040,
+1183530,
+17931 
+],
+[
+ "Nepal",
+2001,
+641030,
+1157865,
+18063 
+],
+[
+ "Nepal",
+2002,
+667077,
+1258045,
+18859 
+],
+[
+ "Nepal",
+2003,
+669014,
+1344192,
+20092 
+],
+[
+ "Nepal",
+2004,
+664589,
+1387191,
+20873 
+],
+[
+ "Nepal",
+2005,
+675807,
+1442442,
+21344 
+],
+[
+ "Nepal",
+2006,
+672040,
+1394126,
+20745 
+],
+[
+ "Nepal",
+2007,
+702664,
+1515139,
+21563 
+],
+[
+ "Nepal",
+2008,
+706481,
+1572065,
+22252 
+],
+[
+ "Nepal",
+2009,
+694950,
+1343862,
+19338 
+],
+[
+ "Nepal",
+2010,
+731131,
+1556539,
+21289 
+],
+[
+ "Nepal",
+2011,
+767499,
+1745811,
+22747 
+],
+[
+ "Nepal",
+2012,
+765317,
+1846142,
+24123 
+],
+[
+ "Nepal",
+2013,
+754243,
+1727346,
+22902 
+],
+[
+ "Nepal",
+2014,
+754474,
+1883147,
+24960 
+],
+[
+ "Netherlands",
+1961,
+122831,
+482130,
+39251 
+],
+[
+ "Netherlands",
+1962,
+132613,
+603062,
+45475 
+],
+[
+ "Netherlands",
+1963,
+126380,
+530320,
+41962 
+],
+[
+ "Netherlands",
+1964,
+151297,
+712060,
+47064 
+],
+[
+ "Netherlands",
+1965,
+158454,
+704000,
+44429 
+],
+[
+ "Netherlands",
+1966,
+147849,
+598000,
+40447 
+],
+[
+ "Netherlands",
+1967,
+154174,
+738587,
+47906 
+],
+[
+ "Netherlands",
+1968,
+153496,
+678971,
+44234 
+],
+[
+ "Netherlands",
+1969,
+155394,
+677181,
+43578 
+],
+[
+ "Netherlands",
+1970,
+141502,
+643219,
+45457 
+],
+[
+ "Netherlands",
+1971,
+142048,
+705799,
+49687 
+],
+[
+ "Netherlands",
+1972,
+156221,
+673482,
+43111 
+],
+[
+ "Netherlands",
+1973,
+137879,
+724577,
+52552 
+],
+[
+ "Netherlands",
+1974,
+130095,
+745883,
+57334 
+],
+[
+ "Netherlands",
+1975,
+106932,
+527793,
+49358 
+],
+[
+ "Netherlands",
+1976,
+130501,
+709585,
+54374 
+],
+[
+ "Netherlands",
+1977,
+126409,
+661173,
+52304 
+],
+[
+ "Netherlands",
+1978,
+120650,
+792250,
+65665 
+],
+[
+ "Netherlands",
+1979,
+140716,
+835600,
+59382 
+],
+[
+ "Netherlands",
+1980,
+142239,
+882174,
+62021 
+],
+[
+ "Netherlands",
+1981,
+131635,
+882055,
+67008 
+],
+[
+ "Netherlands",
+1982,
+130900,
+967300,
+73896 
+],
+[
+ "Netherlands",
+1983,
+148208,
+1042914,
+70368 
+],
+[
+ "Netherlands",
+1984,
+143471,
+1131329,
+78854 
+],
+[
+ "Netherlands",
+1985,
+128069,
+851034,
+66451 
+],
+[
+ "Netherlands",
+1986,
+117546,
+940129,
+79980 
+],
+[
+ "Netherlands",
+1987,
+110851,
+768850,
+69359 
+],
+[
+ "Netherlands",
+1988,
+114447,
+827139,
+72273 
+],
+[
+ "Netherlands",
+1989,
+137774,
+1046770,
+75977 
+],
+[
+ "Netherlands",
+1990,
+140603,
+1076000,
+76528 
+],
+[
+ "Netherlands",
+1991,
+123243,
+944146,
+76608 
+],
+[
+ "Netherlands",
+1992,
+126854,
+1016791,
+80154 
+],
+[
+ "Netherlands",
+1993,
+118000,
+1035000,
+87712 
+],
+[
+ "Netherlands",
+1994,
+121600,
+981000,
+80674 
+],
+[
+ "Netherlands",
+1995,
+135400,
+1167000,
+86189 
+],
+[
+ "Netherlands",
+1996,
+141600,
+1268900,
+89612 
+],
+[
+ "Netherlands",
+1997,
+137500,
+1063000,
+77309 
+],
+[
+ "Netherlands",
+1998,
+139300,
+1072000,
+76956 
+],
+[
+ "Netherlands",
+1999,
+102195,
+851400,
+83311 
+],
+[
+ "Netherlands",
+2000,
+136700,
+1142700,
+83592 
+],
+[
+ "Netherlands",
+2001,
+124700,
+990700,
+79447 
+],
+[
+ "Netherlands",
+2002,
+135215,
+1056640,
+78145 
+],
+[
+ "Netherlands",
+2003,
+129245,
+1130100,
+87439 
+],
+[
+ "Netherlands",
+2004,
+137287,
+1223900,
+89149 
+],
+[
+ "Netherlands",
+2005,
+136700,
+1174686,
+85932 
+],
+[
+ "Netherlands",
+2006,
+141100,
+1184400,
+83940 
+],
+[
+ "Netherlands",
+2007,
+140000,
+1018000,
+72714 
+],
+[
+ "Netherlands",
+2008,
+156500,
+1366162,
+87295 
+],
+[
+ "Netherlands",
+2009,
+150888,
+1402040,
+92919 
+],
+[
+ "Netherlands",
+2010,
+153723,
+1369553,
+89092 
+],
+[
+ "Netherlands",
+2011,
+151041,
+1175275,
+77812 
+],
+[
+ "Netherlands",
+2012,
+151625,
+1302002,
+85870 
+],
+[
+ "Netherlands",
+2013,
+152737,
+1335105,
+87412 
+],
+[
+ "Netherlands",
+2014,
+142212,
+1304054,
+91698 
+],
+[
+ "New Caledonia",
+1961,
+40,
+100,
+25000 
+],
+[
+ "New Caledonia",
+1962,
+40,
+100,
+25000 
+],
+[
+ "New Caledonia",
+1963,
+40,
+100,
+25000 
+],
+[
+ "New Caledonia",
+1964,
+40,
+100,
+25000 
+],
+[
+ "New Caledonia",
+1965,
+40,
+100,
+25000 
+],
+[
+ "New Caledonia",
+1966,
+40,
+100,
+25000 
+],
+[
+ "New Caledonia",
+1967,
+50,
+150,
+30000 
+],
+[
+ "New Caledonia",
+1968,
+32,
+86,
+26875 
+],
+[
+ "New Caledonia",
+1969,
+30,
+87,
+29000 
+],
+[
+ "New Caledonia",
+1970,
+35,
+100,
+28571 
+],
+[
+ "New Caledonia",
+1971,
+15,
+20,
+13333 
+],
+[
+ "New Caledonia",
+1972,
+20,
+50,
+25000 
+],
+[
+ "New Caledonia",
+1973,
+20,
+67,
+33500 
+],
+[
+ "New Caledonia",
+1974,
+20,
+65,
+32500 
+],
+[
+ "New Caledonia",
+1975,
+24,
+72,
+30000 
+],
+[
+ "New Caledonia",
+1976,
+25,
+50,
+20000 
+],
+[
+ "New Caledonia",
+1977,
+27,
+54,
+20000 
+],
+[
+ "New Caledonia",
+1978,
+27,
+60,
+22222 
+],
+[
+ "New Caledonia",
+1979,
+58,
+70,
+12069 
+],
+[
+ "New Caledonia",
+1980,
+235,
+250,
+10638 
+],
+[
+ "New Caledonia",
+1981,
+186,
+260,
+13978 
+],
+[
+ "New Caledonia",
+1982,
+357,
+580,
+16246 
+],
+[
+ "New Caledonia",
+1983,
+462,
+381,
+8247 
+],
+[
+ "New Caledonia",
+1984,
+333,
+244,
+7327 
+],
+[
+ "New Caledonia",
+1985,
+200,
+367,
+18350 
+],
+[
+ "New Caledonia",
+1986,
+311,
+572,
+18392 
+],
+[
+ "New Caledonia",
+1987,
+160,
+240,
+15000 
+],
+[
+ "New Caledonia",
+1988,
+50,
+66,
+13200 
+],
+[
+ "New Caledonia",
+1989,
+200,
+226,
+11300 
+],
+[
+ "New Caledonia",
+1990,
+205,
+150,
+7317 
+],
+[
+ "New Caledonia",
+1991,
+223,
+308,
+13812 
+],
+[
+ "New Caledonia",
+1992,
+110,
+223,
+20273 
+],
+[
+ "New Caledonia",
+1993,
+180,
+330,
+18333 
+],
+[
+ "New Caledonia",
+1994,
+70,
+144,
+20571 
+],
+[
+ "New Caledonia",
+1995,
+50,
+98,
+19600 
+],
+[
+ "New Caledonia",
+1996,
+59,
+97,
+16441 
+],
+[
+ "New Caledonia",
+1997,
+27,
+51,
+18889 
+],
+[
+ "New Caledonia",
+1998,
+40,
+79,
+19750 
+],
+[
+ "New Caledonia",
+1999,
+4,
+7,
+17500 
+],
+[
+ "New Caledonia",
+2000,
+5,
+10,
+20000 
+],
+[
+ "New Caledonia",
+2001,
+20,
+37,
+18500 
+],
+[
+ "New Caledonia",
+2002,
+5,
+10,
+20000 
+],
+[
+ "New Caledonia",
+2003,
+10,
+19,
+19000 
+],
+[
+ "New Caledonia",
+2004,
+6,
+10,
+16667 
+],
+[
+ "New Caledonia",
+2005,
+9,
+15,
+16667 
+],
+[
+ "New Caledonia",
+2006,
+10,
+17,
+17000 
+],
+[
+ "New Caledonia",
+2007,
+11,
+18,
+16364 
+],
+[
+ "New Caledonia",
+2008,
+12,
+13,
+10833 
+],
+[
+ "New Caledonia",
+2009,
+11,
+8,
+7273 
+],
+[
+ "New Caledonia",
+2010,
+10,
+10,
+10000 
+],
+[
+ "New Caledonia",
+2011,
+7,
+8,
+11429 
+],
+[
+ "New Caledonia",
+2012,
+10,
+9,
+9000 
+],
+[
+ "New Caledonia",
+2013,
+10,
+9,
+9000 
+],
+[
+ "New Caledonia",
+2014,
+8,
+7,
+8750 
+],
+[
+ "New Zealand",
+1961,
+75589,
+253349,
+33517 
+],
+[
+ "New Zealand",
+1962,
+75387,
+213233,
+28285 
+],
+[
+ "New Zealand",
+1963,
+91356,
+249188,
+27277 
+],
+[
+ "New Zealand",
+1964,
+82540,
+273990,
+33195 
+],
+[
+ "New Zealand",
+1965,
+74460,
+250320,
+33618 
+],
+[
+ "New Zealand",
+1966,
+80740,
+291778,
+36138 
+],
+[
+ "New Zealand",
+1967,
+93304,
+347760,
+37272 
+],
+[
+ "New Zealand",
+1968,
+126649,
+442334,
+34926 
+],
+[
+ "New Zealand",
+1969,
+129737,
+458642,
+35352 
+],
+[
+ "New Zealand",
+1970,
+108457,
+287212,
+26482 
+],
+[
+ "New Zealand",
+1971,
+97528,
+325646,
+33390 
+],
+[
+ "New Zealand",
+1972,
+106596,
+388663,
+36461 
+],
+[
+ "New Zealand",
+1973,
+107700,
+376111,
+34922 
+],
+[
+ "New Zealand",
+1974,
+67414,
+214582,
+31830 
+],
+[
+ "New Zealand",
+1975,
+57656,
+179874,
+31198 
+],
+[
+ "New Zealand",
+1976,
+103742,
+388178,
+37418 
+],
+[
+ "New Zealand",
+1977,
+96236,
+354035,
+36788 
+],
+[
+ "New Zealand",
+1978,
+90982,
+328756,
+36134 
+],
+[
+ "New Zealand",
+1979,
+87156,
+295028,
+33851 
+],
+[
+ "New Zealand",
+1980,
+85952,
+305768,
+35574 
+],
+[
+ "New Zealand",
+1981,
+81243,
+325723,
+40092 
+],
+[
+ "New Zealand",
+1982,
+71506,
+292052,
+40843 
+],
+[
+ "New Zealand",
+1983,
+70897,
+300825,
+42431 
+],
+[
+ "New Zealand",
+1984,
+68680,
+314556,
+45800 
+],
+[
+ "New Zealand",
+1985,
+71843,
+309591,
+43093 
+],
+[
+ "New Zealand",
+1986,
+91353,
+379700,
+41564 
+],
+[
+ "New Zealand",
+1987,
+82963,
+336823,
+40599 
+],
+[
+ "New Zealand",
+1988,
+50609,
+205984,
+40701 
+],
+[
+ "New Zealand",
+1989,
+37836,
+134994,
+35679 
+],
+[
+ "New Zealand",
+1990,
+38500,
+188042,
+48842 
+],
+[
+ "New Zealand",
+1991,
+35500,
+180690,
+50899 
+],
+[
+ "New Zealand",
+1992,
+36000,
+191039,
+53066 
+],
+[
+ "New Zealand",
+1993,
+39000,
+219400,
+56256 
+],
+[
+ "New Zealand",
+1994,
+42000,
+241900,
+57595 
+],
+[
+ "New Zealand",
+1995,
+50000,
+245173,
+49035 
+],
+[
+ "New Zealand",
+1996,
+48000,
+277000,
+57708 
+],
+[
+ "New Zealand",
+1997,
+56000,
+317000,
+56607 
+],
+[
+ "New Zealand",
+1998,
+48600,
+302100,
+62160 
+],
+[
+ "New Zealand",
+1999,
+52800,
+320000,
+60606 
+],
+[
+ "New Zealand",
+2000,
+52500,
+326000,
+62095 
+],
+[
+ "New Zealand",
+2001,
+49000,
+364000,
+74286 
+],
+[
+ "New Zealand",
+2002,
+42187,
+301498,
+71467 
+],
+[
+ "New Zealand",
+2003,
+42900,
+320500,
+74709 
+],
+[
+ "New Zealand",
+2004,
+39062,
+319000,
+81665 
+],
+[
+ "New Zealand",
+2005,
+39415,
+318946,
+80920 
+],
+[
+ "New Zealand",
+2006,
+37962,
+261798,
+68963 
+],
+[
+ "New Zealand",
+2007,
+40538,
+344434,
+84966 
+],
+[
+ "New Zealand",
+2008,
+42326,
+343350,
+81120 
+],
+[
+ "New Zealand",
+2009,
+53885,
+403464,
+74875 
+],
+[
+ "New Zealand",
+2010,
+54762,
+444891,
+81241 
+],
+[
+ "New Zealand",
+2011,
+52604,
+383262,
+72858 
+],
+[
+ "New Zealand",
+2012,
+54851,
+488614,
+89080 
+],
+[
+ "New Zealand",
+2013,
+49179,
+447800,
+91055 
+],
+[
+ "New Zealand",
+2014,
+47931,
+413497,
+86269 
+],
+[
+ "Niger",
+1961,
+815,
+1000,
+12270 
+],
+[
+ "Niger",
+1962,
+938,
+1126,
+12004 
+],
+[
+ "Niger",
+1963,
+640,
+817,
+12766 
+],
+[
+ "Niger",
+1964,
+795,
+930,
+11698 
+],
+[
+ "Niger",
+1965,
+592,
+507,
+8564 
+],
+[
+ "Niger",
+1966,
+556,
+681,
+12248 
+],
+[
+ "Niger",
+1967,
+300,
+372,
+12400 
+],
+[
+ "Niger",
+1968,
+600,
+400,
+6667 
+],
+[
+ "Niger",
+1969,
+217,
+213,
+9816 
+],
+[
+ "Niger",
+1970,
+430,
+390,
+9070 
+],
+[
+ "Niger",
+1971,
+320,
+290,
+9063 
+],
+[
+ "Niger",
+1972,
+288,
+370,
+12847 
+],
+[
+ "Niger",
+1973,
+825,
+772,
+9358 
+],
+[
+ "Niger",
+1974,
+1620,
+1650,
+10185 
+],
+[
+ "Niger",
+1975,
+1400,
+1800,
+12857 
+],
+[
+ "Niger",
+1976,
+900,
+1000,
+11111 
+],
+[
+ "Niger",
+1977,
+1200,
+1900,
+15833 
+],
+[
+ "Niger",
+1978,
+895,
+2062,
+23039 
+],
+[
+ "Niger",
+1979,
+900,
+980,
+10889 
+],
+[
+ "Niger",
+1980,
+1000,
+1000,
+10000 
+],
+[
+ "Niger",
+1981,
+1700,
+1700,
+10000 
+],
+[
+ "Niger",
+1982,
+2100,
+2200,
+10476 
+],
+[
+ "Niger",
+1983,
+2100,
+2500,
+11905 
+],
+[
+ "Niger",
+1984,
+4360,
+8330,
+19106 
+],
+[
+ "Niger",
+1985,
+3485,
+6900,
+19799 
+],
+[
+ "Niger",
+1986,
+4040,
+8000,
+19802 
+],
+[
+ "Niger",
+1987,
+4000,
+6000,
+15000 
+],
+[
+ "Niger",
+1988,
+2000,
+2000,
+10000 
+],
+[
+ "Niger",
+1989,
+2100,
+2400,
+11429 
+],
+[
+ "Niger",
+1990,
+4500,
+13000,
+28889 
+],
+[
+ "Niger",
+1991,
+4000,
+11421,
+28553 
+],
+[
+ "Niger",
+1992,
+3000,
+7328,
+24427 
+],
+[
+ "Niger",
+1993,
+2000,
+4000,
+20000 
+],
+[
+ "Niger",
+1994,
+1200,
+2352,
+19600 
+],
+[
+ "Niger",
+1995,
+2800,
+5622,
+20079 
+],
+[
+ "Niger",
+1996,
+3000,
+3000,
+10000 
+],
+[
+ "Niger",
+1997,
+2685,
+8449,
+31467 
+],
+[
+ "Niger",
+1998,
+3198,
+12500,
+39087 
+],
+[
+ "Niger",
+1999,
+6000,
+12669,
+21115 
+],
+[
+ "Niger",
+2000,
+5892,
+10946,
+18578 
+],
+[
+ "Niger",
+2001,
+6324,
+6300,
+9962 
+],
+[
+ "Niger",
+2002,
+3300,
+3500,
+10606 
+],
+[
+ "Niger",
+2003,
+3392,
+3500,
+10318 
+],
+[
+ "Niger",
+2004,
+5800,
+9000,
+15517 
+],
+[
+ "Niger",
+2005,
+6195,
+9000,
+14528 
+],
+[
+ "Niger",
+2006,
+5200,
+7796,
+14992 
+],
+[
+ "Niger",
+2007,
+4700,
+7000,
+14894 
+],
+[
+ "Niger",
+2008,
+5800,
+8775,
+15129 
+],
+[
+ "Niger",
+2009,
+5700,
+8600,
+15088 
+],
+[
+ "Niger",
+2010,
+5750,
+8700,
+15130 
+],
+[
+ "Niger",
+2011,
+1651,
+3114,
+18861 
+],
+[
+ "Niger",
+2012,
+1883,
+5666,
+30090 
+],
+[
+ "Niger",
+2013,
+1900,
+6000,
+31579 
+],
+[
+ "Niger",
+2014,
+2130,
+6110,
+28685 
+],
+[
+ "Nigeria",
+1961,
+9000,
+16000,
+17778 
+],
+[
+ "Nigeria",
+1962,
+9000,
+16000,
+17778 
+],
+[
+ "Nigeria",
+1963,
+9000,
+16000,
+17778 
+],
+[
+ "Nigeria",
+1964,
+11000,
+20000,
+18182 
+],
+[
+ "Nigeria",
+1965,
+11000,
+20000,
+18182 
+],
+[
+ "Nigeria",
+1966,
+11000,
+20000,
+18182 
+],
+[
+ "Nigeria",
+1967,
+11000,
+21000,
+19091 
+],
+[
+ "Nigeria",
+1968,
+11000,
+20000,
+18182 
+],
+[
+ "Nigeria",
+1969,
+11000,
+20000,
+18182 
+],
+[
+ "Nigeria",
+1970,
+11000,
+19000,
+17273 
+],
+[
+ "Nigeria",
+1971,
+11500,
+20000,
+17391 
+],
+[
+ "Nigeria",
+1972,
+11500,
+20000,
+17391 
+],
+[
+ "Nigeria",
+1973,
+10500,
+15000,
+14286 
+],
+[
+ "Nigeria",
+1974,
+12000,
+18000,
+15000 
+],
+[
+ "Nigeria",
+1975,
+11000,
+18000,
+16364 
+],
+[
+ "Nigeria",
+1976,
+10000,
+18000,
+18000 
+],
+[
+ "Nigeria",
+1977,
+10000,
+20000,
+20000 
+],
+[
+ "Nigeria",
+1978,
+10000,
+20000,
+20000 
+],
+[
+ "Nigeria",
+1979,
+10000,
+22000,
+22000 
+],
+[
+ "Nigeria",
+1980,
+10000,
+24000,
+24000 
+],
+[
+ "Nigeria",
+1981,
+10000,
+26000,
+26000 
+],
+[
+ "Nigeria",
+1982,
+10000,
+26000,
+26000 
+],
+[
+ "Nigeria",
+1983,
+14000,
+26000,
+18571 
+],
+[
+ "Nigeria",
+1984,
+16000,
+27000,
+16875 
+],
+[
+ "Nigeria",
+1985,
+55000,
+113000,
+20545 
+],
+[
+ "Nigeria",
+1986,
+67000,
+132000,
+19701 
+],
+[
+ "Nigeria",
+1987,
+72000,
+139000,
+19306 
+],
+[
+ "Nigeria",
+1988,
+40000,
+50000,
+12500 
+],
+[
+ "Nigeria",
+1989,
+50000,
+60000,
+12000 
+],
+[
+ "Nigeria",
+1990,
+60000,
+50000,
+8333 
+],
+[
+ "Nigeria",
+1991,
+50000,
+60000,
+12000 
+],
+[
+ "Nigeria",
+1992,
+30000,
+40000,
+13333 
+],
+[
+ "Nigeria",
+1993,
+14000,
+32600,
+23286 
+],
+[
+ "Nigeria",
+1994,
+15000,
+35200,
+23467 
+],
+[
+ "Nigeria",
+1995,
+20000,
+43600,
+21800 
+],
+[
+ "Nigeria",
+1996,
+23000,
+47000,
+20435 
+],
+[
+ "Nigeria",
+1997,
+25000,
+66000,
+26400 
+],
+[
+ "Nigeria",
+1998,
+49000,
+98000,
+20000 
+],
+[
+ "Nigeria",
+1999,
+50200,
+101000,
+20120 
+],
+[
+ "Nigeria",
+2000,
+52000,
+73000,
+14038 
+],
+[
+ "Nigeria",
+2001,
+52000,
+51000,
+9808 
+],
+[
+ "Nigeria",
+2002,
+55000,
+54000,
+9818 
+],
+[
+ "Nigeria",
+2003,
+56000,
+58000,
+10357 
+],
+[
+ "Nigeria",
+2004,
+58000,
+62000,
+10690 
+],
+[
+ "Nigeria",
+2005,
+60000,
+66000,
+11000 
+],
+[
+ "Nigeria",
+2006,
+63000,
+71000,
+11270 
+],
+[
+ "Nigeria",
+2007,
+26000,
+44000,
+16923 
+],
+[
+ "Nigeria",
+2008,
+32000,
+53000,
+16563 
+],
+[
+ "Nigeria",
+2009,
+48000,
+80000,
+16667 
+],
+[
+ "Nigeria",
+2010,
+66000,
+110000,
+16667 
+],
+[
+ "Nigeria",
+2011,
+99000,
+165000,
+16667 
+],
+[
+ "Nigeria",
+2012,
+90000,
+1e+05,
+11111 
+],
+[
+ "Nigeria",
+2013,
+80000,
+80000,
+10000 
+],
+[
+ "Nigeria",
+2014,
+85000,
+90000,
+10588 
+],
+[
+ "Norway",
+1961,
+9682,
+27400,
+28300 
+],
+[
+ "Norway",
+1962,
+9744,
+20000,
+20525 
+],
+[
+ "Norway",
+1963,
+6900,
+17700,
+25652 
+],
+[
+ "Norway",
+1964,
+7224,
+20200,
+27962 
+],
+[
+ "Norway",
+1965,
+4243,
+11800,
+27811 
+],
+[
+ "Norway",
+1966,
+1761,
+4145,
+23538 
+],
+[
+ "Norway",
+1967,
+3293,
+10583,
+32138 
+],
+[
+ "Norway",
+1968,
+4806,
+16365,
+34051 
+],
+[
+ "Norway",
+1969,
+3828,
+11111,
+29026 
+],
+[
+ "Norway",
+1970,
+3858,
+11601,
+30070 
+],
+[
+ "Norway",
+1971,
+2892,
+10431,
+36068 
+],
+[
+ "Norway",
+1972,
+3459,
+11596,
+33524 
+],
+[
+ "Norway",
+1973,
+5189,
+19833,
+38221 
+],
+[
+ "Norway",
+1974,
+14175,
+62095,
+43806 
+],
+[
+ "Norway",
+1975,
+15644,
+51819,
+33124 
+],
+[
+ "Norway",
+1976,
+20138,
+65268,
+32410 
+],
+[
+ "Norway",
+1977,
+20987,
+77998,
+37165 
+],
+[
+ "Norway",
+1978,
+20508,
+79806,
+38915 
+],
+[
+ "Norway",
+1979,
+16692,
+67001,
+40140 
+],
+[
+ "Norway",
+1980,
+15521,
+65000,
+41879 
+],
+[
+ "Norway",
+1981,
+12639,
+57700,
+45652 
+],
+[
+ "Norway",
+1982,
+16671,
+75500,
+45288 
+],
+[
+ "Norway",
+1983,
+22860,
+96800,
+42345 
+],
+[
+ "Norway",
+1984,
+33390,
+170400,
+51033 
+],
+[
+ "Norway",
+1985,
+39000,
+169900,
+43564 
+],
+[
+ "Norway",
+1986,
+39600,
+158500,
+40025 
+],
+[
+ "Norway",
+1987,
+57980,
+249000,
+42946 
+],
+[
+ "Norway",
+1988,
+43610,
+148300,
+34006 
+],
+[
+ "Norway",
+1989,
+38207,
+139600,
+36538 
+],
+[
+ "Norway",
+1990,
+47949,
+223606,
+46634 
+],
+[
+ "Norway",
+1991,
+52914,
+246298,
+46547 
+],
+[
+ "Norway",
+1992,
+54506,
+192549,
+35326 
+],
+[
+ "Norway",
+1993,
+70480,
+378918,
+53762 
+],
+[
+ "Norway",
+1994,
+68000,
+280160,
+41200 
+],
+[
+ "Norway",
+1995,
+65770,
+312162,
+47463 
+],
+[
+ "Norway",
+1996,
+58840,
+266309,
+45260 
+],
+[
+ "Norway",
+1997,
+59280,
+255545,
+43108 
+],
+[
+ "Norway",
+1998,
+68800,
+323400,
+47006 
+],
+[
+ "Norway",
+1999,
+51600,
+229700,
+44516 
+],
+[
+ "Norway",
+2000,
+68093,
+313400,
+46025 
+],
+[
+ "Norway",
+2001,
+63601,
+259100,
+40738 
+],
+[
+ "Norway",
+2002,
+63790,
+261500,
+40994 
+],
+[
+ "Norway",
+2003,
+75756,
+349477,
+46132 
+],
+[
+ "Norway",
+2004,
+85300,
+406800,
+47691 
+],
+[
+ "Norway",
+2005,
+80817,
+395400,
+48925 
+],
+[
+ "Norway",
+2006,
+85748,
+356985,
+41632 
+],
+[
+ "Norway",
+2007,
+91215,
+401100,
+43973 
+],
+[
+ "Norway",
+2008,
+93170,
+453300,
+48653 
+],
+[
+ "Norway",
+2009,
+81600,
+278049,
+34075 
+],
+[
+ "Norway",
+2010,
+72082,
+331358,
+45970 
+],
+[
+ "Norway",
+2011,
+73890,
+284558,
+38511 
+],
+[
+ "Norway",
+2012,
+66982,
+274700,
+41011 
+],
+[
+ "Norway",
+2013,
+54839,
+213000,
+38841 
+],
+[
+ "Norway",
+2014,
+79062,
+379100,
+47950 
+],
+[
+ "Occupied Palestinian Territory",
+1961,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1962,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1963,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1964,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1965,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1966,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1967,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1968,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1969,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1970,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1971,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1972,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1973,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1974,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1975,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1976,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1977,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1978,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1979,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1980,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1981,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1982,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1983,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1984,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1985,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1986,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1987,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1988,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1989,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1990,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1991,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1992,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1993,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1994,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1995,
+null,
+null,
+null 
+],
+[
+ "Occupied Palestinian Territory",
+1996,
+16816,
+30872,
+18359 
+],
+[
+ "Occupied Palestinian Territory",
+1997,
+18687,
+28310,
+15150 
+],
+[
+ "Occupied Palestinian Territory",
+1998,
+20944,
+36523,
+17438 
+],
+[
+ "Occupied Palestinian Territory",
+1999,
+14207,
+11052,
+7779 
+],
+[
+ "Occupied Palestinian Territory",
+2000,
+21667,
+53422,
+24656 
+],
+[
+ "Occupied Palestinian Territory",
+2001,
+20609,
+24983,
+12122 
+],
+[
+ "Occupied Palestinian Territory",
+2002,
+22448,
+54308,
+24193 
+],
+[
+ "Occupied Palestinian Territory",
+2003,
+21662,
+44947,
+20749 
+],
+[
+ "Occupied Palestinian Territory",
+2004,
+21896,
+46340,
+21164 
+],
+[
+ "Occupied Palestinian Territory",
+2005,
+21399,
+44720,
+20898 
+],
+[
+ "Occupied Palestinian Territory",
+2006,
+21105,
+42390,
+20085 
+],
+[
+ "Occupied Palestinian Territory",
+2007,
+20233,
+39799,
+19670 
+],
+[
+ "Occupied Palestinian Territory",
+2008,
+22944,
+31826,
+13871 
+],
+[
+ "Occupied Palestinian Territory",
+2009,
+22000,
+30000,
+13636 
+],
+[
+ "Occupied Palestinian Territory",
+2010,
+9714,
+17000,
+17501 
+],
+[
+ "Occupied Palestinian Territory",
+2011,
+11000,
+17836,
+16215 
+],
+[
+ "Occupied Palestinian Territory",
+2012,
+11500,
+18000,
+15652 
+],
+[
+ "Occupied Palestinian Territory",
+2013,
+12000,
+20000,
+16667 
+],
+[
+ "Occupied Palestinian Territory",
+2014,
+10940,
+19650,
+17962 
+],
+[
+ "Oman",
+1961,
+1000,
+1400,
+14000 
+],
+[
+ "Oman",
+1962,
+1000,
+1400,
+14000 
+],
+[
+ "Oman",
+1963,
+1100,
+1500,
+13636 
+],
+[
+ "Oman",
+1964,
+1100,
+1500,
+13636 
+],
+[
+ "Oman",
+1965,
+1100,
+1500,
+13636 
+],
+[
+ "Oman",
+1966,
+1200,
+1700,
+14167 
+],
+[
+ "Oman",
+1967,
+1200,
+1700,
+14167 
+],
+[
+ "Oman",
+1968,
+1200,
+1850,
+15417 
+],
+[
+ "Oman",
+1969,
+1200,
+1850,
+15417 
+],
+[
+ "Oman",
+1970,
+1200,
+2000,
+16667 
+],
+[
+ "Oman",
+1971,
+1200,
+2000,
+16667 
+],
+[
+ "Oman",
+1972,
+1200,
+2000,
+16667 
+],
+[
+ "Oman",
+1973,
+1800,
+3000,
+16667 
+],
+[
+ "Oman",
+1974,
+1800,
+3000,
+16667 
+],
+[
+ "Oman",
+1975,
+1800,
+3000,
+16667 
+],
+[
+ "Oman",
+1976,
+1200,
+2000,
+16667 
+],
+[
+ "Oman",
+1977,
+600,
+500,
+8333 
+],
+[
+ "Oman",
+1978,
+600,
+275,
+4583 
+],
+[
+ "Oman",
+1979,
+302,
+150,
+4967 
+],
+[
+ "Oman",
+1980,
+718,
+359,
+5000 
+],
+[
+ "Oman",
+1981,
+302,
+359,
+11887 
+],
+[
+ "Oman",
+1982,
+302,
+1141,
+37781 
+],
+[
+ "Oman",
+1983,
+302,
+1141,
+37781 
+],
+[
+ "Oman",
+1984,
+302,
+1141,
+37781 
+],
+[
+ "Oman",
+1985,
+228,
+251,
+11009 
+],
+[
+ "Oman",
+1986,
+263,
+289,
+10989 
+],
+[
+ "Oman",
+1987,
+335,
+369,
+11015 
+],
+[
+ "Oman",
+1988,
+468,
+700,
+14957 
+],
+[
+ "Oman",
+1989,
+470,
+900,
+19149 
+],
+[
+ "Oman",
+1990,
+500,
+1190,
+23800 
+],
+[
+ "Oman",
+1991,
+520,
+1200,
+23077 
+],
+[
+ "Oman",
+1992,
+540,
+1250,
+23148 
+],
+[
+ "Oman",
+1993,
+550,
+1300,
+23636 
+],
+[
+ "Oman",
+1994,
+560,
+1325,
+23661 
+],
+[
+ "Oman",
+1995,
+570,
+1350,
+23684 
+],
+[
+ "Oman",
+1996,
+580,
+1380,
+23793 
+],
+[
+ "Oman",
+1997,
+500,
+1250,
+25000 
+],
+[
+ "Oman",
+1998,
+300,
+770,
+25667 
+],
+[
+ "Oman",
+1999,
+350,
+1050,
+30000 
+],
+[
+ "Oman",
+2000,
+443,
+1413,
+31896 
+],
+[
+ "Oman",
+2001,
+449,
+1429,
+31826 
+],
+[
+ "Oman",
+2002,
+449,
+1421,
+31648 
+],
+[
+ "Oman",
+2003,
+370,
+1210,
+32703 
+],
+[
+ "Oman",
+2004,
+389,
+1200,
+30888 
+],
+[
+ "Oman",
+2005,
+271,
+865,
+31919 
+],
+[
+ "Oman",
+2006,
+276,
+775,
+28080 
+],
+[
+ "Oman",
+2007,
+310,
+947,
+30509 
+],
+[
+ "Oman",
+2008,
+350,
+1070,
+30571 
+],
+[
+ "Oman",
+2009,
+605,
+1874,
+30975 
+],
+[
+ "Oman",
+2010,
+554,
+2286,
+41264 
+],
+[
+ "Oman",
+2011,
+643,
+2126,
+33064 
+],
+[
+ "Oman",
+2012,
+650,
+2000,
+30769 
+],
+[
+ "Oman",
+2013,
+660,
+2100,
+31818 
+],
+[
+ "Oman",
+2014,
+660,
+2170,
+32879 
+],
+[
+ "Pakistan",
+1961,
+4639000,
+3814000,
+8222 
+],
+[
+ "Pakistan",
+1962,
+4923000,
+4026000,
+8178 
+],
+[
+ "Pakistan",
+1963,
+5022000,
+4170000,
+8303 
+],
+[
+ "Pakistan",
+1964,
+5019000,
+4162000,
+8292 
+],
+[
+ "Pakistan",
+1965,
+5318000,
+4590000,
+8631 
+],
+[
+ "Pakistan",
+1966,
+5155000,
+3916000,
+7597 
+],
+[
+ "Pakistan",
+1967,
+5344000,
+4334000,
+8110 
+],
+[
+ "Pakistan",
+1968,
+5983000,
+6418000,
+10727 
+],
+[
+ "Pakistan",
+1969,
+6160000,
+6618000,
+10744 
+],
+[
+ "Pakistan",
+1970,
+6229000,
+7294000,
+11710 
+],
+[
+ "Pakistan",
+1971,
+5977609,
+6475693,
+10833 
+],
+[
+ "Pakistan",
+1972,
+5797000,
+6890851,
+11887 
+],
+[
+ "Pakistan",
+1973,
+5970649,
+7442570,
+12465 
+],
+[
+ "Pakistan",
+1974,
+6112691,
+7628503,
+12480 
+],
+[
+ "Pakistan",
+1975,
+5812310,
+7673440,
+13202 
+],
+[
+ "Pakistan",
+1976,
+6110599,
+8690713,
+14222 
+],
+[
+ "Pakistan",
+1977,
+6390069,
+9143873,
+14310 
+],
+[
+ "Pakistan",
+1978,
+6360000,
+8367200,
+13156 
+],
+[
+ "Pakistan",
+1979,
+6687100,
+9950000,
+14879 
+],
+[
+ "Pakistan",
+1980,
+6923700,
+10856500,
+15680 
+],
+[
+ "Pakistan",
+1981,
+6983700,
+11474600,
+16431 
+],
+[
+ "Pakistan",
+1982,
+7222900,
+11304200,
+15651 
+],
+[
+ "Pakistan",
+1983,
+7397900,
+12414400,
+16781 
+],
+[
+ "Pakistan",
+1984,
+7343200,
+10881900,
+14819 
+],
+[
+ "Pakistan",
+1985,
+7258500,
+11703000,
+16123 
+],
+[
+ "Pakistan",
+1986,
+7403300,
+13923000,
+18806 
+],
+[
+ "Pakistan",
+1987,
+7706200,
+12015900,
+15593 
+],
+[
+ "Pakistan",
+1988,
+7308400,
+12675100,
+17343 
+],
+[
+ "Pakistan",
+1989,
+7729600,
+14419200,
+18655 
+],
+[
+ "Pakistan",
+1990,
+7844500,
+14315500,
+18249 
+],
+[
+ "Pakistan",
+1991,
+7911400,
+14565000,
+18410 
+],
+[
+ "Pakistan",
+1992,
+7877600,
+15684200,
+19910 
+],
+[
+ "Pakistan",
+1993,
+8299700,
+16156500,
+19466 
+],
+[
+ "Pakistan",
+1994,
+8034200,
+15213000,
+18935 
+],
+[
+ "Pakistan",
+1995,
+8169800,
+17002400,
+20811 
+],
+[
+ "Pakistan",
+1996,
+8376500,
+16907400,
+20184 
+],
+[
+ "Pakistan",
+1997,
+8109100,
+16650500,
+20533 
+],
+[
+ "Pakistan",
+1998,
+8354600,
+18694000,
+22376 
+],
+[
+ "Pakistan",
+1999,
+8229900,
+17857600,
+21698 
+],
+[
+ "Pakistan",
+2000,
+8463000,
+21078600,
+24907 
+],
+[
+ "Pakistan",
+2001,
+8180800,
+19023700,
+23254 
+],
+[
+ "Pakistan",
+2002,
+8057500,
+18226500,
+22621 
+],
+[
+ "Pakistan",
+2003,
+8033900,
+19183300,
+23878 
+],
+[
+ "Pakistan",
+2004,
+8216200,
+19499800,
+23733 
+],
+[
+ "Pakistan",
+2005,
+8358000,
+21612300,
+25858 
+],
+[
+ "Pakistan",
+2006,
+8447900,
+21276800,
+25186 
+],
+[
+ "Pakistan",
+2007,
+8578000,
+23294700,
+27156 
+],
+[
+ "Pakistan",
+2008,
+8549800,
+20958800,
+24514 
+],
+[
+ "Pakistan",
+2009,
+9046000,
+24033000,
+26568 
+],
+[
+ "Pakistan",
+2010,
+9131600,
+23310800,
+25528 
+],
+[
+ "Pakistan",
+2011,
+8900700,
+25213800,
+28328 
+],
+[
+ "Pakistan",
+2012,
+8649800,
+23473400,
+27138 
+],
+[
+ "Pakistan",
+2013,
+8686602,
+24211400,
+27872 
+],
+[
+ "Pakistan",
+2014,
+9199000,
+25979000,
+28241 
+],
+[
+ "Paraguay",
+1961,
+8000,
+7200,
+9000 
+],
+[
+ "Paraguay",
+1962,
+10000,
+7000,
+7000 
+],
+[
+ "Paraguay",
+1963,
+9700,
+8800,
+9072 
+],
+[
+ "Paraguay",
+1964,
+10800,
+7000,
+6481 
+],
+[
+ "Paraguay",
+1965,
+7200,
+7200,
+10000 
+],
+[
+ "Paraguay",
+1966,
+8327,
+9160,
+11000 
+],
+[
+ "Paraguay",
+1967,
+20900,
+25100,
+12010 
+],
+[
+ "Paraguay",
+1968,
+31580,
+32000,
+10133 
+],
+[
+ "Paraguay",
+1969,
+34323,
+31376,
+9141 
+],
+[
+ "Paraguay",
+1970,
+45000,
+33000,
+7333 
+],
+[
+ "Paraguay",
+1971,
+51500,
+54800,
+10641 
+],
+[
+ "Paraguay",
+1972,
+32200,
+17600,
+5466 
+],
+[
+ "Paraguay",
+1973,
+20300,
+23000,
+11330 
+],
+[
+ "Paraguay",
+1974,
+30300,
+35245,
+11632 
+],
+[
+ "Paraguay",
+1975,
+25200,
+17872,
+7092 
+],
+[
+ "Paraguay",
+1976,
+24200,
+29251,
+12087 
+],
+[
+ "Paraguay",
+1977,
+28800,
+28261,
+9813 
+],
+[
+ "Paraguay",
+1978,
+31500,
+37801,
+12000 
+],
+[
+ "Paraguay",
+1979,
+47000,
+58253,
+12394 
+],
+[
+ "Paraguay",
+1980,
+49200,
+83679,
+17008 
+],
+[
+ "Paraguay",
+1981,
+79900,
+98895,
+12377 
+],
+[
+ "Paraguay",
+1982,
+105700,
+139071,
+13157 
+],
+[
+ "Paraguay",
+1983,
+85000,
+102138,
+12016 
+],
+[
+ "Paraguay",
+1984,
+100600,
+120764,
+12004 
+],
+[
+ "Paraguay",
+1985,
+125700,
+201090,
+15998 
+],
+[
+ "Paraguay",
+1986,
+151000,
+241543,
+15996 
+],
+[
+ "Paraguay",
+1987,
+129000,
+270528,
+20971 
+],
+[
+ "Paraguay",
+1988,
+238000,
+452006,
+18992 
+],
+[
+ "Paraguay",
+1989,
+249000,
+372916,
+14977 
+],
+[
+ "Paraguay",
+1990,
+156498,
+259337,
+16571 
+],
+[
+ "Paraguay",
+1991,
+182760,
+328406,
+17969 
+],
+[
+ "Paraguay",
+1992,
+192230,
+425421,
+22131 
+],
+[
+ "Paraguay",
+1993,
+174786,
+375679,
+21494 
+],
+[
+ "Paraguay",
+1994,
+172497,
+208617,
+12094 
+],
+[
+ "Paraguay",
+1995,
+221415,
+543435,
+24544 
+],
+[
+ "Paraguay",
+1996,
+224046,
+400189,
+17862 
+],
+[
+ "Paraguay",
+1997,
+200700,
+229173,
+11419 
+],
+[
+ "Paraguay",
+1998,
+187900,
+180088,
+9584 
+],
+[
+ "Paraguay",
+1999,
+127680,
+187900,
+14716 
+],
+[
+ "Paraguay",
+2000,
+159342,
+220055,
+13810 
+],
+[
+ "Paraguay",
+2001,
+290248,
+532155,
+18334 
+],
+[
+ "Paraguay",
+2002,
+310931,
+536754,
+17263 
+],
+[
+ "Paraguay",
+2003,
+325000,
+715000,
+22000 
+],
+[
+ "Paraguay",
+2004,
+365000,
+8e+05,
+21918 
+],
+[
+ "Paraguay",
+2005,
+3e+05,
+620000,
+20667 
+],
+[
+ "Paraguay",
+2006,
+365000,
+8e+05,
+21918 
+],
+[
+ "Paraguay",
+2007,
+320000,
+8e+05,
+25000 
+],
+[
+ "Paraguay",
+2008,
+381028,
+799632,
+20986 
+],
+[
+ "Paraguay",
+2009,
+508000,
+1066800,
+21000 
+],
+[
+ "Paraguay",
+2010,
+560800,
+1401987,
+25000 
+],
+[
+ "Paraguay",
+2011,
+584408,
+1463881,
+25049 
+],
+[
+ "Paraguay",
+2012,
+6e+05,
+1560600,
+26010 
+],
+[
+ "Paraguay",
+2013,
+550000,
+1430000,
+26000 
+],
+[
+ "Paraguay",
+2014,
+560000,
+840000,
+15000 
+],
+[
+ "Peru",
+1961,
+153417,
+153595,
+10012 
+],
+[
+ "Peru",
+1962,
+153800,
+152666,
+9926 
+],
+[
+ "Peru",
+1963,
+153100,
+155500,
+10157 
+],
+[
+ "Peru",
+1964,
+149300,
+143150,
+9588 
+],
+[
+ "Peru",
+1965,
+153150,
+146720,
+9580 
+],
+[
+ "Peru",
+1966,
+156710,
+145002,
+9253 
+],
+[
+ "Peru",
+1967,
+159850,
+152180,
+9520 
+],
+[
+ "Peru",
+1968,
+136040,
+112912,
+8300 
+],
+[
+ "Peru",
+1969,
+146562,
+136703,
+9327 
+],
+[
+ "Peru",
+1970,
+136230,
+125374,
+9203 
+],
+[
+ "Peru",
+1971,
+138535,
+122225,
+8823 
+],
+[
+ "Peru",
+1972,
+134910,
+120080,
+8901 
+],
+[
+ "Peru",
+1973,
+136095,
+122635,
+9011 
+],
+[
+ "Peru",
+1974,
+137825,
+127364,
+9241 
+],
+[
+ "Peru",
+1975,
+133640,
+126324,
+9453 
+],
+[
+ "Peru",
+1976,
+133925,
+127497,
+9520 
+],
+[
+ "Peru",
+1977,
+115124,
+115385,
+10023 
+],
+[
+ "Peru",
+1978,
+103610,
+104401,
+10076 
+],
+[
+ "Peru",
+1979,
+96229,
+102060,
+10606 
+],
+[
+ "Peru",
+1980,
+82129,
+77148,
+9394 
+],
+[
+ "Peru",
+1981,
+114106,
+116678,
+10225 
+],
+[
+ "Peru",
+1982,
+96921,
+102711,
+10597 
+],
+[
+ "Peru",
+1983,
+88368,
+83720,
+9474 
+],
+[
+ "Peru",
+1984,
+84892,
+87442,
+10300 
+],
+[
+ "Peru",
+1985,
+81052,
+92303,
+11388 
+],
+[
+ "Peru",
+1986,
+97994,
+121143,
+12362 
+],
+[
+ "Peru",
+1987,
+102435,
+130690,
+12758 
+],
+[
+ "Peru",
+1988,
+115513,
+152804,
+13228 
+],
+[
+ "Peru",
+1989,
+117562,
+159305,
+13551 
+],
+[
+ "Peru",
+1990,
+81578,
+88487,
+10847 
+],
+[
+ "Peru",
+1991,
+102036,
+87275,
+8553 
+],
+[
+ "Peru",
+1992,
+70494,
+93787,
+13304 
+],
+[
+ "Peru",
+1993,
+84793,
+125595,
+14812 
+],
+[
+ "Peru",
+1994,
+102280,
+127035,
+12420 
+],
+[
+ "Peru",
+1995,
+98907,
+125048,
+12643 
+],
+[
+ "Peru",
+1996,
+116930,
+146152,
+12499 
+],
+[
+ "Peru",
+1997,
+110931,
+123689,
+11150 
+],
+[
+ "Peru",
+1998,
+125894,
+146640,
+11648 
+],
+[
+ "Peru",
+1999,
+131720,
+169613,
+12877 
+],
+[
+ "Peru",
+2000,
+146709,
+187746,
+12797 
+],
+[
+ "Peru",
+2001,
+145851,
+181805,
+12465 
+],
+[
+ "Peru",
+2002,
+138863,
+186853,
+13456 
+],
+[
+ "Peru",
+2003,
+138219,
+190453,
+13779 
+],
+[
+ "Peru",
+2004,
+122841,
+170411,
+13872 
+],
+[
+ "Peru",
+2005,
+132779,
+178460,
+13440 
+],
+[
+ "Peru",
+2006,
+143030,
+191082,
+13360 
+],
+[
+ "Peru",
+2007,
+144524,
+181552,
+12562 
+],
+[
+ "Peru",
+2008,
+149528,
+206936,
+13839 
+],
+[
+ "Peru",
+2009,
+158062,
+226265,
+14315 
+],
+[
+ "Peru",
+2010,
+154285,
+219454,
+14224 
+],
+[
+ "Peru",
+2011,
+145484,
+214140,
+14719 
+],
+[
+ "Peru",
+2012,
+151915,
+226218,
+14891 
+],
+[
+ "Peru",
+2013,
+153647,
+230112,
+14977 
+],
+[
+ "Peru",
+2014,
+140952,
+214533,
+15220 
+],
+[
+ "Poland",
+1961,
+1401000,
+2792000,
+19929 
+],
+[
+ "Poland",
+1962,
+1393000,
+2700000,
+19383 
+],
+[
+ "Poland",
+1963,
+1542000,
+3067000,
+19890 
+],
+[
+ "Poland",
+1964,
+1625000,
+3042000,
+18720 
+],
+[
+ "Poland",
+1965,
+1617300,
+3338000,
+20639 
+],
+[
+ "Poland",
+1966,
+1653900,
+3556100,
+21501 
+],
+[
+ "Poland",
+1967,
+1721800,
+3857600,
+22404 
+],
+[
+ "Poland",
+1968,
+1843900,
+4567000,
+24768 
+],
+[
+ "Poland",
+1969,
+1964900,
+4709700,
+23969 
+],
+[
+ "Poland",
+1970,
+1985200,
+4607800,
+23211 
+],
+[
+ "Poland",
+1971,
+2060500,
+5455700,
+26478 
+],
+[
+ "Poland",
+1972,
+2047700,
+5146800,
+25135 
+],
+[
+ "Poland",
+1973,
+1961700,
+5806500,
+29599 
+],
+[
+ "Poland",
+1974,
+2002200,
+6408400,
+32007 
+],
+[
+ "Poland",
+1975,
+1842100,
+5206500,
+28264 
+],
+[
+ "Poland",
+1976,
+1832193,
+5744775,
+31355 
+],
+[
+ "Poland",
+1977,
+1833867,
+5308265,
+28946 
+],
+[
+ "Poland",
+1978,
+1852302,
+6029398,
+32551 
+],
+[
+ "Poland",
+1979,
+1549071,
+4187394,
+27032 
+],
+[
+ "Poland",
+1980,
+1608623,
+4175486,
+25957 
+],
+[
+ "Poland",
+1981,
+1417734,
+4203256,
+29648 
+],
+[
+ "Poland",
+1982,
+1456271,
+4475712,
+30734 
+],
+[
+ "Poland",
+1983,
+1537317,
+5165083,
+33598 
+],
+[
+ "Poland",
+1984,
+1706480,
+6010201,
+35220 
+],
+[
+ "Poland",
+1985,
+1884536,
+6460793,
+34283 
+],
+[
+ "Poland",
+1986,
+2025005,
+7501702,
+37045 
+],
+[
+ "Poland",
+1987,
+2132600,
+7941554,
+37239 
+],
+[
+ "Poland",
+1988,
+2178661,
+7582141,
+34802 
+],
+[
+ "Poland",
+1989,
+2195450,
+8461619,
+38542 
+],
+[
+ "Poland",
+1990,
+2280653,
+9025756,
+39575 
+],
+[
+ "Poland",
+1991,
+2437393,
+9269974,
+38032 
+],
+[
+ "Poland",
+1992,
+2405097,
+7368097,
+30635 
+],
+[
+ "Poland",
+1993,
+2476870,
+8242694,
+33279 
+],
+[
+ "Poland",
+1994,
+2407047,
+7658457,
+31817 
+],
+[
+ "Poland",
+1995,
+2406786,
+8668035,
+36015 
+],
+[
+ "Poland",
+1996,
+2480428,
+8575954,
+34574 
+],
+[
+ "Poland",
+1997,
+2555092,
+8192681,
+32064 
+],
+[
+ "Poland",
+1998,
+2631319,
+9536576,
+36243 
+],
+[
+ "Poland",
+1999,
+2582969,
+9051339,
+35042 
+],
+[
+ "Poland",
+2000,
+2635097,
+8502865,
+32268 
+],
+[
+ "Poland",
+2001,
+2627047,
+9283044,
+35336 
+],
+[
+ "Poland",
+2002,
+2414175,
+9304000,
+38539 
+],
+[
+ "Poland",
+2003,
+2308045,
+7858160,
+34047 
+],
+[
+ "Poland",
+2004,
+2310742,
+9892482,
+42811 
+],
+[
+ "Poland",
+2005,
+2218093,
+8771434,
+39545 
+],
+[
+ "Poland",
+2006,
+2175725,
+7059671,
+32447 
+],
+[
+ "Poland",
+2007,
+2111982,
+8317265,
+39381 
+],
+[
+ "Poland",
+2008,
+2277950,
+9274920,
+40716 
+],
+[
+ "Poland",
+2009,
+2346200,
+9789586,
+41725 
+],
+[
+ "Poland",
+2010,
+2406100,
+9487800,
+39432 
+],
+[
+ "Poland",
+2011,
+2258700,
+9339200,
+41348 
+],
+[
+ "Poland",
+2012,
+2077200,
+8607600,
+41438 
+],
+[
+ "Poland",
+2013,
+2137868,
+9485183,
+44367 
+],
+[
+ "Poland",
+2014,
+2338782,
+11628670,
+49721 
+],
+[
+ "Portugal",
+1961,
+659517,
+429643,
+6515 
+],
+[
+ "Portugal",
+1962,
+728236,
+645000,
+8857 
+],
+[
+ "Portugal",
+1963,
+739797,
+591964,
+8002 
+],
+[
+ "Portugal",
+1964,
+685144,
+471856,
+6887 
+],
+[
+ "Portugal",
+1965,
+628000,
+612300,
+9750 
+],
+[
+ "Portugal",
+1966,
+531569,
+323549,
+6087 
+],
+[
+ "Portugal",
+1967,
+586128,
+651300,
+11112 
+],
+[
+ "Portugal",
+1968,
+614000,
+762911,
+12425 
+],
+[
+ "Portugal",
+1969,
+567700,
+470099,
+8281 
+],
+[
+ "Portugal",
+1970,
+601700,
+564098,
+9375 
+],
+[
+ "Portugal",
+1971,
+514800,
+808510,
+15705 
+],
+[
+ "Portugal",
+1972,
+511300,
+620975,
+12145 
+],
+[
+ "Portugal",
+1973,
+442100,
+533200,
+12061 
+],
+[
+ "Portugal",
+1974,
+464400,
+546295,
+11763 
+],
+[
+ "Portugal",
+1975,
+468523,
+610815,
+13037 
+],
+[
+ "Portugal",
+1976,
+537229,
+694137,
+12921 
+],
+[
+ "Portugal",
+1977,
+262704,
+229477,
+8735 
+],
+[
+ "Portugal",
+1978,
+359522,
+254700,
+7084 
+],
+[
+ "Portugal",
+1979,
+285600,
+252160,
+8829 
+],
+[
+ "Portugal",
+1980,
+354575,
+432775,
+12205 
+],
+[
+ "Portugal",
+1981,
+343511,
+318631,
+9276 
+],
+[
+ "Portugal",
+1982,
+356153,
+427530,
+12004 
+],
+[
+ "Portugal",
+1983,
+333824,
+329411,
+9868 
+],
+[
+ "Portugal",
+1984,
+293288,
+467860,
+15952 
+],
+[
+ "Portugal",
+1985,
+284715,
+397267,
+13953 
+],
+[
+ "Portugal",
+1986,
+317376,
+501894,
+15814 
+],
+[
+ "Portugal",
+1987,
+324310,
+534224,
+16473 
+],
+[
+ "Portugal",
+1988,
+294754,
+405818,
+13768 
+],
+[
+ "Portugal",
+1989,
+323000,
+618000,
+19133 
+],
+[
+ "Portugal",
+1990,
+208635,
+297691,
+14269 
+],
+[
+ "Portugal",
+1991,
+294874,
+618697,
+20982 
+],
+[
+ "Portugal",
+1992,
+280293,
+361936,
+12913 
+],
+[
+ "Portugal",
+1993,
+250263,
+421926,
+16859 
+],
+[
+ "Portugal",
+1994,
+235261,
+462624,
+19664 
+],
+[
+ "Portugal",
+1995,
+295601,
+360094,
+12182 
+],
+[
+ "Portugal",
+1996,
+236988,
+406071,
+17135 
+],
+[
+ "Portugal",
+1997,
+276764,
+329482,
+11905 
+],
+[
+ "Portugal",
+1998,
+148858,
+151148,
+10154 
+],
+[
+ "Portugal",
+1999,
+220464,
+373131,
+16925 
+],
+[
+ "Portugal",
+2000,
+226252,
+354937,
+15688 
+],
+[
+ "Portugal",
+2001,
+183492,
+153609,
+8371 
+],
+[
+ "Portugal",
+2002,
+230693,
+413038,
+17904 
+],
+[
+ "Portugal",
+2003,
+174317,
+149581,
+8581 
+],
+[
+ "Portugal",
+2004,
+187446,
+292884,
+15625 
+],
+[
+ "Portugal",
+2005,
+122727,
+81554,
+6645 
+],
+[
+ "Portugal",
+2006,
+104700,
+249600,
+23840 
+],
+[
+ "Portugal",
+2007,
+62300,
+135800,
+21798 
+],
+[
+ "Portugal",
+2008,
+88300,
+203300,
+23024 
+],
+[
+ "Portugal",
+2009,
+72992,
+124145,
+17008 
+],
+[
+ "Portugal",
+2010,
+57727,
+82578,
+14305 
+],
+[
+ "Portugal",
+2011,
+42894,
+58631,
+13669 
+],
+[
+ "Portugal",
+2012,
+54800,
+59000,
+10766 
+],
+[
+ "Portugal",
+2013,
+50900,
+88000,
+17289 
+],
+[
+ "Portugal",
+2014,
+51200,
+87400,
+17070 
+],
+[
+ "Qatar",
+1961,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1962,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1963,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1964,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1965,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1966,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1967,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1968,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1969,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1970,
+null,
+null,
+null 
+],
+[
+ "Qatar",
+1971,
+10,
+14,
+14000 
+],
+[
+ "Qatar",
+1972,
+10,
+15,
+15000 
+],
+[
+ "Qatar",
+1973,
+10,
+17,
+17000 
+],
+[
+ "Qatar",
+1974,
+15,
+20,
+13333 
+],
+[
+ "Qatar",
+1975,
+20,
+16,
+8000 
+],
+[
+ "Qatar",
+1976,
+30,
+28,
+9333 
+],
+[
+ "Qatar",
+1977,
+42,
+54,
+12857 
+],
+[
+ "Qatar",
+1978,
+48,
+105,
+21875 
+],
+[
+ "Qatar",
+1979,
+55,
+120,
+21818 
+],
+[
+ "Qatar",
+1980,
+54,
+127,
+23519 
+],
+[
+ "Qatar",
+1981,
+56,
+130,
+23214 
+],
+[
+ "Qatar",
+1982,
+79,
+255,
+32278 
+],
+[
+ "Qatar",
+1983,
+59,
+158,
+26780 
+],
+[
+ "Qatar",
+1984,
+64,
+173,
+27031 
+],
+[
+ "Qatar",
+1985,
+60,
+140,
+23333 
+],
+[
+ "Qatar",
+1986,
+55,
+130,
+23636 
+],
+[
+ "Qatar",
+1987,
+88,
+206,
+23409 
+],
+[
+ "Qatar",
+1988,
+71,
+163,
+22958 
+],
+[
+ "Qatar",
+1989,
+45,
+105,
+23333 
+],
+[
+ "Qatar",
+1990,
+277,
+637,
+22996 
+],
+[
+ "Qatar",
+1991,
+105,
+242,
+23048 
+],
+[
+ "Qatar",
+1992,
+68,
+157,
+23088 
+],
+[
+ "Qatar",
+1993,
+87,
+201,
+23103 
+],
+[
+ "Qatar",
+1994,
+62,
+143,
+23065 
+],
+[
+ "Qatar",
+1995,
+64,
+147,
+22969 
+],
+[
+ "Qatar",
+1996,
+59,
+135,
+22881 
+],
+[
+ "Qatar",
+1997,
+65,
+150,
+23077 
+],
+[
+ "Qatar",
+1998,
+61,
+140,
+22951 
+],
+[
+ "Qatar",
+1999,
+36,
+83,
+23056 
+],
+[
+ "Qatar",
+2000,
+36,
+83,
+23056 
+],
+[
+ "Qatar",
+2001,
+12,
+28,
+23333 
+],
+[
+ "Qatar",
+2002,
+11,
+25,
+22727 
+],
+[
+ "Qatar",
+2003,
+12,
+28,
+23333 
+],
+[
+ "Qatar",
+2004,
+9,
+22,
+24444 
+],
+[
+ "Qatar",
+2005,
+9,
+21,
+23333 
+],
+[
+ "Qatar",
+2006,
+10,
+20,
+20000 
+],
+[
+ "Qatar",
+2007,
+14,
+32,
+23188 
+],
+[
+ "Qatar",
+2008,
+10,
+30,
+30000 
+],
+[
+ "Qatar",
+2009,
+21,
+49,
+23333 
+],
+[
+ "Qatar",
+2010,
+16,
+36,
+22500 
+],
+[
+ "Qatar",
+2011,
+11,
+26,
+23636 
+],
+[
+ "Qatar",
+2012,
+21,
+48,
+22857 
+],
+[
+ "Qatar",
+2013,
+22,
+50,
+22727 
+],
+[
+ "Qatar",
+2014,
+10,
+30,
+30000 
+],
+[
+ "Republic of Korea",
+1961,
+75915,
+172000,
+22657 
+],
+[
+ "Republic of Korea",
+1962,
+81621,
+164000,
+20093 
+],
+[
+ "Republic of Korea",
+1963,
+83941,
+139000,
+16559 
+],
+[
+ "Republic of Korea",
+1964,
+89543,
+190000,
+21219 
+],
+[
+ "Republic of Korea",
+1965,
+92930,
+184000,
+19800 
+],
+[
+ "Republic of Korea",
+1966,
+93758,
+193000,
+20585 
+],
+[
+ "Republic of Korea",
+1967,
+92955,
+191000,
+20548 
+],
+[
+ "Republic of Korea",
+1968,
+96505,
+211345,
+21900 
+],
+[
+ "Republic of Korea",
+1969,
+93733,
+224023,
+23900 
+],
+[
+ "Republic of Korea",
+1970,
+96740,
+218633,
+22600 
+],
+[
+ "Republic of Korea",
+1971,
+86649,
+196465,
+22674 
+],
+[
+ "Republic of Korea",
+1972,
+62735,
+148997,
+23750 
+],
+[
+ "Republic of Korea",
+1973,
+43218,
+99746,
+23080 
+],
+[
+ "Republic of Korea",
+1974,
+36477,
+74198,
+20341 
+],
+[
+ "Republic of Korea",
+1975,
+43710,
+96933,
+22176 
+],
+[
+ "Republic of Korea",
+1976,
+36721,
+81621,
+22227 
+],
+[
+ "Republic of Korea",
+1977,
+26515,
+44661,
+16844 
+],
+[
+ "Republic of Korea",
+1978,
+17091,
+35705,
+20891 
+],
+[
+ "Republic of Korea",
+1979,
+13090,
+41980,
+32070 
+],
+[
+ "Republic of Korea",
+1980,
+27868,
+91957,
+32997 
+],
+[
+ "Republic of Korea",
+1981,
+19692,
+57128,
+29011 
+],
+[
+ "Republic of Korea",
+1982,
+19656,
+65812,
+33482 
+],
+[
+ "Republic of Korea",
+1983,
+26446,
+111637,
+42213 
+],
+[
+ "Republic of Korea",
+1984,
+6411,
+17237,
+26887 
+],
+[
+ "Republic of Korea",
+1985,
+3070,
+10517,
+34257 
+],
+[
+ "Republic of Korea",
+1986,
+1547,
+4545,
+29379 
+],
+[
+ "Republic of Korea",
+1987,
+1235,
+3734,
+30235 
+],
+[
+ "Republic of Korea",
+1988,
+753,
+2473,
+32842 
+],
+[
+ "Republic of Korea",
+1989,
+364,
+1121,
+30797 
+],
+[
+ "Republic of Korea",
+1990,
+294,
+889,
+30238 
+],
+[
+ "Republic of Korea",
+1991,
+178,
+551,
+30955 
+],
+[
+ "Republic of Korea",
+1992,
+164,
+552,
+33659 
+],
+[
+ "Republic of Korea",
+1993,
+547,
+1483,
+27112 
+],
+[
+ "Republic of Korea",
+1994,
+582,
+2156,
+37045 
+],
+[
+ "Republic of Korea",
+1995,
+2312,
+10262,
+44386 
+],
+[
+ "Republic of Korea",
+1996,
+2787,
+10923,
+39193 
+],
+[
+ "Republic of Korea",
+1997,
+1838,
+7433,
+40441 
+],
+[
+ "Republic of Korea",
+1998,
+1372,
+4781,
+34847 
+],
+[
+ "Republic of Korea",
+1999,
+1533,
+5626,
+36699 
+],
+[
+ "Republic of Korea",
+2000,
+919,
+2339,
+25452 
+],
+[
+ "Republic of Korea",
+2001,
+915,
+2841,
+31049 
+],
+[
+ "Republic of Korea",
+2002,
+1808,
+5834,
+32268 
+],
+[
+ "Republic of Korea",
+2003,
+3281,
+10011,
+30512 
+],
+[
+ "Republic of Korea",
+2004,
+3792,
+12623,
+33289 
+],
+[
+ "Republic of Korea",
+2005,
+2395,
+7678,
+32058 
+],
+[
+ "Republic of Korea",
+2006,
+1738,
+5810,
+33429 
+],
+[
+ "Republic of Korea",
+2007,
+1928,
+7351,
+38128 
+],
+[
+ "Republic of Korea",
+2008,
+2549,
+10359,
+40639 
+],
+[
+ "Republic of Korea",
+2009,
+5067,
+18782,
+37067 
+],
+[
+ "Republic of Korea",
+2010,
+12548,
+39116,
+31173 
+],
+[
+ "Republic of Korea",
+2011,
+13044,
+43677,
+33484 
+],
+[
+ "Republic of Korea",
+2012,
+9467,
+37014,
+39098 
+],
+[
+ "Republic of Korea",
+2013,
+7373,
+19061,
+25852 
+],
+[
+ "Republic of Korea",
+2014,
+7180,
+23409,
+32603 
+],
+[
+ "Republic of Moldova",
+1961,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1962,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1963,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1964,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1965,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1966,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1967,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1968,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1969,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1970,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1971,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1972,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1973,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1974,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1975,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1976,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1977,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1978,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1979,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1980,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1981,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1982,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1983,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1984,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1985,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1986,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1987,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1988,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1989,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1990,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1991,
+null,
+null,
+null 
+],
+[
+ "Republic of Moldova",
+1992,
+281664,
+925764,
+32868 
+],
+[
+ "Republic of Moldova",
+1993,
+345900,
+1392610,
+40260 
+],
+[
+ "Republic of Moldova",
+1994,
+300400,
+658780,
+21930 
+],
+[
+ "Republic of Moldova",
+1995,
+393965,
+1277501,
+32427 
+],
+[
+ "Republic of Moldova",
+1996,
+380806,
+784160,
+20592 
+],
+[
+ "Republic of Moldova",
+1997,
+410172,
+1345131,
+32794 
+],
+[
+ "Republic of Moldova",
+1998,
+356744,
+952990,
+26714 
+],
+[
+ "Republic of Moldova",
+1999,
+341725,
+800425,
+23423 
+],
+[
+ "Republic of Moldova",
+2000,
+372967,
+727721,
+19512 
+],
+[
+ "Republic of Moldova",
+2001,
+436821,
+1185210,
+27133 
+],
+[
+ "Republic of Moldova",
+2002,
+445265,
+1116180,
+25068 
+],
+[
+ "Republic of Moldova",
+2003,
+206055,
+102414,
+4970 
+],
+[
+ "Republic of Moldova",
+2004,
+314402,
+861030,
+27386 
+],
+[
+ "Republic of Moldova",
+2005,
+406594,
+1056690,
+25989 
+],
+[
+ "Republic of Moldova",
+2006,
+298078,
+691417,
+23196 
+],
+[
+ "Republic of Moldova",
+2007,
+314487,
+406484,
+12925 
+],
+[
+ "Republic of Moldova",
+2008,
+412258,
+1286330,
+31202 
+],
+[
+ "Republic of Moldova",
+2009,
+350997,
+736660,
+20988 
+],
+[
+ "Republic of Moldova",
+2010,
+325361,
+744160,
+22872 
+],
+[
+ "Republic of Moldova",
+2011,
+301332,
+794783,
+26376 
+],
+[
+ "Republic of Moldova",
+2012,
+314224,
+495231,
+15760 
+],
+[
+ "Republic of Moldova",
+2013,
+366097,
+1008647,
+27551 
+],
+[
+ "Republic of Moldova",
+2014,
+347540,
+1101700,
+31700 
+],
+[
+ "Romania",
+1961,
+2969400,
+3990300,
+13438 
+],
+[
+ "Romania",
+1962,
+3042600,
+4053800,
+13323 
+],
+[
+ "Romania",
+1963,
+2874400,
+3798800,
+13216 
+],
+[
+ "Romania",
+1964,
+2958800,
+3823700,
+12923 
+],
+[
+ "Romania",
+1965,
+2983400,
+5937000,
+19900 
+],
+[
+ "Romania",
+1966,
+3034400,
+5064700,
+16691 
+],
+[
+ "Romania",
+1967,
+2913300,
+5819600,
+19976 
+],
+[
+ "Romania",
+1968,
+2817000,
+4847900,
+17209 
+],
+[
+ "Romania",
+1969,
+2759300,
+4348787,
+15760 
+],
+[
+ "Romania",
+1970,
+2321000,
+3356000,
+14459 
+],
+[
+ "Romania",
+1971,
+2500900,
+5595400,
+22374 
+],
+[
+ "Romania",
+1972,
+2523400,
+6040800,
+23939 
+],
+[
+ "Romania",
+1973,
+2359100,
+5489500,
+23269 
+],
+[
+ "Romania",
+1974,
+2396700,
+5006700,
+20890 
+],
+[
+ "Romania",
+1975,
+2344674,
+4860190,
+20729 
+],
+[
+ "Romania",
+1976,
+2394100,
+6724200,
+28087 
+],
+[
+ "Romania",
+1977,
+2269340,
+6435000,
+28356 
+],
+[
+ "Romania",
+1978,
+2284395,
+6102000,
+26712 
+],
+[
+ "Romania",
+1979,
+2105423,
+4569000,
+21701 
+],
+[
+ "Romania",
+1980,
+2244404,
+6264000,
+27909 
+],
+[
+ "Romania",
+1981,
+2111246,
+5281000,
+25014 
+],
+[
+ "Romania",
+1982,
+2155699,
+6122000,
+28399 
+],
+[
+ "Romania",
+1983,
+2226959,
+4935000,
+22160 
+],
+[
+ "Romania",
+1984,
+2360000,
+7388000,
+31305 
+],
+[
+ "Romania",
+1985,
+2366000,
+5532000,
+23381 
+],
+[
+ "Romania",
+1986,
+2500000,
+6278000,
+25112 
+],
+[
+ "Romania",
+1987,
+2357300,
+6632000,
+28134 
+],
+[
+ "Romania",
+1988,
+2372700,
+8528000,
+35942 
+],
+[
+ "Romania",
+1989,
+2319000,
+7840000,
+33808 
+],
+[
+ "Romania",
+1990,
+2253213,
+7289344,
+32351 
+],
+[
+ "Romania",
+1991,
+2154318,
+5473156,
+25406 
+],
+[
+ "Romania",
+1992,
+1460798,
+3206382,
+21950 
+],
+[
+ "Romania",
+1993,
+2281621,
+5314104,
+23291 
+],
+[
+ "Romania",
+1994,
+2412120,
+6135299,
+25435 
+],
+[
+ "Romania",
+1995,
+2480832,
+7666538,
+30903 
+],
+[
+ "Romania",
+1996,
+1781704,
+3143818,
+17645 
+],
+[
+ "Romania",
+1997,
+2408543,
+7156188,
+29712 
+],
+[
+ "Romania",
+1998,
+1996000,
+5181812,
+25961 
+],
+[
+ "Romania",
+1999,
+1665189,
+4661439,
+27993 
+],
+[
+ "Romania",
+2000,
+1928328,
+4456000,
+23108 
+],
+[
+ "Romania",
+2001,
+2540354,
+7764000,
+30563 
+],
+[
+ "Romania",
+2002,
+2148200,
+4420995,
+20580 
+],
+[
+ "Romania",
+2003,
+1410944,
+2479052,
+17570 
+],
+[
+ "Romania",
+2004,
+2246595,
+7812428,
+34775 
+],
+[
+ "Romania",
+2005,
+2448129,
+7340664,
+29985 
+],
+[
+ "Romania",
+2006,
+1992358,
+5526190,
+27737 
+],
+[
+ "Romania",
+2007,
+1890920,
+3044460,
+16100 
+],
+[
+ "Romania",
+2008,
+2098370,
+7180980,
+34222 
+],
+[
+ "Romania",
+2009,
+2140549,
+5202526,
+24305 
+],
+[
+ "Romania",
+2010,
+2152523,
+5811810,
+27000 
+],
+[
+ "Romania",
+2011,
+1945849,
+7131590,
+36650 
+],
+[
+ "Romania",
+2012,
+1992180,
+5297748,
+26593 
+],
+[
+ "Romania",
+2013,
+2097490,
+7296373,
+34786 
+],
+[
+ "Romania",
+2014,
+2107813,
+7584814,
+35984 
+],
+[
+ "Russian Federation",
+1961,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1962,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1963,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1964,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1965,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1966,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1967,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1968,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1969,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1970,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1971,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1972,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1973,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1974,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1975,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1976,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1977,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1978,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1979,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1980,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1981,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1982,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1983,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1984,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1985,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1986,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1987,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1988,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1989,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1990,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1991,
+null,
+null,
+null 
+],
+[
+ "Russian Federation",
+1992,
+24259500,
+46166700,
+19030 
+],
+[
+ "Russian Federation",
+1993,
+24665480,
+43546552,
+17655 
+],
+[
+ "Russian Federation",
+1994,
+22160500,
+32128600,
+14498 
+],
+[
+ "Russian Federation",
+1995,
+21597000,
+30118660,
+13946 
+],
+[
+ "Russian Federation",
+1996,
+22546000,
+34916680,
+15487 
+],
+[
+ "Russian Federation",
+1997,
+24018400,
+44257720,
+18427 
+],
+[
+ "Russian Federation",
+1998,
+19858200,
+27011880,
+13602 
+],
+[
+ "Russian Federation",
+1999,
+19755200,
+30995150,
+15690 
+],
+[
+ "Russian Federation",
+2000,
+21346000,
+34455488,
+16141 
+],
+[
+ "Russian Federation",
+2001,
+22832700,
+46982120,
+20577 
+],
+[
+ "Russian Federation",
+2002,
+24477700,
+50609100,
+20676 
+],
+[
+ "Russian Federation",
+2003,
+20005600,
+34104288,
+17047 
+],
+[
+ "Russian Federation",
+2004,
+22919900,
+45412712,
+19814 
+],
+[
+ "Russian Federation",
+2005,
+24682600,
+47697520,
+19324 
+],
+[
+ "Russian Federation",
+2006,
+23049100,
+44926880,
+19492 
+],
+[
+ "Russian Federation",
+2007,
+23500500,
+49367973,
+21007 
+],
+[
+ "Russian Federation",
+2008,
+26070300,
+63765140,
+24459 
+],
+[
+ "Russian Federation",
+2009,
+26632900,
+61739750,
+23182 
+],
+[
+ "Russian Federation",
+2010,
+21639800,
+41507580,
+19181 
+],
+[
+ "Russian Federation",
+2011,
+24835500,
+56239992,
+22645 
+],
+[
+ "Russian Federation",
+2012,
+21277900,
+37719640,
+17727 
+],
+[
+ "Russian Federation",
+2013,
+23371410,
+52090796,
+22288 
+],
+[
+ "Russian Federation",
+2014,
+23907772,
+59711382,
+24976 
+],
+[
+ "Rwanda",
+1961,
+1525,
+1200,
+7869 
+],
+[
+ "Rwanda",
+1962,
+1732,
+1385,
+7997 
+],
+[
+ "Rwanda",
+1963,
+2173,
+1744,
+8026 
+],
+[
+ "Rwanda",
+1964,
+812,
+321,
+3953 
+],
+[
+ "Rwanda",
+1965,
+565,
+480,
+8496 
+],
+[
+ "Rwanda",
+1966,
+125,
+100,
+8000 
+],
+[
+ "Rwanda",
+1967,
+375,
+300,
+8000 
+],
+[
+ "Rwanda",
+1968,
+731,
+621,
+8495 
+],
+[
+ "Rwanda",
+1969,
+953,
+810,
+8499 
+],
+[
+ "Rwanda",
+1970,
+1390,
+1251,
+9000 
+],
+[
+ "Rwanda",
+1971,
+1372,
+1235,
+9001 
+],
+[
+ "Rwanda",
+1972,
+2554,
+2298,
+8998 
+],
+[
+ "Rwanda",
+1973,
+3300,
+2380,
+7212 
+],
+[
+ "Rwanda",
+1974,
+3406,
+2793,
+8200 
+],
+[
+ "Rwanda",
+1975,
+2734,
+2303,
+8424 
+],
+[
+ "Rwanda",
+1976,
+3602,
+3008,
+8351 
+],
+[
+ "Rwanda",
+1977,
+4313,
+3692,
+8560 
+],
+[
+ "Rwanda",
+1978,
+5288,
+3657,
+6916 
+],
+[
+ "Rwanda",
+1979,
+3951,
+2976,
+7532 
+],
+[
+ "Rwanda",
+1980,
+3081,
+2175,
+7059 
+],
+[
+ "Rwanda",
+1981,
+1351,
+1042,
+7713 
+],
+[
+ "Rwanda",
+1982,
+2602,
+2370,
+9108 
+],
+[
+ "Rwanda",
+1983,
+3900,
+3300,
+8462 
+],
+[
+ "Rwanda",
+1984,
+3668,
+3070,
+8370 
+],
+[
+ "Rwanda",
+1985,
+5006,
+5000,
+9988 
+],
+[
+ "Rwanda",
+1986,
+5319,
+5504,
+10348 
+],
+[
+ "Rwanda",
+1987,
+7310,
+6740,
+9220 
+],
+[
+ "Rwanda",
+1988,
+7589,
+8100,
+10673 
+],
+[
+ "Rwanda",
+1989,
+9000,
+10400,
+11556 
+],
+[
+ "Rwanda",
+1990,
+9313,
+11000,
+11811 
+],
+[
+ "Rwanda",
+1991,
+12000,
+14800,
+12333 
+],
+[
+ "Rwanda",
+1992,
+11000,
+12600,
+11455 
+],
+[
+ "Rwanda",
+1993,
+4000,
+4800,
+12000 
+],
+[
+ "Rwanda",
+1994,
+2700,
+3200,
+11852 
+],
+[
+ "Rwanda",
+1995,
+5746,
+6000,
+10442 
+],
+[
+ "Rwanda",
+1996,
+6000,
+6814,
+11357 
+],
+[
+ "Rwanda",
+1997,
+6275,
+5997,
+9557 
+],
+[
+ "Rwanda",
+1998,
+5700,
+4140,
+7263 
+],
+[
+ "Rwanda",
+1999,
+5172,
+3607,
+6974 
+],
+[
+ "Rwanda",
+2000,
+10043,
+6444,
+6416 
+],
+[
+ "Rwanda",
+2001,
+10748,
+8269,
+7694 
+],
+[
+ "Rwanda",
+2002,
+12046,
+7434,
+6171 
+],
+[
+ "Rwanda",
+2003,
+20000,
+15305,
+7653 
+],
+[
+ "Rwanda",
+2004,
+21000,
+16772,
+7987 
+],
+[
+ "Rwanda",
+2005,
+24157,
+21942,
+9083 
+],
+[
+ "Rwanda",
+2006,
+22972,
+19549,
+8510 
+],
+[
+ "Rwanda",
+2007,
+27528,
+24633,
+8948 
+],
+[
+ "Rwanda",
+2008,
+52336,
+67869,
+12968 
+],
+[
+ "Rwanda",
+2009,
+42438,
+72479,
+17079 
+],
+[
+ "Rwanda",
+2010,
+49386,
+77193,
+15631 
+],
+[
+ "Rwanda",
+2011,
+44284,
+90684,
+20478 
+],
+[
+ "Rwanda",
+2012,
+35016,
+75913,
+21680 
+],
+[
+ "Rwanda",
+2013,
+35199,
+70129,
+19924 
+],
+[
+ "Rwanda",
+2014,
+30990,
+67730,
+21855 
+],
+[
+ "Saudi Arabia",
+1961,
+85000,
+125000,
+14706 
+],
+[
+ "Saudi Arabia",
+1962,
+75000,
+108000,
+14400 
+],
+[
+ "Saudi Arabia",
+1963,
+82500,
+135000,
+16364 
+],
+[
+ "Saudi Arabia",
+1964,
+82000,
+130000,
+15854 
+],
+[
+ "Saudi Arabia",
+1965,
+84500,
+147900,
+17503 
+],
+[
+ "Saudi Arabia",
+1966,
+85000,
+148750,
+17500 
+],
+[
+ "Saudi Arabia",
+1967,
+71732,
+118149,
+16471 
+],
+[
+ "Saudi Arabia",
+1968,
+71961,
+125000,
+17371 
+],
+[
+ "Saudi Arabia",
+1969,
+70000,
+130000,
+18571 
+],
+[
+ "Saudi Arabia",
+1970,
+70000,
+130000,
+18571 
+],
+[
+ "Saudi Arabia",
+1971,
+30100,
+41908,
+13923 
+],
+[
+ "Saudi Arabia",
+1972,
+38721,
+38954,
+10060 
+],
+[
+ "Saudi Arabia",
+1973,
+31165,
+63719,
+20446 
+],
+[
+ "Saudi Arabia",
+1974,
+83257,
+153385,
+18423 
+],
+[
+ "Saudi Arabia",
+1975,
+62101,
+132038,
+21262 
+],
+[
+ "Saudi Arabia",
+1976,
+73746,
+92540,
+12548 
+],
+[
+ "Saudi Arabia",
+1977,
+71599,
+124610,
+17404 
+],
+[
+ "Saudi Arabia",
+1978,
+59912,
+119928,
+20017 
+],
+[
+ "Saudi Arabia",
+1979,
+71949,
+150426,
+20907 
+],
+[
+ "Saudi Arabia",
+1980,
+67226,
+141732,
+21083 
+],
+[
+ "Saudi Arabia",
+1981,
+73502,
+187231,
+25473 
+],
+[
+ "Saudi Arabia",
+1982,
+151058,
+416735,
+27588 
+],
+[
+ "Saudi Arabia",
+1983,
+245071,
+817497,
+33358 
+],
+[
+ "Saudi Arabia",
+1984,
+404079,
+1401644,
+34687 
+],
+[
+ "Saudi Arabia",
+1985,
+587421,
+2134930,
+36344 
+],
+[
+ "Saudi Arabia",
+1986,
+566418,
+2289995,
+40429 
+],
+[
+ "Saudi Arabia",
+1987,
+601703,
+2648773,
+44021 
+],
+[
+ "Saudi Arabia",
+1988,
+726370,
+3267391,
+44982 
+],
+[
+ "Saudi Arabia",
+1989,
+780403,
+3452427,
+44239 
+],
+[
+ "Saudi Arabia",
+1990,
+770606,
+3580344,
+46461 
+],
+[
+ "Saudi Arabia",
+1991,
+896185,
+4035498,
+45030 
+],
+[
+ "Saudi Arabia",
+1992,
+924407,
+4123660,
+44609 
+],
+[
+ "Saudi Arabia",
+1993,
+764150,
+3429980,
+44886 
+],
+[
+ "Saudi Arabia",
+1994,
+581509,
+2646023,
+45503 
+],
+[
+ "Saudi Arabia",
+1995,
+368509,
+1647956,
+44720 
+],
+[
+ "Saudi Arabia",
+1996,
+273842,
+1200000,
+43821 
+],
+[
+ "Saudi Arabia",
+1997,
+403371,
+1794900,
+44497 
+],
+[
+ "Saudi Arabia",
+1998,
+385340,
+1734000,
+44999 
+],
+[
+ "Saudi Arabia",
+1999,
+481114,
+2046000,
+42526 
+],
+[
+ "Saudi Arabia",
+2000,
+419220,
+1787542,
+42640 
+],
+[
+ "Saudi Arabia",
+2001,
+424168,
+2081870,
+49081 
+],
+[
+ "Saudi Arabia",
+2002,
+498507,
+2436443,
+48875 
+],
+[
+ "Saudi Arabia",
+2003,
+516747,
+2524278,
+48849 
+],
+[
+ "Saudi Arabia",
+2004,
+523061,
+2775678,
+53066 
+],
+[
+ "Saudi Arabia",
+2005,
+488876,
+2648472,
+54175 
+],
+[
+ "Saudi Arabia",
+2006,
+468271,
+2630394,
+56172 
+],
+[
+ "Saudi Arabia",
+2007,
+450000,
+2558000,
+56844 
+],
+[
+ "Saudi Arabia",
+2008,
+326161,
+1985556,
+60877 
+],
+[
+ "Saudi Arabia",
+2009,
+195884,
+1152447,
+58833 
+],
+[
+ "Saudi Arabia",
+2010,
+219505,
+1349389,
+61474 
+],
+[
+ "Saudi Arabia",
+2011,
+192818,
+1184454,
+61429 
+],
+[
+ "Saudi Arabia",
+2012,
+150000,
+780000,
+52000 
+],
+[
+ "Saudi Arabia",
+2013,
+130000,
+6e+05,
+46154 
+],
+[
+ "Saudi Arabia",
+2014,
+115000,
+5e+05,
+43478 
+],
+[
+ "Serbia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1970,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1971,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1972,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1973,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1974,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1975,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1976,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1977,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1978,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1979,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1980,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1981,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1982,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1983,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1984,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1985,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1986,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1987,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1988,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1989,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1990,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1991,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1992,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1993,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1994,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1995,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1996,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1997,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1998,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+1999,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+2000,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+2001,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+2002,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+2003,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+2004,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+2005,
+null,
+null,
+null 
+],
+[
+ "Serbia",
+2006,
+539813,
+1875335,
+34740 
+],
+[
+ "Serbia",
+2007,
+559257,
+1863811,
+33327 
+],
+[
+ "Serbia",
+2008,
+487399,
+2095400,
+42991 
+],
+[
+ "Serbia",
+2009,
+567654,
+2067555,
+36423 
+],
+[
+ "Serbia",
+2010,
+484205,
+1630404,
+33672 
+],
+[
+ "Serbia",
+2011,
+493006,
+2076237,
+42114 
+],
+[
+ "Serbia",
+2012,
+603275,
+2399225,
+39770 
+],
+[
+ "Serbia",
+2013,
+631640,
+2690266,
+42592 
+],
+[
+ "Serbia",
+2014,
+604748,
+2387202,
+39474 
+],
+[
+ "Serbia and Montenegro",
+1961,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1962,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1963,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1964,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1965,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1966,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1967,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1968,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1969,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1970,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1971,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1972,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1973,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1974,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1975,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1976,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1977,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1978,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1979,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1980,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1981,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1982,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1983,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1984,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1985,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1986,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1987,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1988,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1989,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1990,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1991,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+1992,
+677000,
+2101000,
+31034 
+],
+[
+ "Serbia and Montenegro",
+1993,
+894353,
+3048749,
+34089 
+],
+[
+ "Serbia and Montenegro",
+1994,
+908000,
+3249200,
+35784 
+],
+[
+ "Serbia and Montenegro",
+1995,
+863000,
+2949000,
+34171 
+],
+[
+ "Serbia and Montenegro",
+1996,
+583100,
+1507100,
+25846 
+],
+[
+ "Serbia and Montenegro",
+1997,
+802000,
+2920000,
+36409 
+],
+[
+ "Serbia and Montenegro",
+1998,
+796100,
+2967000,
+37269 
+],
+[
+ "Serbia and Montenegro",
+1999,
+619100,
+2035000,
+32870 
+],
+[
+ "Serbia and Montenegro",
+2000,
+653100,
+1927200,
+29508 
+],
+[
+ "Serbia and Montenegro",
+2001,
+693100,
+2534200,
+36563 
+],
+[
+ "Serbia and Montenegro",
+2002,
+695251,
+2245200,
+32293 
+],
+[
+ "Serbia and Montenegro",
+2003,
+613081,
+1396100,
+22772 
+],
+[
+ "Serbia and Montenegro",
+2004,
+637100,
+2761200,
+43340 
+],
+[
+ "Serbia and Montenegro",
+2005,
+564110,
+2009690,
+35626 
+],
+[
+ "Serbia and Montenegro",
+2006,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+2007,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+2008,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+2009,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+2010,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+2011,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+2012,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+2013,
+null,
+null,
+null 
+],
+[
+ "Serbia and Montenegro",
+2014,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1970,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1971,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1972,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1973,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1974,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1975,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1976,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1977,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1978,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1979,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1980,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1981,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1982,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1983,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1984,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1985,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1986,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1987,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1988,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1989,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1990,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1991,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1992,
+null,
+null,
+null 
+],
+[
+ "Slovakia",
+1993,
+397282,
+1528510,
+38474 
+],
+[
+ "Slovakia",
+1994,
+442031,
+2144630,
+48518 
+],
+[
+ "Slovakia",
+1995,
+436688,
+1937940,
+44378 
+],
+[
+ "Slovakia",
+1996,
+414767,
+1713060,
+41302 
+],
+[
+ "Slovakia",
+1997,
+412472,
+1885961,
+45723 
+],
+[
+ "Slovakia",
+1998,
+428826,
+1789299,
+41726 
+],
+[
+ "Slovakia",
+1999,
+295832,
+1187264,
+40133 
+],
+[
+ "Slovakia",
+2000,
+405249,
+1254310,
+30952 
+],
+[
+ "Slovakia",
+2001,
+445278,
+1894100,
+42537 
+],
+[
+ "Slovakia",
+2002,
+405829,
+1554424,
+38302 
+],
+[
+ "Slovakia",
+2003,
+306916,
+930363,
+30313 
+],
+[
+ "Slovakia",
+2004,
+367767,
+1764846,
+47988 
+],
+[
+ "Slovakia",
+2005,
+372962,
+1607868,
+43111 
+],
+[
+ "Slovakia",
+2006,
+350900,
+1342693,
+38264 
+],
+[
+ "Slovakia",
+2007,
+360698,
+1379643,
+38249 
+],
+[
+ "Slovakia",
+2008,
+373662,
+1819480,
+48693 
+],
+[
+ "Slovakia",
+2009,
+379195,
+1537905,
+40557 
+],
+[
+ "Slovakia",
+2010,
+342115,
+1185286,
+34646 
+],
+[
+ "Slovakia",
+2011,
+362845,
+1631112,
+44953 
+],
+[
+ "Slovakia",
+2012,
+388147,
+1275302,
+32856 
+],
+[
+ "Slovakia",
+2013,
+367682,
+1684274,
+45808 
+],
+[
+ "Slovakia",
+2014,
+379283,
+2072405,
+54640 
+],
+[
+ "Slovenia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1970,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1971,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1972,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1973,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1974,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1975,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1976,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1977,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1978,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1979,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1980,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1981,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1982,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1983,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1984,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1985,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1986,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1987,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1988,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1989,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1990,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1991,
+null,
+null,
+null 
+],
+[
+ "Slovenia",
+1992,
+36413,
+152705,
+41937 
+],
+[
+ "Slovenia",
+1993,
+37173,
+142856,
+38430 
+],
+[
+ "Slovenia",
+1994,
+35876,
+155343,
+43300 
+],
+[
+ "Slovenia",
+1995,
+36779,
+155575,
+42300 
+],
+[
+ "Slovenia",
+1996,
+35159,
+137120,
+39000 
+],
+[
+ "Slovenia",
+1997,
+33431,
+138930,
+41557 
+],
+[
+ "Slovenia",
+1998,
+35025,
+169097,
+48279 
+],
+[
+ "Slovenia",
+1999,
+31615,
+117251,
+37087 
+],
+[
+ "Slovenia",
+2000,
+38256,
+162559,
+42492 
+],
+[
+ "Slovenia",
+2001,
+39335,
+181083,
+46036 
+],
+[
+ "Slovenia",
+2002,
+35729,
+174868,
+48943 
+],
+[
+ "Slovenia",
+2003,
+35585,
+122920,
+34543 
+],
+[
+ "Slovenia",
+2004,
+32385,
+146829,
+45339 
+],
+[
+ "Slovenia",
+2005,
+30059,
+141293,
+47005 
+],
+[
+ "Slovenia",
+2006,
+32083,
+134449,
+41907 
+],
+[
+ "Slovenia",
+2007,
+31900,
+133339,
+41799 
+],
+[
+ "Slovenia",
+2008,
+35413,
+160297,
+45265 
+],
+[
+ "Slovenia",
+2009,
+34534,
+136904,
+39643 
+],
+[
+ "Slovenia",
+2010,
+31946,
+153481,
+48044 
+],
+[
+ "Slovenia",
+2011,
+29665,
+153575,
+51770 
+],
+[
+ "Slovenia",
+2012,
+34586,
+188065,
+54376 
+],
+[
+ "Slovenia",
+2013,
+31758,
+138235,
+43528 
+],
+[
+ "Slovenia",
+2014,
+33124,
+173245,
+52302 
+],
+[
+ "Somalia",
+1961,
+null,
+null,
+null 
+],
+[
+ "Somalia",
+1962,
+null,
+null,
+null 
+],
+[
+ "Somalia",
+1963,
+null,
+null,
+null 
+],
+[
+ "Somalia",
+1964,
+null,
+null,
+null 
+],
+[
+ "Somalia",
+1965,
+null,
+null,
+null 
+],
+[
+ "Somalia",
+1966,
+null,
+null,
+null 
+],
+[
+ "Somalia",
+1967,
+null,
+null,
+null 
+],
+[
+ "Somalia",
+1968,
+null,
+null,
+null 
+],
+[
+ "Somalia",
+1969,
+null,
+null,
+null 
+],
+[
+ "Somalia",
+1970,
+900,
+null,
+null 
+],
+[
+ "Somalia",
+1971,
+600,
+null,
+null 
+],
+[
+ "Somalia",
+1972,
+800,
+null,
+null 
+],
+[
+ "Somalia",
+1973,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1974,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1975,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1976,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1977,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1978,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1979,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1980,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1981,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1982,
+3500,
+null,
+null 
+],
+[
+ "Somalia",
+1983,
+3600,
+null,
+null 
+],
+[
+ "Somalia",
+1984,
+3600,
+null,
+null 
+],
+[
+ "Somalia",
+1985,
+3600,
+1300,
+3611 
+],
+[
+ "Somalia",
+1986,
+3600,
+1300,
+3611 
+],
+[
+ "Somalia",
+1987,
+3700,
+1370,
+3703 
+],
+[
+ "Somalia",
+1988,
+3700,
+1370,
+3703 
+],
+[
+ "Somalia",
+1989,
+3800,
+1400,
+3684 
+],
+[
+ "Somalia",
+1990,
+2500,
+925,
+3700 
+],
+[
+ "Somalia",
+1991,
+1800,
+660,
+3667 
+],
+[
+ "Somalia",
+1992,
+1811,
+520,
+2871 
+],
+[
+ "Somalia",
+1993,
+2500,
+925,
+3700 
+],
+[
+ "Somalia",
+1994,
+2700,
+1000,
+3704 
+],
+[
+ "Somalia",
+1995,
+2858,
+701,
+2453 
+],
+[
+ "Somalia",
+1996,
+3351,
+692,
+2065 
+],
+[
+ "Somalia",
+1997,
+3051,
+750,
+2458 
+],
+[
+ "Somalia",
+1998,
+2400,
+900,
+3750 
+],
+[
+ "Somalia",
+1999,
+2571,
+870,
+3384 
+],
+[
+ "Somalia",
+2000,
+2600,
+960,
+3692 
+],
+[
+ "Somalia",
+2001,
+2600,
+950,
+3654 
+],
+[
+ "Somalia",
+2002,
+2822,
+978,
+3466 
+],
+[
+ "Somalia",
+2003,
+2879,
+891,
+3095 
+],
+[
+ "Somalia",
+2004,
+3619,
+1000,
+2763 
+],
+[
+ "Somalia",
+2005,
+3100,
+1200,
+3871 
+],
+[
+ "Somalia",
+2006,
+2600,
+960,
+3692 
+],
+[
+ "Somalia",
+2007,
+2592,
+970,
+3742 
+],
+[
+ "Somalia",
+2008,
+2505,
+1000,
+3992 
+],
+[
+ "Somalia",
+2009,
+2687,
+950,
+3536 
+],
+[
+ "Somalia",
+2010,
+2927,
+1190,
+4066 
+],
+[
+ "Somalia",
+2011,
+2662,
+1046,
+3929 
+],
+[
+ "Somalia",
+2012,
+2500,
+1000,
+4000 
+],
+[
+ "Somalia",
+2013,
+2500,
+1000,
+4000 
+],
+[
+ "Somalia",
+2014,
+2630,
+1060,
+4030 
+],
+[
+ "South Africa",
+1961,
+1407000,
+871000,
+6190 
+],
+[
+ "South Africa",
+1962,
+1375000,
+705000,
+5127 
+],
+[
+ "South Africa",
+1963,
+1519000,
+880000,
+5793 
+],
+[
+ "South Africa",
+1964,
+1319000,
+1060000,
+8036 
+],
+[
+ "South Africa",
+1965,
+1360000,
+656000,
+4824 
+],
+[
+ "South Africa",
+1966,
+1134000,
+548000,
+4832 
+],
+[
+ "South Africa",
+1967,
+1298000,
+1077000,
+8297 
+],
+[
+ "South Africa",
+1968,
+1670000,
+1247000,
+7467 
+],
+[
+ "South Africa",
+1969,
+1850000,
+1316000,
+7114 
+],
+[
+ "South Africa",
+1970,
+1930000,
+1396000,
+7233 
+],
+[
+ "South Africa",
+1971,
+2010000,
+1670000,
+8308 
+],
+[
+ "South Africa",
+1972,
+2017000,
+1746000,
+8656 
+],
+[
+ "South Africa",
+1973,
+2025000,
+1871000,
+9240 
+],
+[
+ "South Africa",
+1974,
+1865000,
+1596000,
+8558 
+],
+[
+ "South Africa",
+1975,
+1839000,
+1792000,
+9744 
+],
+[
+ "South Africa",
+1976,
+1959000,
+2248000,
+11475 
+],
+[
+ "South Africa",
+1977,
+1828000,
+1879000,
+10279 
+],
+[
+ "South Africa",
+1978,
+1895000,
+1692000,
+8929 
+],
+[
+ "South Africa",
+1979,
+1903000,
+2087000,
+10967 
+],
+[
+ "South Africa",
+1980,
+1627000,
+1472000,
+9047 
+],
+[
+ "South Africa",
+1981,
+1812000,
+2356000,
+13002 
+],
+[
+ "South Africa",
+1982,
+2013000,
+2444000,
+12141 
+],
+[
+ "South Africa",
+1983,
+1819000,
+1784000,
+9808 
+],
+[
+ "South Africa",
+1984,
+1942000,
+2346000,
+12080 
+],
+[
+ "South Africa",
+1985,
+1983000,
+1693000,
+8538 
+],
+[
+ "South Africa",
+1986,
+1946000,
+2333000,
+11989 
+],
+[
+ "South Africa",
+1987,
+1749000,
+3154000,
+18033 
+],
+[
+ "South Africa",
+1988,
+2009000,
+3620000,
+18019 
+],
+[
+ "South Africa",
+1989,
+1843000,
+2010000,
+10906 
+],
+[
+ "South Africa",
+1990,
+1563000,
+1709000,
+10934 
+],
+[
+ "South Africa",
+1991,
+1436000,
+2142000,
+14916 
+],
+[
+ "South Africa",
+1992,
+750000,
+1324000,
+17653 
+],
+[
+ "South Africa",
+1993,
+1075000,
+1983770,
+18454 
+],
+[
+ "South Africa",
+1994,
+1048000,
+1840380,
+17561 
+],
+[
+ "South Africa",
+1995,
+1363000,
+1977254,
+14507 
+],
+[
+ "South Africa",
+1996,
+1293800,
+2711991,
+20961 
+],
+[
+ "South Africa",
+1997,
+1382000,
+2428840,
+17575 
+],
+[
+ "South Africa",
+1998,
+748000,
+1892080,
+25295 
+],
+[
+ "South Africa",
+1999,
+718000,
+1733030,
+24137 
+],
+[
+ "South Africa",
+2000,
+934000,
+2428100,
+25997 
+],
+[
+ "South Africa",
+2001,
+974000,
+2503950,
+25708 
+],
+[
+ "South Africa",
+2002,
+941000,
+2437745,
+25906 
+],
+[
+ "South Africa",
+2003,
+748000,
+1546840,
+20680 
+],
+[
+ "South Africa",
+2004,
+830000,
+1687000,
+20325 
+],
+[
+ "South Africa",
+2005,
+805000,
+1905000,
+23665 
+],
+[
+ "South Africa",
+2006,
+765000,
+2105000,
+27516 
+],
+[
+ "South Africa",
+2007,
+632000,
+1905000,
+30142 
+],
+[
+ "South Africa",
+2008,
+748000,
+2130000,
+28476 
+],
+[
+ "South Africa",
+2009,
+642500,
+1958000,
+30475 
+],
+[
+ "South Africa",
+2010,
+558100,
+1430000,
+25623 
+],
+[
+ "South Africa",
+2011,
+604700,
+2005000,
+33157 
+],
+[
+ "South Africa",
+2012,
+511000,
+1915000,
+37476 
+],
+[
+ "South Africa",
+2013,
+520000,
+1879000,
+36135 
+],
+[
+ "South Africa",
+2014,
+486000,
+1759000,
+36193 
+],
+[
+ "Spain",
+1961,
+3890605,
+3438000,
+8837 
+],
+[
+ "Spain",
+1962,
+4262540,
+4819545,
+11307 
+],
+[
+ "Spain",
+1963,
+4247015,
+4865360,
+11456 
+],
+[
+ "Spain",
+1964,
+4143000,
+3981000,
+9609 
+],
+[
+ "Spain",
+1965,
+4260000,
+4719000,
+11077 
+],
+[
+ "Spain",
+1966,
+4191000,
+4881000,
+11646 
+],
+[
+ "Spain",
+1967,
+4263000,
+5654000,
+13263 
+],
+[
+ "Spain",
+1968,
+3966000,
+5315000,
+13401 
+],
+[
+ "Spain",
+1969,
+3770000,
+4626000,
+12271 
+],
+[
+ "Spain",
+1970,
+3756700,
+4062000,
+10813 
+],
+[
+ "Spain",
+1971,
+3655600,
+5449700,
+14908 
+],
+[
+ "Spain",
+1972,
+3587500,
+4562500,
+12718 
+],
+[
+ "Spain",
+1973,
+3152700,
+3967300,
+12584 
+],
+[
+ "Spain",
+1974,
+3164400,
+4534600,
+14330 
+],
+[
+ "Spain",
+1975,
+2661200,
+4302900,
+16169 
+],
+[
+ "Spain",
+1976,
+2772100,
+4436200,
+16003 
+],
+[
+ "Spain",
+1977,
+2715000,
+4064100,
+14969 
+],
+[
+ "Spain",
+1978,
+2751947,
+4806100,
+17464 
+],
+[
+ "Spain",
+1979,
+2551000,
+4082300,
+16003 
+],
+[
+ "Spain",
+1980,
+2698700,
+6039500,
+22379 
+],
+[
+ "Spain",
+1981,
+2635400,
+3408500,
+12934 
+],
+[
+ "Spain",
+1982,
+2662000,
+4410300,
+16568 
+],
+[
+ "Spain",
+1983,
+2603600,
+4267900,
+16392 
+],
+[
+ "Spain",
+1984,
+2305700,
+6052300,
+26249 
+],
+[
+ "Spain",
+1985,
+2043285,
+5328688,
+26079 
+],
+[
+ "Spain",
+1986,
+2114000,
+4392000,
+20776 
+],
+[
+ "Spain",
+1987,
+2221000,
+5791000,
+26074 
+],
+[
+ "Spain",
+1988,
+2338800,
+6514100,
+27852 
+],
+[
+ "Spain",
+1989,
+2317300,
+5468200,
+23597 
+],
+[
+ "Spain",
+1990,
+2006600,
+4773500,
+23789 
+],
+[
+ "Spain",
+1991,
+2223400,
+5467700,
+24592 
+],
+[
+ "Spain",
+1992,
+2243100,
+4357506,
+19426 
+],
+[
+ "Spain",
+1993,
+2030479,
+4972971,
+24492 
+],
+[
+ "Spain",
+1994,
+1969650,
+4302340,
+21843 
+],
+[
+ "Spain",
+1995,
+2126400,
+3138700,
+14761 
+],
+[
+ "Spain",
+1996,
+2012400,
+6040500,
+30016 
+],
+[
+ "Spain",
+1997,
+2078550,
+4676290,
+22498 
+],
+[
+ "Spain",
+1998,
+1912560,
+5436300,
+28424 
+],
+[
+ "Spain",
+1999,
+2422400,
+5083800,
+20987 
+],
+[
+ "Spain",
+2000,
+2353027,
+7293623,
+30997 
+],
+[
+ "Spain",
+2001,
+2177005,
+5007698,
+23003 
+],
+[
+ "Spain",
+2002,
+2406643,
+6822160,
+28347 
+],
+[
+ "Spain",
+2003,
+2151500,
+6290100,
+29236 
+],
+[
+ "Spain",
+2004,
+2175028,
+7096724,
+32628 
+],
+[
+ "Spain",
+2005,
+2274109,
+4026694,
+17707 
+],
+[
+ "Spain",
+2006,
+1920233,
+5521582,
+28755 
+],
+[
+ "Spain",
+2007,
+1803313,
+6436359,
+35692 
+],
+[
+ "Spain",
+2008,
+2067000,
+6714300,
+32483 
+],
+[
+ "Spain",
+2009,
+1772752,
+4804772,
+27103 
+],
+[
+ "Spain",
+2010,
+1948073,
+5941197,
+30498 
+],
+[
+ "Spain",
+2011,
+1994653,
+6876657,
+34475 
+],
+[
+ "Spain",
+2012,
+1758900,
+4650300,
+26439 
+],
+[
+ "Spain",
+2013,
+2121900,
+7602600,
+35829 
+],
+[
+ "Spain",
+2014,
+2171200,
+6471400,
+29806 
+],
+[
+ "Sudan",
+1961,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1962,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1963,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1964,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1965,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1966,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1967,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1968,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1969,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1970,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1971,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1972,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1973,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1974,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1975,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1976,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1977,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1978,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1979,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1980,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1981,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1982,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1983,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1984,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1985,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1986,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1987,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1988,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1989,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1990,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1991,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1992,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1993,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1994,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1995,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1996,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1997,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1998,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+1999,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2000,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2001,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2002,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2003,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2004,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2005,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2006,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2007,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2008,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2009,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2010,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2011,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2012,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2013,
+null,
+null,
+null 
+],
+[
+ "Sudan",
+2014,
+222916,
+473000,
+21219 
+],
+[
+ "Sudan (former)",
+1961,
+16400,
+26400,
+16098 
+],
+[
+ "Sudan (former)",
+1962,
+17181,
+28500,
+16588 
+],
+[
+ "Sudan (former)",
+1963,
+22692,
+30940,
+13635 
+],
+[
+ "Sudan (former)",
+1964,
+23331,
+36765,
+15758 
+],
+[
+ "Sudan (former)",
+1965,
+56957,
+56008,
+9833 
+],
+[
+ "Sudan (former)",
+1966,
+57321,
+68976,
+12033 
+],
+[
+ "Sudan (former)",
+1967,
+72465,
+78446,
+10825 
+],
+[
+ "Sudan (former)",
+1968,
+89389,
+87535,
+9793 
+],
+[
+ "Sudan (former)",
+1969,
+110270,
+123200,
+11173 
+],
+[
+ "Sudan (former)",
+1970,
+121907,
+115300,
+9458 
+],
+[
+ "Sudan (former)",
+1971,
+121403,
+163000,
+13426 
+],
+[
+ "Sudan (former)",
+1972,
+120983,
+124000,
+10249 
+],
+[
+ "Sudan (former)",
+1973,
+104100,
+152000,
+14601 
+],
+[
+ "Sudan (former)",
+1974,
+176000,
+235000,
+13352 
+],
+[
+ "Sudan (former)",
+1975,
+248267,
+269000,
+10835 
+],
+[
+ "Sudan (former)",
+1976,
+291536,
+263000,
+9021 
+],
+[
+ "Sudan (former)",
+1977,
+265911,
+289000,
+10868 
+],
+[
+ "Sudan (former)",
+1978,
+247427,
+312000,
+12610 
+],
+[
+ "Sudan (former)",
+1979,
+241126,
+165000,
+6843 
+],
+[
+ "Sudan (former)",
+1980,
+190716,
+231000,
+12112 
+],
+[
+ "Sudan (former)",
+1981,
+183575,
+218000,
+11875 
+],
+[
+ "Sudan (former)",
+1982,
+138206,
+142000,
+10275 
+],
+[
+ "Sudan (former)",
+1983,
+94518,
+176000,
+18621 
+],
+[
+ "Sudan (former)",
+1984,
+140727,
+157000,
+11156 
+],
+[
+ "Sudan (former)",
+1985,
+48300,
+79000,
+16356 
+],
+[
+ "Sudan (former)",
+1986,
+151200,
+199000,
+13161 
+],
+[
+ "Sudan (former)",
+1987,
+118460,
+157000,
+13253 
+],
+[
+ "Sudan (former)",
+1988,
+144090,
+181000,
+12562 
+],
+[
+ "Sudan (former)",
+1989,
+165000,
+247000,
+14970 
+],
+[
+ "Sudan (former)",
+1990,
+257929,
+409000,
+15857 
+],
+[
+ "Sudan (former)",
+1991,
+462928,
+686000,
+14819 
+],
+[
+ "Sudan (former)",
+1992,
+379000,
+838000,
+22111 
+],
+[
+ "Sudan (former)",
+1993,
+328502,
+453000,
+13790 
+],
+[
+ "Sudan (former)",
+1994,
+357488,
+475000,
+13287 
+],
+[
+ "Sudan (former)",
+1995,
+278040,
+448000,
+16113 
+],
+[
+ "Sudan (former)",
+1996,
+297780,
+527000,
+17698 
+],
+[
+ "Sudan (former)",
+1997,
+329280,
+642000,
+19497 
+],
+[
+ "Sudan (former)",
+1998,
+255000,
+585000,
+22941 
+],
+[
+ "Sudan (former)",
+1999,
+142000,
+172000,
+12113 
+],
+[
+ "Sudan (former)",
+2000,
+91980,
+214000,
+23266 
+],
+[
+ "Sudan (former)",
+2001,
+120120,
+303000,
+25225 
+],
+[
+ "Sudan (former)",
+2002,
+115500,
+247000,
+21385 
+],
+[
+ "Sudan (former)",
+2003,
+169000,
+332000,
+19645 
+],
+[
+ "Sudan (former)",
+2004,
+180000,
+435000,
+24167 
+],
+[
+ "Sudan (former)",
+2005,
+169000,
+416000,
+24615 
+],
+[
+ "Sudan (former)",
+2006,
+174583,
+669000,
+38320 
+],
+[
+ "Sudan (former)",
+2007,
+284167,
+803000,
+28258 
+],
+[
+ "Sudan (former)",
+2008,
+301680,
+587000,
+19458 
+],
+[
+ "Sudan (former)",
+2009,
+4e+05,
+641695,
+16042 
+],
+[
+ "Sudan (former)",
+2010,
+224700,
+403000,
+17935 
+],
+[
+ "Sudan (former)",
+2011,
+182700,
+292000,
+15982 
+],
+[
+ "Sudan (former)",
+2012,
+null,
+null,
+null 
+],
+[
+ "Sudan (former)",
+2013,
+null,
+null,
+null 
+],
+[
+ "Sudan (former)",
+2014,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1961,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1962,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1963,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1964,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1965,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1966,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1967,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1968,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1969,
+null,
+null,
+null 
+],
+[
+ "Swaziland",
+1970,
+38,
+106,
+27895 
+],
+[
+ "Swaziland",
+1971,
+174,
+789,
+45345 
+],
+[
+ "Swaziland",
+1972,
+372,
+1147,
+30833 
+],
+[
+ "Swaziland",
+1973,
+487,
+1431,
+29384 
+],
+[
+ "Swaziland",
+1974,
+386,
+1134,
+29378 
+],
+[
+ "Swaziland",
+1975,
+301,
+442,
+14684 
+],
+[
+ "Swaziland",
+1976,
+95,
+194,
+20421 
+],
+[
+ "Swaziland",
+1977,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1978,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1979,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1980,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1981,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1982,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1983,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1984,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1985,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1986,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1987,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1988,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1989,
+400,
+1300,
+32500 
+],
+[
+ "Swaziland",
+1990,
+362,
+1435,
+39641 
+],
+[
+ "Swaziland",
+1991,
+200,
+400,
+20000 
+],
+[
+ "Swaziland",
+1992,
+205,
+300,
+14634 
+],
+[
+ "Swaziland",
+1993,
+207,
+270,
+13043 
+],
+[
+ "Swaziland",
+1994,
+350,
+500,
+14286 
+],
+[
+ "Swaziland",
+1995,
+300,
+450,
+15000 
+],
+[
+ "Swaziland",
+1996,
+200,
+300,
+15000 
+],
+[
+ "Swaziland",
+1997,
+214,
+347,
+16215 
+],
+[
+ "Swaziland",
+1998,
+220,
+350,
+15909 
+],
+[
+ "Swaziland",
+1999,
+200,
+300,
+15000 
+],
+[
+ "Swaziland",
+2000,
+200,
+300,
+15000 
+],
+[
+ "Swaziland",
+2001,
+169,
+220,
+13018 
+],
+[
+ "Swaziland",
+2002,
+198,
+180,
+9091 
+],
+[
+ "Swaziland",
+2003,
+197,
+184,
+9340 
+],
+[
+ "Swaziland",
+2004,
+159,
+181,
+11384 
+],
+[
+ "Swaziland",
+2005,
+165,
+198,
+12000 
+],
+[
+ "Swaziland",
+2006,
+137,
+178,
+12993 
+],
+[
+ "Swaziland",
+2007,
+220,
+325,
+14773 
+],
+[
+ "Swaziland",
+2008,
+262,
+363,
+13855 
+],
+[
+ "Swaziland",
+2009,
+280,
+420,
+15000 
+],
+[
+ "Swaziland",
+2010,
+300,
+450,
+15000 
+],
+[
+ "Swaziland",
+2011,
+328,
+628,
+19146 
+],
+[
+ "Swaziland",
+2012,
+350,
+700,
+20000 
+],
+[
+ "Swaziland",
+2013,
+360,
+720,
+20000 
+],
+[
+ "Swaziland",
+2014,
+370,
+740,
+20000 
+],
+[
+ "Sweden",
+1961,
+257199,
+839170,
+32627 
+],
+[
+ "Sweden",
+1962,
+296098,
+906330,
+30609 
+],
+[
+ "Sweden",
+1963,
+230533,
+695500,
+30169 
+],
+[
+ "Sweden",
+1964,
+259300,
+1064510,
+41053 
+],
+[
+ "Sweden",
+1965,
+276800,
+1038000,
+37500 
+],
+[
+ "Sweden",
+1966,
+194599,
+591030,
+30372 
+],
+[
+ "Sweden",
+1967,
+254250,
+1130330,
+44457 
+],
+[
+ "Sweden",
+1968,
+248102,
+1073550,
+43271 
+],
+[
+ "Sweden",
+1969,
+265339,
+916530,
+34542 
+],
+[
+ "Sweden",
+1970,
+264753,
+962130,
+36341 
+],
+[
+ "Sweden",
+1971,
+245455,
+994930,
+40534 
+],
+[
+ "Sweden",
+1972,
+268034,
+1130090,
+42162 
+],
+[
+ "Sweden",
+1973,
+290405,
+1311930,
+45176 
+],
+[
+ "Sweden",
+1974,
+338062,
+1793100,
+53041 
+],
+[
+ "Sweden",
+1975,
+301085,
+1454630,
+48313 
+],
+[
+ "Sweden",
+1976,
+395061,
+1764640,
+44668 
+],
+[
+ "Sweden",
+1977,
+374014,
+1522330,
+40702 
+],
+[
+ "Sweden",
+1978,
+287375,
+1290060,
+44891 
+],
+[
+ "Sweden",
+1979,
+243128,
+1003050,
+41256 
+],
+[
+ "Sweden",
+1980,
+287861,
+1193320,
+41455 
+],
+[
+ "Sweden",
+1981,
+223511,
+1066310,
+47707 
+],
+[
+ "Sweden",
+1982,
+283291,
+1490410,
+52611 
+],
+[
+ "Sweden",
+1983,
+335616,
+1721250,
+51286 
+],
+[
+ "Sweden",
+1984,
+315191,
+1775700,
+56337 
+],
+[
+ "Sweden",
+1985,
+277000,
+1338000,
+48303 
+],
+[
+ "Sweden",
+1986,
+310900,
+1730510,
+55661 
+],
+[
+ "Sweden",
+1987,
+325130,
+1557800,
+47913 
+],
+[
+ "Sweden",
+1988,
+250280,
+1295500,
+51762 
+],
+[
+ "Sweden",
+1989,
+282660,
+1750800,
+61940 
+],
+[
+ "Sweden",
+1990,
+347770,
+2242900,
+64494 
+],
+[
+ "Sweden",
+1991,
+252750,
+1480900,
+58591 
+],
+[
+ "Sweden",
+1992,
+264100,
+1406300,
+53249 
+],
+[
+ "Sweden",
+1993,
+296000,
+1746200,
+58993 
+],
+[
+ "Sweden",
+1994,
+251800,
+1344700,
+53403 
+],
+[
+ "Sweden",
+1995,
+261400,
+1553800,
+59441 
+],
+[
+ "Sweden",
+1996,
+335000,
+2030000,
+60597 
+],
+[
+ "Sweden",
+1997,
+344180,
+2056200,
+59742 
+],
+[
+ "Sweden",
+1998,
+398040,
+2248700,
+56494 
+],
+[
+ "Sweden",
+1999,
+275400,
+1658900,
+60236 
+],
+[
+ "Sweden",
+2000,
+401565,
+2371900,
+59066 
+],
+[
+ "Sweden",
+2001,
+399165,
+2371500,
+59412 
+],
+[
+ "Sweden",
+2002,
+339599,
+2088100,
+61487 
+],
+[
+ "Sweden",
+2003,
+411348,
+2256200,
+54849 
+],
+[
+ "Sweden",
+2004,
+403408,
+2412300,
+59798 
+],
+[
+ "Sweden",
+2005,
+354755,
+2246800,
+63334 
+],
+[
+ "Sweden",
+2006,
+360150,
+1967400,
+54627 
+],
+[
+ "Sweden",
+2007,
+360500,
+2255700,
+62571 
+],
+[
+ "Sweden",
+2008,
+360500,
+2202200,
+61087 
+],
+[
+ "Sweden",
+2009,
+374800,
+2277900,
+60776 
+],
+[
+ "Sweden",
+2010,
+397100,
+2143000,
+53966 
+],
+[
+ "Sweden",
+2011,
+418900,
+2253100,
+53786 
+],
+[
+ "Sweden",
+2012,
+367000,
+2289300,
+62379 
+],
+[
+ "Sweden",
+2013,
+323330,
+1868600,
+57792 
+],
+[
+ "Sweden",
+2014,
+453480,
+3086400,
+68060 
+],
+[
+ "Switzerland",
+1961,
+116460,
+316000,
+27134 
+],
+[
+ "Switzerland",
+1962,
+108620,
+419800,
+38648 
+],
+[
+ "Switzerland",
+1963,
+105380,
+302700,
+28725 
+],
+[
+ "Switzerland",
+1964,
+106602,
+388400,
+36435 
+],
+[
+ "Switzerland",
+1965,
+109213,
+352400,
+32267 
+],
+[
+ "Switzerland",
+1966,
+107710,
+347700,
+32281 
+],
+[
+ "Switzerland",
+1967,
+105720,
+425600,
+40257 
+],
+[
+ "Switzerland",
+1968,
+108020,
+416100,
+38521 
+],
+[
+ "Switzerland",
+1969,
+107460,
+378900,
+35260 
+],
+[
+ "Switzerland",
+1970,
+97520,
+347800,
+35664 
+],
+[
+ "Switzerland",
+1971,
+94930,
+378000,
+39819 
+],
+[
+ "Switzerland",
+1972,
+97500,
+409700,
+42021 
+],
+[
+ "Switzerland",
+1973,
+91170,
+345100,
+37852 
+],
+[
+ "Switzerland",
+1974,
+88720,
+411400,
+46371 
+],
+[
+ "Switzerland",
+1975,
+89788,
+355500,
+39593 
+],
+[
+ "Switzerland",
+1976,
+90990,
+399600,
+43917 
+],
+[
+ "Switzerland",
+1977,
+89280,
+323300,
+36212 
+],
+[
+ "Switzerland",
+1978,
+88860,
+407800,
+45892 
+],
+[
+ "Switzerland",
+1979,
+86040,
+422800,
+49140 
+],
+[
+ "Switzerland",
+1980,
+90400,
+394400,
+43628 
+],
+[
+ "Switzerland",
+1981,
+86880,
+408600,
+47030 
+],
+[
+ "Switzerland",
+1982,
+88330,
+434200,
+49157 
+],
+[
+ "Switzerland",
+1983,
+91080,
+445600,
+48924 
+],
+[
+ "Switzerland",
+1984,
+95300,
+596800,
+62623 
+],
+[
+ "Switzerland",
+1985,
+96898,
+549300,
+56688 
+],
+[
+ "Switzerland",
+1986,
+96450,
+491700,
+50980 
+],
+[
+ "Switzerland",
+1987,
+95240,
+461500,
+48457 
+],
+[
+ "Switzerland",
+1988,
+93800,
+564500,
+60181 
+],
+[
+ "Switzerland",
+1989,
+98730,
+649000,
+65735 
+],
+[
+ "Switzerland",
+1990,
+99794,
+562600,
+56376 
+],
+[
+ "Switzerland",
+1991,
+98090,
+601500,
+61321 
+],
+[
+ "Switzerland",
+1992,
+97050,
+545800,
+56239 
+],
+[
+ "Switzerland",
+1993,
+96580,
+591300,
+61224 
+],
+[
+ "Switzerland",
+1994,
+103070,
+583700,
+56631 
+],
+[
+ "Switzerland",
+1995,
+102361,
+631100,
+61654 
+],
+[
+ "Switzerland",
+1996,
+100503,
+678800,
+67540 
+],
+[
+ "Switzerland",
+1997,
+97606,
+596800,
+61144 
+],
+[
+ "Switzerland",
+1998,
+97459,
+615500,
+63155 
+],
+[
+ "Switzerland",
+1999,
+94080,
+505500,
+53731 
+],
+[
+ "Switzerland",
+2000,
+95576,
+586100,
+61323 
+],
+[
+ "Switzerland",
+2001,
+89682,
+508600,
+56711 
+],
+[
+ "Switzerland",
+2002,
+89345,
+517600,
+57933 
+],
+[
+ "Switzerland",
+2003,
+86375,
+435700,
+50443 
+],
+[
+ "Switzerland",
+2004,
+88146,
+539300,
+61183 
+],
+[
+ "Switzerland",
+2005,
+92671,
+531200,
+57321 
+],
+[
+ "Switzerland",
+2006,
+93762,
+543700,
+57987 
+],
+[
+ "Switzerland",
+2007,
+90725,
+543000,
+59851 
+],
+[
+ "Switzerland",
+2008,
+91255,
+548097,
+60062 
+],
+[
+ "Switzerland",
+2009,
+91329,
+549919,
+60213 
+],
+[
+ "Switzerland",
+2010,
+91150,
+524017,
+57490 
+],
+[
+ "Switzerland",
+2011,
+87868,
+553150,
+62952 
+],
+[
+ "Switzerland",
+2012,
+89260,
+515595,
+57763 
+],
+[
+ "Switzerland",
+2013,
+89101,
+479659,
+53833 
+],
+[
+ "Switzerland",
+2014,
+88350,
+550826,
+62346 
+],
+[
+ "Syrian Arab Republic",
+1961,
+1315499,
+757000,
+5754 
+],
+[
+ "Syrian Arab Republic",
+1962,
+1417303,
+1374175,
+9696 
+],
+[
+ "Syrian Arab Republic",
+1963,
+1558605,
+1189585,
+7632 
+],
+[
+ "Syrian Arab Republic",
+1964,
+1475789,
+1100000,
+7454 
+],
+[
+ "Syrian Arab Republic",
+1965,
+1214000,
+1044000,
+8600 
+],
+[
+ "Syrian Arab Republic",
+1966,
+853000,
+559000,
+6553 
+],
+[
+ "Syrian Arab Republic",
+1967,
+1201000,
+1049000,
+8734 
+],
+[
+ "Syrian Arab Republic",
+1968,
+891000,
+6e+05,
+6734 
+],
+[
+ "Syrian Arab Republic",
+1969,
+1221109,
+1003517,
+8218 
+],
+[
+ "Syrian Arab Republic",
+1970,
+1340531,
+624562,
+4659 
+],
+[
+ "Syrian Arab Republic",
+1971,
+1252000,
+846276,
+6759 
+],
+[
+ "Syrian Arab Republic",
+1972,
+1354000,
+1808000,
+13353 
+],
+[
+ "Syrian Arab Republic",
+1973,
+1475769,
+593462,
+4021 
+],
+[
+ "Syrian Arab Republic",
+1974,
+1537220,
+1629896,
+10603 
+],
+[
+ "Syrian Arab Republic",
+1975,
+1692267,
+1550061,
+9160 
+],
+[
+ "Syrian Arab Republic",
+1976,
+1590259,
+1790109,
+11257 
+],
+[
+ "Syrian Arab Republic",
+1977,
+1527718,
+1217214,
+7968 
+],
+[
+ "Syrian Arab Republic",
+1978,
+1555375,
+1650696,
+10613 
+],
+[
+ "Syrian Arab Republic",
+1979,
+1445075,
+1319959,
+9134 
+],
+[
+ "Syrian Arab Republic",
+1980,
+1449056,
+2225800,
+15360 
+],
+[
+ "Syrian Arab Republic",
+1981,
+1254974,
+2086953,
+16629 
+],
+[
+ "Syrian Arab Republic",
+1982,
+1222307,
+1556441,
+12734 
+],
+[
+ "Syrian Arab Republic",
+1983,
+1290353,
+1611988,
+12493 
+],
+[
+ "Syrian Arab Republic",
+1984,
+1107100,
+1067600,
+9643 
+],
+[
+ "Syrian Arab Republic",
+1985,
+1265000,
+1713866,
+13548 
+],
+[
+ "Syrian Arab Republic",
+1986,
+1098000,
+1969000,
+17933 
+],
+[
+ "Syrian Arab Republic",
+1987,
+1183034,
+1656350,
+14001 
+],
+[
+ "Syrian Arab Republic",
+1988,
+1100819,
+2067138,
+18778 
+],
+[
+ "Syrian Arab Republic",
+1989,
+1239000,
+1020000,
+8232 
+],
+[
+ "Syrian Arab Republic",
+1990,
+1341000,
+2070000,
+15436 
+],
+[
+ "Syrian Arab Republic",
+1991,
+1269000,
+2140000,
+16864 
+],
+[
+ "Syrian Arab Republic",
+1992,
+1381000,
+3046000,
+22056 
+],
+[
+ "Syrian Arab Republic",
+1993,
+1385134,
+3626491,
+26182 
+],
+[
+ "Syrian Arab Republic",
+1994,
+1553365,
+3702985,
+23838 
+],
+[
+ "Syrian Arab Republic",
+1995,
+1643609,
+4184144,
+25457 
+],
+[
+ "Syrian Arab Republic",
+1996,
+1619188,
+4080357,
+25200 
+],
+[
+ "Syrian Arab Republic",
+1997,
+1760799,
+3031090,
+17214 
+],
+[
+ "Syrian Arab Republic",
+1998,
+1721412,
+4111625,
+23885 
+],
+[
+ "Syrian Arab Republic",
+1999,
+1603020,
+2691504,
+16790 
+],
+[
+ "Syrian Arab Republic",
+2000,
+1678797,
+3105489,
+18498 
+],
+[
+ "Syrian Arab Republic",
+2001,
+1683780,
+4744623,
+28178 
+],
+[
+ "Syrian Arab Republic",
+2002,
+1679350,
+4775440,
+28436 
+],
+[
+ "Syrian Arab Republic",
+2003,
+1796020,
+4912993,
+27355 
+],
+[
+ "Syrian Arab Republic",
+2004,
+1831226,
+4537459,
+24778 
+],
+[
+ "Syrian Arab Republic",
+2005,
+1903830,
+4668750,
+24523 
+],
+[
+ "Syrian Arab Republic",
+2006,
+1787000,
+4932000,
+27599 
+],
+[
+ "Syrian Arab Republic",
+2007,
+1667730,
+4041100,
+24231 
+],
+[
+ "Syrian Arab Republic",
+2008,
+1485900,
+2139300,
+14397 
+],
+[
+ "Syrian Arab Republic",
+2009,
+1437387,
+3701784,
+25754 
+],
+[
+ "Syrian Arab Republic",
+2010,
+1599100,
+3083100,
+19280 
+],
+[
+ "Syrian Arab Republic",
+2011,
+1521038,
+3858331,
+25366 
+],
+[
+ "Syrian Arab Republic",
+2012,
+1602814,
+3609096,
+22517 
+],
+[
+ "Syrian Arab Republic",
+2013,
+1374077,
+3182111,
+23158 
+],
+[
+ "Syrian Arab Republic",
+2014,
+1287886,
+2024332,
+15718 
+],
+[
+ "Tajikistan",
+1961,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1962,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1963,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1964,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1965,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1966,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1967,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1968,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1969,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1970,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1971,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1972,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1973,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1974,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1975,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1976,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1977,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1978,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1979,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1980,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1981,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1982,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1983,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1984,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1985,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1986,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1987,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1988,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1989,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1990,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1991,
+null,
+null,
+null 
+],
+[
+ "Tajikistan",
+1992,
+183400,
+166400,
+9073 
+],
+[
+ "Tajikistan",
+1993,
+200400,
+170600,
+8513 
+],
+[
+ "Tajikistan",
+1994,
+177200,
+149000,
+8409 
+],
+[
+ "Tajikistan",
+1995,
+191400,
+170000,
+8882 
+],
+[
+ "Tajikistan",
+1996,
+279000,
+239000,
+8566 
+],
+[
+ "Tajikistan",
+1997,
+356423,
+452209,
+12687 
+],
+[
+ "Tajikistan",
+1998,
+339064,
+388149,
+11448 
+],
+[
+ "Tajikistan",
+1999,
+317900,
+365136,
+11486 
+],
+[
+ "Tajikistan",
+2000,
+343102,
+406196,
+11839 
+],
+[
+ "Tajikistan",
+2001,
+295700,
+387314,
+13098 
+],
+[
+ "Tajikistan",
+2002,
+304259,
+544565,
+17898 
+],
+[
+ "Tajikistan",
+2003,
+334866,
+660222,
+19716 
+],
+[
+ "Tajikistan",
+2004,
+317300,
+631328,
+19897 
+],
+[
+ "Tajikistan",
+2005,
+315500,
+618467,
+19603 
+],
+[
+ "Tajikistan",
+2006,
+320700,
+640339,
+19967 
+],
+[
+ "Tajikistan",
+2007,
+276300,
+649300,
+23500 
+],
+[
+ "Tajikistan",
+2008,
+331766,
+659096,
+19866 
+],
+[
+ "Tajikistan",
+2009,
+358766,
+1088591,
+30343 
+],
+[
+ "Tajikistan",
+2010,
+342566,
+1033144,
+30159 
+],
+[
+ "Tajikistan",
+2011,
+311179,
+726880,
+23359 
+],
+[
+ "Tajikistan",
+2012,
+303677,
+812588,
+26758 
+],
+[
+ "Tajikistan",
+2013,
+318595,
+947350,
+29735 
+],
+[
+ "Tajikistan",
+2014,
+292573,
+868372,
+29681 
+],
+[
+ "Thailand",
+1961,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1962,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1963,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1964,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1965,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1966,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1967,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1968,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1969,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1970,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1971,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1972,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1973,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1974,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1975,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1976,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1977,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1978,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1979,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1980,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1981,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1982,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1983,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1984,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1985,
+null,
+null,
+null 
+],
+[
+ "Thailand",
+1986,
+176,
+210,
+11932 
+],
+[
+ "Thailand",
+1987,
+320,
+400,
+12500 
+],
+[
+ "Thailand",
+1988,
+595,
+330,
+5546 
+],
+[
+ "Thailand",
+1989,
+488,
+354,
+7254 
+],
+[
+ "Thailand",
+1990,
+750,
+458,
+6107 
+],
+[
+ "Thailand",
+1991,
+862,
+419,
+4861 
+],
+[
+ "Thailand",
+1992,
+964,
+651,
+6753 
+],
+[
+ "Thailand",
+1993,
+1200,
+740,
+6167 
+],
+[
+ "Thailand",
+1994,
+1000,
+700,
+7000 
+],
+[
+ "Thailand",
+1995,
+1001,
+639,
+6384 
+],
+[
+ "Thailand",
+1996,
+1100,
+710,
+6455 
+],
+[
+ "Thailand",
+1997,
+1151,
+750,
+6516 
+],
+[
+ "Thailand",
+1998,
+1200,
+767,
+6392 
+],
+[
+ "Thailand",
+1999,
+1230,
+778,
+6325 
+],
+[
+ "Thailand",
+2000,
+1222,
+800,
+6547 
+],
+[
+ "Thailand",
+2001,
+1000,
+818,
+8180 
+],
+[
+ "Thailand",
+2002,
+982,
+799,
+8136 
+],
+[
+ "Thailand",
+2003,
+993,
+822,
+8278 
+],
+[
+ "Thailand",
+2004,
+975,
+862,
+8841 
+],
+[
+ "Thailand",
+2005,
+991,
+901,
+9092 
+],
+[
+ "Thailand",
+2006,
+976,
+1000,
+10246 
+],
+[
+ "Thailand",
+2007,
+1025,
+1079,
+10527 
+],
+[
+ "Thailand",
+2008,
+1031,
+1076,
+10436 
+],
+[
+ "Thailand",
+2009,
+1070,
+1094,
+10224 
+],
+[
+ "Thailand",
+2010,
+1160,
+1204,
+10379 
+],
+[
+ "Thailand",
+2011,
+1114,
+1173,
+10530 
+],
+[
+ "Thailand",
+2012,
+1150,
+1000,
+8696 
+],
+[
+ "Thailand",
+2013,
+1200,
+1500,
+12500 
+],
+[
+ "Thailand",
+2014,
+1170,
+1330,
+11368 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1961,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1962,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1963,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1964,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1965,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1966,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1967,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1968,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1969,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1970,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1971,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1972,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1973,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1974,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1975,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1976,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1977,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1978,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1979,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1980,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1981,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1982,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1983,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1984,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1985,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1986,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1987,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1988,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1989,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1990,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1991,
+null,
+null,
+null 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1992,
+111961,
+299522,
+26752 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1993,
+116987,
+249789,
+21352 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1994,
+122031,
+336133,
+27545 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1995,
+130092,
+381226,
+29304 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1996,
+117486,
+269303,
+22922 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1997,
+115267,
+293762,
+25485 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1998,
+113647,
+336562,
+29615 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+1999,
+113972,
+319419,
+28026 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2000,
+121103,
+299356,
+24719 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2001,
+115504,
+246000,
+21298 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2002,
+100920,
+267170,
+26473 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2003,
+103620,
+225490,
+21761 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2004,
+101321,
+356825,
+35217 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2005,
+108367,
+333888,
+30811 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2006,
+97458,
+293326,
+30098 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2007,
+90800,
+218100,
+24020 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2008,
+85545,
+291719,
+34101 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2009,
+88151,
+271117,
+30756 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2010,
+79865,
+243137,
+30443 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2011,
+76545,
+256103,
+33458 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2012,
+79745,
+214963,
+26956 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2013,
+80980,
+258960,
+31978 
+],
+[
+ "The former Yugoslav Republic of Macedonia",
+2014,
+76686,
+287954,
+37550 
+],
+[
+ "Tunisia",
+1961,
+850000,
+465000,
+5471 
+],
+[
+ "Tunisia",
+1962,
+8e+05,
+640000,
+8000 
+],
+[
+ "Tunisia",
+1963,
+1e+06,
+8e+05,
+8000 
+],
+[
+ "Tunisia",
+1964,
+9e+05,
+690000,
+7667 
+],
+[
+ "Tunisia",
+1965,
+1e+06,
+8e+05,
+8000 
+],
+[
+ "Tunisia",
+1966,
+8e+05,
+650000,
+8125 
+],
+[
+ "Tunisia",
+1967,
+750000,
+550000,
+7333 
+],
+[
+ "Tunisia",
+1968,
+750000,
+6e+05,
+8000 
+],
+[
+ "Tunisia",
+1969,
+7e+05,
+480000,
+6857 
+],
+[
+ "Tunisia",
+1970,
+9e+05,
+519000,
+5767 
+],
+[
+ "Tunisia",
+1971,
+850000,
+660000,
+7765 
+],
+[
+ "Tunisia",
+1972,
+950000,
+965000,
+10158 
+],
+[
+ "Tunisia",
+1973,
+950000,
+890000,
+9368 
+],
+[
+ "Tunisia",
+1974,
+950000,
+857000,
+9021 
+],
+[
+ "Tunisia",
+1975,
+950000,
+935000,
+9842 
+],
+[
+ "Tunisia",
+1976,
+1e+06,
+810000,
+8100 
+],
+[
+ "Tunisia",
+1977,
+953000,
+750000,
+7870 
+],
+[
+ "Tunisia",
+1978,
+946000,
+750000,
+7928 
+],
+[
+ "Tunisia",
+1979,
+1024000,
+680000,
+6641 
+],
+[
+ "Tunisia",
+1980,
+853000,
+869000,
+10188 
+],
+[
+ "Tunisia",
+1981,
+783000,
+963000,
+12299 
+],
+[
+ "Tunisia",
+1982,
+714000,
+916000,
+12829 
+],
+[
+ "Tunisia",
+1983,
+930000,
+618000,
+6645 
+],
+[
+ "Tunisia",
+1984,
+9e+05,
+711330,
+7904 
+],
+[
+ "Tunisia",
+1985,
+1033000,
+1380000,
+13359 
+],
+[
+ "Tunisia",
+1986,
+540000,
+630000,
+11667 
+],
+[
+ "Tunisia",
+1987,
+971000,
+1359900,
+14005 
+],
+[
+ "Tunisia",
+1988,
+288700,
+360000,
+12470 
+],
+[
+ "Tunisia",
+1989,
+557000,
+420000,
+7540 
+],
+[
+ "Tunisia",
+1990,
+882000,
+1122000,
+12721 
+],
+[
+ "Tunisia",
+1991,
+1050300,
+1786100,
+17006 
+],
+[
+ "Tunisia",
+1992,
+930200,
+1584100,
+17030 
+],
+[
+ "Tunisia",
+1993,
+1031100,
+1412600,
+13700 
+],
+[
+ "Tunisia",
+1994,
+470000,
+502600,
+10694 
+],
+[
+ "Tunisia",
+1995,
+415350,
+530800,
+12780 
+],
+[
+ "Tunisia",
+1996,
+1249240,
+2017650,
+16151 
+],
+[
+ "Tunisia",
+1997,
+8e+05,
+884900,
+11061 
+],
+[
+ "Tunisia",
+1998,
+950000,
+1353520,
+14248 
+],
+[
+ "Tunisia",
+1999,
+980000,
+1390000,
+14184 
+],
+[
+ "Tunisia",
+2000,
+718000,
+842000,
+11727 
+],
+[
+ "Tunisia",
+2001,
+559000,
+1118000,
+20000 
+],
+[
+ "Tunisia",
+2002,
+298500,
+422200,
+14144 
+],
+[
+ "Tunisia",
+2003,
+926600,
+1984000,
+21412 
+],
+[
+ "Tunisia",
+2004,
+1035200,
+1722000,
+16634 
+],
+[
+ "Tunisia",
+2005,
+961500,
+1626700,
+16918 
+],
+[
+ "Tunisia",
+2006,
+837000,
+1250600,
+14941 
+],
+[
+ "Tunisia",
+2007,
+769000,
+1442800,
+18762 
+],
+[
+ "Tunisia",
+2008,
+535100,
+919000,
+17174 
+],
+[
+ "Tunisia",
+2009,
+786000,
+1653600,
+21038 
+],
+[
+ "Tunisia",
+2010,
+434400,
+822000,
+18923 
+],
+[
+ "Tunisia",
+2011,
+772200,
+1605500,
+20791 
+],
+[
+ "Tunisia",
+2012,
+754000,
+1523300,
+20203 
+],
+[
+ "Tunisia",
+2013,
+516000,
+975300,
+18901 
+],
+[
+ "Tunisia",
+2014,
+704000,
+1513000,
+21491 
+],
+[
+ "Turkey",
+1961,
+7846500,
+7135000,
+9093 
+],
+[
+ "Turkey",
+1962,
+7931000,
+8580000,
+10818 
+],
+[
+ "Turkey",
+1963,
+7982000,
+10137000,
+12700 
+],
+[
+ "Turkey",
+1964,
+8009000,
+8440000,
+10538 
+],
+[
+ "Turkey",
+1965,
+8029000,
+8630000,
+10749 
+],
+[
+ "Turkey",
+1966,
+8069000,
+9715000,
+12040 
+],
+[
+ "Turkey",
+1967,
+8112000,
+10110000,
+12463 
+],
+[
+ "Turkey",
+1968,
+8352000,
+9603000,
+11498 
+],
+[
+ "Turkey",
+1969,
+8618000,
+10593000,
+12292 
+],
+[
+ "Turkey",
+1970,
+8615500,
+10081000,
+11701 
+],
+[
+ "Turkey",
+1971,
+8779000,
+13594000,
+15485 
+],
+[
+ "Turkey",
+1972,
+8708000,
+12275000,
+14096 
+],
+[
+ "Turkey",
+1973,
+8465000,
+10080000,
+11908 
+],
+[
+ "Turkey",
+1974,
+8808000,
+11080000,
+12579 
+],
+[
+ "Turkey",
+1975,
+9309000,
+14830000,
+15931 
+],
+[
+ "Turkey",
+1976,
+9282500,
+16577500,
+17859 
+],
+[
+ "Turkey",
+1977,
+9365000,
+16720000,
+17854 
+],
+[
+ "Turkey",
+1978,
+9296000,
+16764000,
+18034 
+],
+[
+ "Turkey",
+1979,
+9380000,
+17569008,
+18730 
+],
+[
+ "Turkey",
+1980,
+8956000,
+16554000,
+18484 
+],
+[
+ "Turkey",
+1981,
+9288000,
+17050000,
+18357 
+],
+[
+ "Turkey",
+1982,
+9031000,
+17542000,
+19424 
+],
+[
+ "Turkey",
+1983,
+9257414,
+16437000,
+17755 
+],
+[
+ "Turkey",
+1984,
+8982570,
+17235008,
+19187 
+],
+[
+ "Turkey",
+1985,
+9274500,
+17032000,
+18364 
+],
+[
+ "Turkey",
+1986,
+9355932,
+19032000,
+20342 
+],
+[
+ "Turkey",
+1987,
+9310681,
+18932000,
+20334 
+],
+[
+ "Turkey",
+1988,
+9387855,
+20523008,
+21861 
+],
+[
+ "Turkey",
+1989,
+9227000,
+16221000,
+17580 
+],
+[
+ "Turkey",
+1990,
+9432309,
+20022000,
+21227 
+],
+[
+ "Turkey",
+1991,
+9597539,
+20418496,
+21275 
+],
+[
+ "Turkey",
+1992,
+9473387,
+19318000,
+20392 
+],
+[
+ "Turkey",
+1993,
+9716377,
+21016000,
+21629 
+],
+[
+ "Turkey",
+1994,
+9800000,
+17514000,
+17871 
+],
+[
+ "Turkey",
+1995,
+9400000,
+18015000,
+19165 
+],
+[
+ "Turkey",
+1996,
+9350000,
+18515000,
+19802 
+],
+[
+ "Turkey",
+1997,
+9340000,
+18663400,
+19982 
+],
+[
+ "Turkey",
+1998,
+9400000,
+21011000,
+22352 
+],
+[
+ "Turkey",
+1999,
+9380000,
+18008800,
+19199 
+],
+[
+ "Turkey",
+2000,
+9400000,
+21008600,
+22350 
+],
+[
+ "Turkey",
+2001,
+9350000,
+19007000,
+20328 
+],
+[
+ "Turkey",
+2002,
+9300000,
+19508000,
+20976 
+],
+[
+ "Turkey",
+2003,
+9100000,
+19008200,
+20888 
+],
+[
+ "Turkey",
+2004,
+9300000,
+2.1e+07,
+22581 
+],
+[
+ "Turkey",
+2005,
+9250000,
+21500000,
+23243 
+],
+[
+ "Turkey",
+2006,
+8490000,
+20010000,
+23569 
+],
+[
+ "Turkey",
+2007,
+8097700,
+17234000,
+21283 
+],
+[
+ "Turkey",
+2008,
+8090000,
+17782000,
+21980 
+],
+[
+ "Turkey",
+2009,
+8100000,
+20600000,
+25432 
+],
+[
+ "Turkey",
+2010,
+8063070,
+19674000,
+24400 
+],
+[
+ "Turkey",
+2011,
+8062850,
+21800000,
+27038 
+],
+[
+ "Turkey",
+2012,
+7521690,
+20100000,
+26723 
+],
+[
+ "Turkey",
+2013,
+7750270,
+22050000,
+28451 
+],
+[
+ "Turkey",
+2014,
+7820750,
+1.9e+07,
+24294 
+],
+[
+ "Turkmenistan",
+1961,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1962,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1963,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1964,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1965,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1966,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1967,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1968,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1969,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1970,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1971,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1972,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1973,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1974,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1975,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1976,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1977,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1978,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1979,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1980,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1981,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1982,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1983,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1984,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1985,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1986,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1987,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1988,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1989,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1990,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1991,
+null,
+null,
+null 
+],
+[
+ "Turkmenistan",
+1992,
+197000,
+377000,
+19137 
+],
+[
+ "Turkmenistan",
+1993,
+260000,
+509000,
+19577 
+],
+[
+ "Turkmenistan",
+1994,
+262000,
+675000,
+25763 
+],
+[
+ "Turkmenistan",
+1995,
+437000,
+695000,
+15904 
+],
+[
+ "Turkmenistan",
+1996,
+584000,
+453100,
+7759 
+],
+[
+ "Turkmenistan",
+1997,
+496000,
+706900,
+14252 
+],
+[
+ "Turkmenistan",
+1998,
+5e+05,
+1245200,
+24904 
+],
+[
+ "Turkmenistan",
+1999,
+6e+05,
+1505800,
+25097 
+],
+[
+ "Turkmenistan",
+2000,
+7e+05,
+1690000,
+24143 
+],
+[
+ "Turkmenistan",
+2001,
+7e+05,
+1760000,
+25143 
+],
+[
+ "Turkmenistan",
+2002,
+730000,
+2326000,
+31863 
+],
+[
+ "Turkmenistan",
+2003,
+850000,
+2487000,
+29259 
+],
+[
+ "Turkmenistan",
+2004,
+820000,
+2600000,
+31707 
+],
+[
+ "Turkmenistan",
+2005,
+9e+05,
+2834000,
+31489 
+],
+[
+ "Turkmenistan",
+2006,
+925000,
+3260000,
+35243 
+],
+[
+ "Turkmenistan",
+2007,
+845000,
+2700000,
+31953 
+],
+[
+ "Turkmenistan",
+2008,
+880000,
+2500000,
+28409 
+],
+[
+ "Turkmenistan",
+2009,
+860000,
+2200000,
+25581 
+],
+[
+ "Turkmenistan",
+2010,
+7e+05,
+1900000,
+27143 
+],
+[
+ "Turkmenistan",
+2011,
+650000,
+1300000,
+20000 
+],
+[
+ "Turkmenistan",
+2012,
+7e+05,
+1200000,
+17143 
+],
+[
+ "Turkmenistan",
+2013,
+685000,
+1370000,
+20000 
+],
+[
+ "Turkmenistan",
+2014,
+360000,
+1200000,
+33333 
+],
+[
+ "Uganda",
+1961,
+null,
+null,
+null 
+],
+[
+ "Uganda",
+1962,
+null,
+null,
+null 
+],
+[
+ "Uganda",
+1963,
+null,
+null,
+null 
+],
+[
+ "Uganda",
+1964,
+null,
+null,
+null 
+],
+[
+ "Uganda",
+1965,
+null,
+null,
+null 
+],
+[
+ "Uganda",
+1966,
+324,
+885,
+27315 
+],
+[
+ "Uganda",
+1967,
+486,
+1329,
+27346 
+],
+[
+ "Uganda",
+1968,
+3000,
+5000,
+16667 
+],
+[
+ "Uganda",
+1969,
+3000,
+5000,
+16667 
+],
+[
+ "Uganda",
+1970,
+4000,
+7920,
+19800 
+],
+[
+ "Uganda",
+1971,
+4000,
+7000,
+17500 
+],
+[
+ "Uganda",
+1972,
+3000,
+6900,
+23000 
+],
+[
+ "Uganda",
+1973,
+3000,
+6900,
+23000 
+],
+[
+ "Uganda",
+1974,
+4000,
+8000,
+20000 
+],
+[
+ "Uganda",
+1975,
+6000,
+14000,
+23333 
+],
+[
+ "Uganda",
+1976,
+4975,
+12000,
+24121 
+],
+[
+ "Uganda",
+1977,
+6293,
+13000,
+20658 
+],
+[
+ "Uganda",
+1978,
+6600,
+13900,
+21061 
+],
+[
+ "Uganda",
+1979,
+3000,
+5000,
+16667 
+],
+[
+ "Uganda",
+1980,
+8000,
+17000,
+21250 
+],
+[
+ "Uganda",
+1981,
+4000,
+8000,
+20000 
+],
+[
+ "Uganda",
+1982,
+5000,
+10000,
+20000 
+],
+[
+ "Uganda",
+1983,
+5000,
+12000,
+24000 
+],
+[
+ "Uganda",
+1984,
+4000,
+7000,
+17500 
+],
+[
+ "Uganda",
+1985,
+4000,
+8000,
+20000 
+],
+[
+ "Uganda",
+1986,
+5362,
+8333,
+15541 
+],
+[
+ "Uganda",
+1987,
+4620,
+10000,
+21645 
+],
+[
+ "Uganda",
+1988,
+6000,
+13000,
+21667 
+],
+[
+ "Uganda",
+1989,
+4891,
+10761,
+22002 
+],
+[
+ "Uganda",
+1990,
+2000,
+4000,
+20000 
+],
+[
+ "Uganda",
+1991,
+5000,
+9000,
+18000 
+],
+[
+ "Uganda",
+1992,
+5000,
+8800,
+17600 
+],
+[
+ "Uganda",
+1993,
+5000,
+9000,
+18000 
+],
+[
+ "Uganda",
+1994,
+5000,
+9000,
+18000 
+],
+[
+ "Uganda",
+1995,
+5000,
+9000,
+18000 
+],
+[
+ "Uganda",
+1996,
+5000,
+9000,
+18000 
+],
+[
+ "Uganda",
+1997,
+5000,
+9000,
+18000 
+],
+[
+ "Uganda",
+1998,
+5000,
+9000,
+18000 
+],
+[
+ "Uganda",
+1999,
+6000,
+11000,
+18333 
+],
+[
+ "Uganda",
+2000,
+7000,
+12000,
+17143 
+],
+[
+ "Uganda",
+2001,
+8000,
+14000,
+17500 
+],
+[
+ "Uganda",
+2002,
+8000,
+14000,
+17500 
+],
+[
+ "Uganda",
+2003,
+9000,
+15000,
+16667 
+],
+[
+ "Uganda",
+2004,
+9000,
+15000,
+16667 
+],
+[
+ "Uganda",
+2005,
+9000,
+15000,
+16667 
+],
+[
+ "Uganda",
+2006,
+10000,
+18000,
+18000 
+],
+[
+ "Uganda",
+2007,
+11000,
+19000,
+17273 
+],
+[
+ "Uganda",
+2008,
+11000,
+19000,
+17273 
+],
+[
+ "Uganda",
+2009,
+12000,
+20000,
+16667 
+],
+[
+ "Uganda",
+2010,
+12000,
+20000,
+16667 
+],
+[
+ "Uganda",
+2011,
+13000,
+23000,
+17692 
+],
+[
+ "Uganda",
+2012,
+14000,
+20000,
+14286 
+],
+[
+ "Uganda",
+2013,
+14000,
+20000,
+14286 
+],
+[
+ "Uganda",
+2014,
+14000,
+22000,
+15714 
+],
+[
+ "Ukraine",
+1961,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1962,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1963,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1964,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1965,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1966,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1967,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1968,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1969,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1970,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1971,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1972,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1973,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1974,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1975,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1976,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1977,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1978,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1979,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1980,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1981,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1982,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1983,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1984,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1985,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1986,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1987,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1988,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1989,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1990,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1991,
+null,
+null,
+null 
+],
+[
+ "Ukraine",
+1992,
+6307720,
+19507424,
+30926 
+],
+[
+ "Ukraine",
+1993,
+5748000,
+21831008,
+37980 
+],
+[
+ "Ukraine",
+1994,
+4507000,
+13856600,
+30745 
+],
+[
+ "Ukraine",
+1995,
+5479400,
+16273300,
+29699 
+],
+[
+ "Ukraine",
+1996,
+5891800,
+13547100,
+22993 
+],
+[
+ "Ukraine",
+1997,
+6508400,
+18403900,
+28277 
+],
+[
+ "Ukraine",
+1998,
+5641000,
+14936600,
+26479 
+],
+[
+ "Ukraine",
+1999,
+5931600,
+13585300,
+22903 
+],
+[
+ "Ukraine",
+2000,
+5161600,
+10197000,
+19756 
+],
+[
+ "Ukraine",
+2001,
+6882000,
+21348000,
+31020 
+],
+[
+ "Ukraine",
+2002,
+6749600,
+20556000,
+30455 
+],
+[
+ "Ukraine",
+2003,
+2456400,
+3599300,
+14653 
+],
+[
+ "Ukraine",
+2004,
+5533700,
+17520200,
+31661 
+],
+[
+ "Ukraine",
+2005,
+6571000,
+18699200,
+28457 
+],
+[
+ "Ukraine",
+2006,
+5511000,
+13947300,
+25308 
+],
+[
+ "Ukraine",
+2007,
+5951300,
+13937700,
+23420 
+],
+[
+ "Ukraine",
+2008,
+7053600,
+25885400,
+36698 
+],
+[
+ "Ukraine",
+2009,
+6752900,
+20886400,
+30930 
+],
+[
+ "Ukraine",
+2010,
+6284100,
+16851300,
+26816 
+],
+[
+ "Ukraine",
+2011,
+6657300,
+22323600,
+33533 
+],
+[
+ "Ukraine",
+2012,
+5629700,
+15762600,
+27999 
+],
+[
+ "Ukraine",
+2013,
+6566100,
+22279300,
+33931 
+],
+[
+ "Ukraine",
+2014,
+6010600,
+24113970,
+40119 
+],
+[
+ "United Arab Emirates",
+1961,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1962,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1963,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1964,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1965,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1966,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1967,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1968,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1969,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1970,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1971,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1972,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1973,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1974,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1975,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1976,
+null,
+null,
+null 
+],
+[
+ "United Arab Emirates",
+1977,
+12,
+14,
+11667 
+],
+[
+ "United Arab Emirates",
+1978,
+165,
+242,
+14667 
+],
+[
+ "United Arab Emirates",
+1979,
+350,
+785,
+22429 
+],
+[
+ "United Arab Emirates",
+1980,
+376,
+906,
+24096 
+],
+[
+ "United Arab Emirates",
+1981,
+375,
+757,
+20187 
+],
+[
+ "United Arab Emirates",
+1982,
+890,
+1780,
+20000 
+],
+[
+ "United Arab Emirates",
+1983,
+900,
+1276,
+14178 
+],
+[
+ "United Arab Emirates",
+1984,
+952,
+1536,
+16134 
+],
+[
+ "United Arab Emirates",
+1985,
+970,
+1300,
+13402 
+],
+[
+ "United Arab Emirates",
+1986,
+991,
+1175,
+11857 
+],
+[
+ "United Arab Emirates",
+1987,
+790,
+874,
+11063 
+],
+[
+ "United Arab Emirates",
+1988,
+673,
+544,
+8083 
+],
+[
+ "United Arab Emirates",
+1989,
+624,
+1201,
+19247 
+],
+[
+ "United Arab Emirates",
+1990,
+1298,
+2877,
+22165 
+],
+[
+ "United Arab Emirates",
+1991,
+1547,
+2466,
+15941 
+],
+[
+ "United Arab Emirates",
+1992,
+1373,
+3179,
+23154 
+],
+[
+ "United Arab Emirates",
+1993,
+891,
+765,
+8586 
+],
+[
+ "United Arab Emirates",
+1994,
+567,
+1052,
+18554 
+],
+[
+ "United Arab Emirates",
+1995,
+558,
+972,
+17419 
+],
+[
+ "United Arab Emirates",
+1996,
+503,
+601,
+11948 
+],
+[
+ "United Arab Emirates",
+1997,
+58,
+298,
+51379 
+],
+[
+ "United Arab Emirates",
+1998,
+50,
+360,
+72000 
+],
+[
+ "United Arab Emirates",
+1999,
+51,
+212,
+41569 
+],
+[
+ "United Arab Emirates",
+2000,
+56,
+364,
+65000 
+],
+[
+ "United Arab Emirates",
+2001,
+45,
+159,
+35333 
+],
+[
+ "United Arab Emirates",
+2002,
+34,
+116,
+34118 
+],
+[
+ "United Arab Emirates",
+2003,
+6,
+15,
+25000 
+],
+[
+ "United Arab Emirates",
+2004,
+10,
+20,
+20000 
+],
+[
+ "United Arab Emirates",
+2005,
+12,
+24,
+20000 
+],
+[
+ "United Arab Emirates",
+2006,
+10,
+26,
+26000 
+],
+[
+ "United Arab Emirates",
+2007,
+10,
+30,
+30000 
+],
+[
+ "United Arab Emirates",
+2008,
+10,
+30,
+30000 
+],
+[
+ "United Arab Emirates",
+2009,
+15,
+45,
+30000 
+],
+[
+ "United Arab Emirates",
+2010,
+5,
+29,
+59184 
+],
+[
+ "United Arab Emirates",
+2011,
+5,
+30,
+60000 
+],
+[
+ "United Arab Emirates",
+2012,
+5,
+35,
+70000 
+],
+[
+ "United Arab Emirates",
+2013,
+5,
+38,
+76000 
+],
+[
+ "United Arab Emirates",
+2014,
+4,
+30,
+75000 
+],
+[
+ "United Kingdom",
+1961,
+739000,
+2614000,
+35372 
+],
+[
+ "United Kingdom",
+1962,
+913000,
+3974000,
+43527 
+],
+[
+ "United Kingdom",
+1963,
+780000,
+3046000,
+39051 
+],
+[
+ "United Kingdom",
+1964,
+893000,
+3793000,
+42475 
+],
+[
+ "United Kingdom",
+1965,
+1026000,
+4171000,
+40653 
+],
+[
+ "United Kingdom",
+1966,
+906174,
+3475645,
+38355 
+],
+[
+ "United Kingdom",
+1967,
+933214,
+3903807,
+41832 
+],
+[
+ "United Kingdom",
+1968,
+978269,
+3470000,
+35471 
+],
+[
+ "United Kingdom",
+1969,
+833205,
+3364750,
+40383 
+],
+[
+ "United Kingdom",
+1970,
+1010392,
+4237460,
+41939 
+],
+[
+ "United Kingdom",
+1971,
+1097425,
+4816560,
+43890 
+],
+[
+ "United Kingdom",
+1972,
+1127412,
+4781540,
+42412 
+],
+[
+ "United Kingdom",
+1973,
+1146412,
+5004535,
+43654 
+],
+[
+ "United Kingdom",
+1974,
+1233432,
+6131587,
+49712 
+],
+[
+ "United Kingdom",
+1975,
+1035432,
+4488000,
+43344 
+],
+[
+ "United Kingdom",
+1976,
+1231000,
+4740000,
+38505 
+],
+[
+ "United Kingdom",
+1977,
+1076230,
+5274163,
+49006 
+],
+[
+ "United Kingdom",
+1978,
+1258417,
+6610000,
+52526 
+],
+[
+ "United Kingdom",
+1979,
+1370760,
+7168000,
+52292 
+],
+[
+ "United Kingdom",
+1980,
+1440909,
+8470000,
+58782 
+],
+[
+ "United Kingdom",
+1981,
+1491000,
+8710000,
+58417 
+],
+[
+ "United Kingdom",
+1982,
+1663000,
+10320000,
+62057 
+],
+[
+ "United Kingdom",
+1983,
+1695000,
+10800000,
+63717 
+],
+[
+ "United Kingdom",
+1984,
+1939000,
+14970000,
+77205 
+],
+[
+ "United Kingdom",
+1985,
+1902000,
+12046000,
+63333 
+],
+[
+ "United Kingdom",
+1986,
+1997000,
+13911000,
+69659 
+],
+[
+ "United Kingdom",
+1987,
+1994000,
+11940000,
+59880 
+],
+[
+ "United Kingdom",
+1988,
+1886000,
+11720000,
+62142 
+],
+[
+ "United Kingdom",
+1989,
+2083000,
+14033000,
+67369 
+],
+[
+ "United Kingdom",
+1990,
+2013000,
+14033000,
+69712 
+],
+[
+ "United Kingdom",
+1991,
+1980500,
+14363000,
+72522 
+],
+[
+ "United Kingdom",
+1992,
+2067000,
+14095000,
+68191 
+],
+[
+ "United Kingdom",
+1993,
+1758998,
+12890000,
+73280 
+],
+[
+ "United Kingdom",
+1994,
+1811000,
+13316000,
+73528 
+],
+[
+ "United Kingdom",
+1995,
+1859000,
+14312000,
+76988 
+],
+[
+ "United Kingdom",
+1996,
+1976000,
+16100000,
+81478 
+],
+[
+ "United Kingdom",
+1997,
+2036000,
+15018000,
+73762 
+],
+[
+ "United Kingdom",
+1998,
+2045000,
+15449000,
+75545 
+],
+[
+ "United Kingdom",
+1999,
+1847000,
+14867000,
+80493 
+],
+[
+ "United Kingdom",
+2000,
+2086000,
+16704000,
+80077 
+],
+[
+ "United Kingdom",
+2001,
+1635000,
+11580000,
+70826 
+],
+[
+ "United Kingdom",
+2002,
+1996000,
+15973000,
+80025 
+],
+[
+ "United Kingdom",
+2003,
+1837000,
+14288000,
+77779 
+],
+[
+ "United Kingdom",
+2004,
+1990000,
+15473000,
+77754 
+],
+[
+ "United Kingdom",
+2005,
+1867000,
+14863000,
+79609 
+],
+[
+ "United Kingdom",
+2006,
+1835000,
+14747000,
+80365 
+],
+[
+ "United Kingdom",
+2007,
+1830000,
+13221000,
+72246 
+],
+[
+ "United Kingdom",
+2008,
+2080210,
+17227000,
+82814 
+],
+[
+ "United Kingdom",
+2009,
+1775000,
+14076000,
+79301 
+],
+[
+ "United Kingdom",
+2010,
+1939000,
+14878000,
+76730 
+],
+[
+ "United Kingdom",
+2011,
+1969000,
+15257000,
+77486 
+],
+[
+ "United Kingdom",
+2012,
+1992000,
+13261000,
+66571 
+],
+[
+ "United Kingdom",
+2013,
+1615000,
+11921000,
+73814 
+],
+[
+ "United Kingdom",
+2014,
+1936000,
+16621000,
+85852 
+],
+[
+ "United Republic of Tanzania",
+1961,
+8000,
+6100,
+7625 
+],
+[
+ "United Republic of Tanzania",
+1962,
+18000,
+17578,
+9766 
+],
+[
+ "United Republic of Tanzania",
+1963,
+22000,
+24514,
+11143 
+],
+[
+ "United Republic of Tanzania",
+1964,
+25000,
+27099,
+10840 
+],
+[
+ "United Republic of Tanzania",
+1965,
+33000,
+33019,
+10006 
+],
+[
+ "United Republic of Tanzania",
+1966,
+34000,
+38270,
+11256 
+],
+[
+ "United Republic of Tanzania",
+1967,
+31000,
+35099,
+11322 
+],
+[
+ "United Republic of Tanzania",
+1968,
+38000,
+44000,
+11579 
+],
+[
+ "United Republic of Tanzania",
+1969,
+38000,
+41000,
+10789 
+],
+[
+ "United Republic of Tanzania",
+1970,
+60000,
+57000,
+9500 
+],
+[
+ "United Republic of Tanzania",
+1971,
+78308,
+60000,
+7662 
+],
+[
+ "United Republic of Tanzania",
+1972,
+91302,
+88000,
+9638 
+],
+[
+ "United Republic of Tanzania",
+1973,
+55372,
+85000,
+15351 
+],
+[
+ "United Republic of Tanzania",
+1974,
+46000,
+82000,
+17826 
+],
+[
+ "United Republic of Tanzania",
+1975,
+56000,
+69000,
+12321 
+],
+[
+ "United Republic of Tanzania",
+1976,
+49000,
+64000,
+13061 
+],
+[
+ "United Republic of Tanzania",
+1977,
+28500,
+55000,
+19298 
+],
+[
+ "United Republic of Tanzania",
+1978,
+52000,
+70000,
+13462 
+],
+[
+ "United Republic of Tanzania",
+1979,
+54500,
+87000,
+15963 
+],
+[
+ "United Republic of Tanzania",
+1980,
+64000,
+90000,
+14063 
+],
+[
+ "United Republic of Tanzania",
+1981,
+51000,
+95000,
+18627 
+],
+[
+ "United Republic of Tanzania",
+1982,
+45350,
+58000,
+12789 
+],
+[
+ "United Republic of Tanzania",
+1983,
+47620,
+74000,
+15540 
+],
+[
+ "United Republic of Tanzania",
+1984,
+52010,
+83000,
+15958 
+],
+[
+ "United Republic of Tanzania",
+1985,
+42450,
+72000,
+16961 
+],
+[
+ "United Republic of Tanzania",
+1986,
+39500,
+71640,
+18137 
+],
+[
+ "United Republic of Tanzania",
+1987,
+39500,
+72000,
+18228 
+],
+[
+ "United Republic of Tanzania",
+1988,
+53700,
+76000,
+14153 
+],
+[
+ "United Republic of Tanzania",
+1989,
+57850,
+97000,
+16768 
+],
+[
+ "United Republic of Tanzania",
+1990,
+52010,
+106000,
+20381 
+],
+[
+ "United Republic of Tanzania",
+1991,
+50300,
+84000,
+16700 
+],
+[
+ "United Republic of Tanzania",
+1992,
+43970,
+64000,
+14555 
+],
+[
+ "United Republic of Tanzania",
+1993,
+43965,
+59000,
+13420 
+],
+[
+ "United Republic of Tanzania",
+1994,
+48800,
+59000,
+12090 
+],
+[
+ "United Republic of Tanzania",
+1995,
+54500,
+75300,
+13817 
+],
+[
+ "United Republic of Tanzania",
+1996,
+59900,
+83600,
+13957 
+],
+[
+ "United Republic of Tanzania",
+1997,
+56600,
+78500,
+13869 
+],
+[
+ "United Republic of Tanzania",
+1998,
+99400,
+111500,
+11217 
+],
+[
+ "United Republic of Tanzania",
+1999,
+57370,
+82400,
+14363 
+],
+[
+ "United Republic of Tanzania",
+2000,
+71700,
+32700,
+4561 
+],
+[
+ "United Republic of Tanzania",
+2001,
+52120,
+89000,
+17076 
+],
+[
+ "United Republic of Tanzania",
+2002,
+30670,
+77000,
+25106 
+],
+[
+ "United Republic of Tanzania",
+2003,
+26890,
+74000,
+27520 
+],
+[
+ "United Republic of Tanzania",
+2004,
+34380,
+67000,
+19488 
+],
+[
+ "United Republic of Tanzania",
+2005,
+35370,
+102000,
+28838 
+],
+[
+ "United Republic of Tanzania",
+2006,
+53224,
+110000,
+20667 
+],
+[
+ "United Republic of Tanzania",
+2007,
+75369,
+82800,
+10986 
+],
+[
+ "United Republic of Tanzania",
+2008,
+43160,
+43360,
+10046 
+],
+[
+ "United Republic of Tanzania",
+2009,
+149200,
+82370,
+5521 
+],
+[
+ "United Republic of Tanzania",
+2010,
+54570,
+62370,
+11429 
+],
+[
+ "United Republic of Tanzania",
+2011,
+108287,
+112658,
+10404 
+],
+[
+ "United Republic of Tanzania",
+2012,
+109816,
+108887,
+9915 
+],
+[
+ "United Republic of Tanzania",
+2013,
+107189,
+103973,
+9700 
+],
+[
+ "United Republic of Tanzania",
+2014,
+171380,
+167000,
+9744 
+],
+[
+ "United States of America",
+1961,
+20870000,
+33539008,
+16070 
+],
+[
+ "United States of America",
+1962,
+17680000,
+29718000,
+16809 
+],
+[
+ "United States of America",
+1963,
+18415008,
+31211888,
+16949 
+],
+[
+ "United States of America",
+1964,
+20138000,
+34928000,
+17344 
+],
+[
+ "United States of America",
+1965,
+20056000,
+35805008,
+17853 
+],
+[
+ "United States of America",
+1966,
+20077392,
+35513856,
+17688 
+],
+[
+ "United States of America",
+1967,
+23614288,
+41030784,
+17375 
+],
+[
+ "United States of America",
+1968,
+22162304,
+42365376,
+19116 
+],
+[
+ "United States of America",
+1969,
+19079040,
+39263952,
+20580 
+],
+[
+ "United States of America",
+1970,
+17629488,
+36784000,
+20865 
+],
+[
+ "United States of America",
+1971,
+19297168,
+44052800,
+22829 
+],
+[
+ "United States of America",
+1972,
+19142576,
+42081632,
+21983 
+],
+[
+ "United States of America",
+1973,
+21912608,
+46560784,
+21248 
+],
+[
+ "United States of America",
+1974,
+26453120,
+48496688,
+18333 
+],
+[
+ "United States of America",
+1975,
+28124848,
+57886448,
+20582 
+],
+[
+ "United States of America",
+1976,
+28702736,
+58481200,
+20375 
+],
+[
+ "United States of America",
+1977,
+26986496,
+55671056,
+20629 
+],
+[
+ "United States of America",
+1978,
+22862960,
+48322656,
+21136 
+],
+[
+ "United States of America",
+1979,
+25274512,
+58080576,
+22980 
+],
+[
+ "United States of America",
+1980,
+28783600,
+64799504,
+22513 
+],
+[
+ "United States of America",
+1981,
+32635008,
+75806304,
+23229 
+],
+[
+ "United States of America",
+1982,
+31540304,
+75251296,
+23859 
+],
+[
+ "United States of America",
+1983,
+24843296,
+65857904,
+26509 
+],
+[
+ "United States of America",
+1984,
+27085008,
+70618000,
+26073 
+],
+[
+ "United States of America",
+1985,
+26184000,
+65975008,
+25197 
+],
+[
+ "United States of America",
+1986,
+24559008,
+56897008,
+23167 
+],
+[
+ "United States of America",
+1987,
+22646000,
+57361808,
+25330 
+],
+[
+ "United States of America",
+1988,
+21525008,
+49320000,
+22913 
+],
+[
+ "United States of America",
+1989,
+25167008,
+55428000,
+22024 
+],
+[
+ "United States of America",
+1990,
+27965000,
+74294000,
+26567 
+],
+[
+ "United States of America",
+1991,
+23392000,
+53890000,
+23038 
+],
+[
+ "United States of America",
+1992,
+25398800,
+67136000,
+26433 
+],
+[
+ "United States of America",
+1993,
+25378900,
+65222000,
+25699 
+],
+[
+ "United States of America",
+1994,
+24997000,
+63168000,
+25270 
+],
+[
+ "United States of America",
+1995,
+24685000,
+59404000,
+24065 
+],
+[
+ "United States of America",
+1996,
+25414000,
+61982000,
+24389 
+],
+[
+ "United States of America",
+1997,
+25414000,
+67536000,
+26574 
+],
+[
+ "United States of America",
+1998,
+23878000,
+69327000,
+29034 
+],
+[
+ "United States of America",
+1999,
+21781000,
+62567284,
+28726 
+],
+[
+ "United States of America",
+2000,
+21474065,
+60639374,
+28238 
+],
+[
+ "United States of America",
+2001,
+19616538,
+52999933,
+27018 
+],
+[
+ "United States of America",
+2002,
+18544515,
+43703970,
+23567 
+],
+[
+ "United States of America",
+2003,
+21474070,
+63803254,
+29712 
+],
+[
+ "United States of America",
+2004,
+20221955,
+58697040,
+29026 
+],
+[
+ "United States of America",
+2005,
+20276588,
+57241990,
+28231 
+],
+[
+ "United States of America",
+2006,
+18939492,
+49216041,
+25986 
+],
+[
+ "United States of America",
+2007,
+20638785,
+55820360,
+27046 
+],
+[
+ "United States of America",
+2008,
+22540828,
+68016100,
+30175 
+],
+[
+ "United States of America",
+2009,
+20191200,
+60365730,
+29897 
+],
+[
+ "United States of America",
+2010,
+19270930,
+60062408,
+31167 
+],
+[
+ "United States of America",
+2011,
+18496174,
+54418808,
+29422 
+],
+[
+ "United States of America",
+2012,
+19797644,
+61677384,
+31154 
+],
+[
+ "United States of America",
+2013,
+18274406,
+57966656,
+31720 
+],
+[
+ "United States of America",
+2014,
+18817960,
+55395400,
+29438 
+],
+[
+ "Uruguay",
+1961,
+435912,
+371536,
+8523 
+],
+[
+ "Uruguay",
+1962,
+400480,
+452089,
+11289 
+],
+[
+ "Uruguay",
+1963,
+353950,
+236540,
+6683 
+],
+[
+ "Uruguay",
+1964,
+527100,
+645816,
+12252 
+],
+[
+ "Uruguay",
+1965,
+546570,
+619905,
+11342 
+],
+[
+ "Uruguay",
+1966,
+379550,
+328760,
+8662 
+],
+[
+ "Uruguay",
+1967,
+222060,
+143776,
+6475 
+],
+[
+ "Uruguay",
+1968,
+532100,
+469790,
+8829 
+],
+[
+ "Uruguay",
+1969,
+450460,
+446882,
+9921 
+],
+[
+ "Uruguay",
+1970,
+336700,
+388328,
+11533 
+],
+[
+ "Uruguay",
+1971,
+339600,
+301599,
+8881 
+],
+[
+ "Uruguay",
+1972,
+185000,
+186543,
+10083 
+],
+[
+ "Uruguay",
+1973,
+283202,
+296844,
+10482 
+],
+[
+ "Uruguay",
+1974,
+429678,
+526499,
+12253 
+],
+[
+ "Uruguay",
+1975,
+455717,
+455662,
+9999 
+],
+[
+ "Uruguay",
+1976,
+508072,
+504938,
+9938 
+],
+[
+ "Uruguay",
+1977,
+321428,
+173235,
+5390 
+],
+[
+ "Uruguay",
+1978,
+219143,
+174269,
+7952 
+],
+[
+ "Uruguay",
+1979,
+319510,
+435281,
+13623 
+],
+[
+ "Uruguay",
+1980,
+227346,
+306577,
+13485 
+],
+[
+ "Uruguay",
+1981,
+295850,
+387768,
+13107 
+],
+[
+ "Uruguay",
+1982,
+238421,
+363144,
+15231 
+],
+[
+ "Uruguay",
+1983,
+252780,
+418723,
+16565 
+],
+[
+ "Uruguay",
+1984,
+226002,
+348861,
+15436 
+],
+[
+ "Uruguay",
+1985,
+211708,
+246143,
+11627 
+],
+[
+ "Uruguay",
+1986,
+186426,
+231730,
+12430 
+],
+[
+ "Uruguay",
+1987,
+167068,
+307824,
+18425 
+],
+[
+ "Uruguay",
+1988,
+176666,
+413575,
+23410 
+],
+[
+ "Uruguay",
+1989,
+226748,
+542378,
+23920 
+],
+[
+ "Uruguay",
+1990,
+225500,
+417400,
+18510 
+],
+[
+ "Uruguay",
+1991,
+116700,
+188300,
+16135 
+],
+[
+ "Uruguay",
+1992,
+148600,
+342300,
+23035 
+],
+[
+ "Uruguay",
+1993,
+214700,
+343900,
+16018 
+],
+[
+ "Uruguay",
+1994,
+189800,
+486900,
+25653 
+],
+[
+ "Uruguay",
+1995,
+168200,
+392900,
+23359 
+],
+[
+ "Uruguay",
+1996,
+250300,
+649700,
+25957 
+],
+[
+ "Uruguay",
+1997,
+254400,
+504800,
+19843 
+],
+[
+ "Uruguay",
+1998,
+193300,
+559200,
+28929 
+],
+[
+ "Uruguay",
+1999,
+196500,
+383900,
+19537 
+],
+[
+ "Uruguay",
+2000,
+128000,
+324400,
+25344 
+],
+[
+ "Uruguay",
+2001,
+125000,
+143600,
+11488 
+],
+[
+ "Uruguay",
+2002,
+137100,
+205800,
+15011 
+],
+[
+ "Uruguay",
+2003,
+117700,
+326000,
+27698 
+],
+[
+ "Uruguay",
+2004,
+179300,
+532600,
+29704 
+],
+[
+ "Uruguay",
+2005,
+153500,
+454100,
+29583 
+],
+[
+ "Uruguay",
+2006,
+193400,
+611200,
+31603 
+],
+[
+ "Uruguay",
+2007,
+245300,
+697143,
+28420 
+],
+[
+ "Uruguay",
+2008,
+475000,
+1356600,
+28560 
+],
+[
+ "Uruguay",
+2009,
+549215,
+1844416,
+33583 
+],
+[
+ "Uruguay",
+2010,
+404000,
+1300700,
+32196 
+],
+[
+ "Uruguay",
+2011,
+593400,
+2016300,
+33979 
+],
+[
+ "Uruguay",
+2012,
+450000,
+982000,
+21822 
+],
+[
+ "Uruguay",
+2013,
+462000,
+1532796,
+33177 
+],
+[
+ "Uruguay",
+2014,
+399000,
+1076000,
+26967 
+],
+[
+ "USSR",
+1961,
+6.3e+07,
+62494000,
+9920 
+],
+[
+ "USSR",
+1962,
+67411008,
+66530000,
+9869 
+],
+[
+ "USSR",
+1963,
+64609008,
+46700000,
+7228 
+],
+[
+ "USSR",
+1964,
+67887008,
+69935008,
+10302 
+],
+[
+ "USSR",
+1965,
+70205008,
+56105008,
+7992 
+],
+[
+ "USSR",
+1966,
+69958000,
+94469008,
+13504 
+],
+[
+ "USSR",
+1967,
+67026000,
+72774000,
+10858 
+],
+[
+ "USSR",
+1968,
+67231008,
+87789008,
+13058 
+],
+[
+ "USSR",
+1969,
+65230000,
+75122000,
+11516 
+],
+[
+ "USSR",
+1970,
+65230000,
+93750000,
+14372 
+],
+[
+ "USSR",
+1971,
+64035008,
+92834000,
+14497 
+],
+[
+ "USSR",
+1972,
+58492000,
+80833008,
+13819 
+],
+[
+ "USSR",
+1973,
+63155008,
+103196000,
+16340 
+],
+[
+ "USSR",
+1974,
+59676000,
+78878000,
+13218 
+],
+[
+ "USSR",
+1975,
+61985008,
+62250000,
+10043 
+],
+[
+ "USSR",
+1976,
+59500000,
+91086000,
+15309 
+],
+[
+ "USSR",
+1977,
+62030000,
+86668000,
+13972 
+],
+[
+ "USSR",
+1978,
+62898000,
+113552000,
+18053 
+],
+[
+ "USSR",
+1979,
+57662000,
+84886000,
+14721 
+],
+[
+ "USSR",
+1980,
+61450000,
+92500000,
+15053 
+],
+[
+ "USSR",
+1981,
+59204000,
+76650000,
+12947 
+],
+[
+ "USSR",
+1982,
+57278000,
+79757008,
+13925 
+],
+[
+ "USSR",
+1983,
+50823008,
+73748000,
+14511 
+],
+[
+ "USSR",
+1984,
+51061008,
+64960000,
+12722 
+],
+[
+ "USSR",
+1985,
+50265008,
+73200000,
+14563 
+],
+[
+ "USSR",
+1986,
+48728000,
+86573008,
+17767 
+],
+[
+ "USSR",
+1987,
+46684000,
+77331008,
+16565 
+],
+[
+ "USSR",
+1988,
+48058000,
+78826000,
+16402 
+],
+[
+ "USSR",
+1989,
+47675008,
+87162000,
+18283 
+],
+[
+ "USSR",
+1990,
+48178000,
+101888496,
+21148 
+],
+[
+ "USSR",
+1991,
+45874000,
+71991008,
+15693 
+],
+[
+ "USSR",
+1992,
+null,
+null,
+null 
+],
+[
+ "USSR",
+1993,
+null,
+null,
+null 
+],
+[
+ "USSR",
+1994,
+null,
+null,
+null 
+],
+[
+ "USSR",
+1995,
+null,
+null,
+null 
+],
+[
+ "USSR",
+1996,
+null,
+null,
+null 
+],
+[
+ "USSR",
+1997,
+null,
+null,
+null 
+],
+[
+ "USSR",
+1998,
+null,
+null,
+null 
+],
+[
+ "USSR",
+1999,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2000,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2001,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2002,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2003,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2004,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2005,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2006,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2007,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2008,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2009,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2010,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2011,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2012,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2013,
+null,
+null,
+null 
+],
+[
+ "USSR",
+2014,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1961,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1962,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1963,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1964,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1965,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1966,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1967,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1968,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1969,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1970,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1971,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1972,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1973,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1974,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1975,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1976,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1977,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1978,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1979,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1980,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1981,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1982,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1983,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1984,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1985,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1986,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1987,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1988,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1989,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1990,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1991,
+null,
+null,
+null 
+],
+[
+ "Uzbekistan",
+1992,
+626990,
+964000,
+15375 
+],
+[
+ "Uzbekistan",
+1993,
+697400,
+876000,
+12561 
+],
+[
+ "Uzbekistan",
+1994,
+958500,
+1362000,
+14210 
+],
+[
+ "Uzbekistan",
+1995,
+1164400,
+2347000,
+20156 
+],
+[
+ "Uzbekistan",
+1996,
+1328600,
+2741800,
+20637 
+],
+[
+ "Uzbekistan",
+1997,
+1468200,
+3073400,
+20933 
+],
+[
+ "Uzbekistan",
+1998,
+1412400,
+3556000,
+25177 
+],
+[
+ "Uzbekistan",
+1999,
+1419900,
+3601800,
+25367 
+],
+[
+ "Uzbekistan",
+2000,
+1355800,
+3532000,
+26051 
+],
+[
+ "Uzbekistan",
+2001,
+1219800,
+3689800,
+30249 
+],
+[
+ "Uzbekistan",
+2002,
+1282600,
+4967400,
+38729 
+],
+[
+ "Uzbekistan",
+2003,
+1507000,
+5436800,
+36077 
+],
+[
+ "Uzbekistan",
+2004,
+1470390,
+5377510,
+36572 
+],
+[
+ "Uzbekistan",
+2005,
+1439700,
+6057200,
+42073 
+],
+[
+ "Uzbekistan",
+2006,
+1448490,
+6099300,
+42108 
+],
+[
+ "Uzbekistan",
+2007,
+1382800,
+6197400,
+44818 
+],
+[
+ "Uzbekistan",
+2008,
+1377000,
+6146500,
+44637 
+],
+[
+ "Uzbekistan",
+2009,
+1422000,
+6637700,
+46679 
+],
+[
+ "Uzbekistan",
+2010,
+1466000,
+6730400,
+45910 
+],
+[
+ "Uzbekistan",
+2011,
+1364143,
+6526955,
+47847 
+],
+[
+ "Uzbekistan",
+2012,
+1397482,
+6612238,
+47315 
+],
+[
+ "Uzbekistan",
+2013,
+1443672,
+6841977,
+47393 
+],
+[
+ "Uzbekistan",
+2014,
+1454600,
+6956000,
+47821 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1961,
+2273,
+1228,
+5403 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1962,
+1183,
+622,
+5258 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1963,
+2105,
+1105,
+5249 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1964,
+2166,
+1200,
+5540 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1965,
+2253,
+1308,
+5806 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1966,
+2854,
+1427,
+5000 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1967,
+3019,
+1555,
+5151 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1968,
+1726,
+821,
+4757 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1969,
+1306,
+486,
+3721 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1970,
+1351,
+510,
+3775 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1971,
+1407,
+609,
+4328 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1972,
+1442,
+639,
+4431 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1973,
+1483,
+682,
+4599 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1974,
+1575,
+627,
+3981 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1975,
+1450,
+532,
+3669 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1976,
+1382,
+560,
+4052 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1977,
+1411,
+558,
+3955 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1978,
+1499,
+571,
+3809 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1979,
+1110,
+415,
+3739 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1980,
+1090,
+437,
+4009 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1981,
+1052,
+420,
+3992 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1982,
+930,
+347,
+3731 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1983,
+798,
+303,
+3797 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1984,
+793,
+291,
+3670 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1985,
+818,
+314,
+3839 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1986,
+848,
+297,
+3502 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1987,
+924,
+306,
+3312 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1988,
+955,
+319,
+3340 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1989,
+893,
+302,
+3382 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1990,
+900,
+310,
+3444 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1991,
+1050,
+310,
+2952 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1992,
+911,
+310,
+3403 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1993,
+872,
+310,
+3555 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1994,
+940,
+310,
+3298 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1995,
+1300,
+517,
+3977 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1996,
+1182,
+517,
+4374 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1997,
+1248,
+517,
+4143 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1998,
+1101,
+517,
+4696 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+1999,
+1073,
+517,
+4818 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2000,
+1400,
+517,
+3693 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2001,
+1700,
+585,
+3441 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2002,
+540,
+183,
+3389 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2003,
+440,
+152,
+3455 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2004,
+1400,
+517,
+3693 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2005,
+1382,
+517,
+3741 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2006,
+730,
+220,
+3014 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2007,
+700,
+213,
+3043 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2008,
+750,
+226,
+3013 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2009,
+691,
+200,
+2894 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2010,
+737,
+357,
+4844 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2011,
+745,
+383,
+5141 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2012,
+73,
+218,
+29863 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2013,
+54,
+161,
+29815 
+],
+[
+ "Venezuela (Bolivarian Republic of)",
+2014,
+54,
+161,
+29815 
+],
+[
+ "Yemen",
+1961,
+26000,
+34000,
+13077 
+],
+[
+ "Yemen",
+1962,
+27000,
+35000,
+12963 
+],
+[
+ "Yemen",
+1963,
+28500,
+37000,
+12982 
+],
+[
+ "Yemen",
+1964,
+32000,
+41500,
+12969 
+],
+[
+ "Yemen",
+1965,
+33300,
+44600,
+13393 
+],
+[
+ "Yemen",
+1966,
+33700,
+43900,
+13027 
+],
+[
+ "Yemen",
+1967,
+34700,
+46300,
+13343 
+],
+[
+ "Yemen",
+1968,
+34000,
+41000,
+12059 
+],
+[
+ "Yemen",
+1969,
+32118,
+35940,
+11190 
+],
+[
+ "Yemen",
+1970,
+42300,
+38500,
+9102 
+],
+[
+ "Yemen",
+1971,
+45406,
+51700,
+11386 
+],
+[
+ "Yemen",
+1972,
+44000,
+45000,
+10227 
+],
+[
+ "Yemen",
+1973,
+68713,
+76070,
+11071 
+],
+[
+ "Yemen",
+1974,
+91094,
+101984,
+11195 
+],
+[
+ "Yemen",
+1975,
+71655,
+88134,
+12300 
+],
+[
+ "Yemen",
+1976,
+72788,
+85674,
+11770 
+],
+[
+ "Yemen",
+1977,
+79326,
+88332,
+11135 
+],
+[
+ "Yemen",
+1978,
+75000,
+59000,
+7867 
+],
+[
+ "Yemen",
+1979,
+81000,
+88000,
+10864 
+],
+[
+ "Yemen",
+1980,
+73000,
+73000,
+10000 
+],
+[
+ "Yemen",
+1981,
+76381,
+84581,
+11074 
+],
+[
+ "Yemen",
+1982,
+71756,
+82384,
+11481 
+],
+[
+ "Yemen",
+1983,
+71756,
+50162,
+6991 
+],
+[
+ "Yemen",
+1984,
+68337,
+52252,
+7646 
+],
+[
+ "Yemen",
+1985,
+71000,
+73000,
+10282 
+],
+[
+ "Yemen",
+1986,
+71356,
+95462,
+13378 
+],
+[
+ "Yemen",
+1987,
+74102,
+112527,
+15185 
+],
+[
+ "Yemen",
+1988,
+82132,
+142452,
+17344 
+],
+[
+ "Yemen",
+1989,
+94420,
+162572,
+17218 
+],
+[
+ "Yemen",
+1990,
+97900,
+154937,
+15826 
+],
+[
+ "Yemen",
+1991,
+86558,
+99913,
+11543 
+],
+[
+ "Yemen",
+1992,
+97222,
+152170,
+15652 
+],
+[
+ "Yemen",
+1993,
+99244,
+159707,
+16092 
+],
+[
+ "Yemen",
+1994,
+100398,
+171033,
+17035 
+],
+[
+ "Yemen",
+1995,
+101554,
+170929,
+16831 
+],
+[
+ "Yemen",
+1996,
+102815,
+144926,
+14096 
+],
+[
+ "Yemen",
+1997,
+105007,
+129175,
+12302 
+],
+[
+ "Yemen",
+1998,
+111118,
+167058,
+15034 
+],
+[
+ "Yemen",
+1999,
+86112,
+139563,
+16207 
+],
+[
+ "Yemen",
+2000,
+87334,
+141884,
+16246 
+],
+[
+ "Yemen",
+2001,
+94371,
+152742,
+16185 
+],
+[
+ "Yemen",
+2002,
+89370,
+131733,
+14740 
+],
+[
+ "Yemen",
+2003,
+86520,
+103794,
+11997 
+],
+[
+ "Yemen",
+2004,
+83801,
+103265,
+12323 
+],
+[
+ "Yemen",
+2005,
+86010,
+112963,
+13134 
+],
+[
+ "Yemen",
+2006,
+110709,
+149173,
+13474 
+],
+[
+ "Yemen",
+2007,
+141520,
+218520,
+15441 
+],
+[
+ "Yemen",
+2008,
+123103,
+170446,
+13846 
+],
+[
+ "Yemen",
+2009,
+117525,
+222129,
+18901 
+],
+[
+ "Yemen",
+2010,
+148757,
+265432,
+17843 
+],
+[
+ "Yemen",
+2011,
+124463,
+232339,
+18667 
+],
+[
+ "Yemen",
+2012,
+138308,
+250264,
+18095 
+],
+[
+ "Yemen",
+2013,
+137266,
+232190,
+16915 
+],
+[
+ "Yemen",
+2014,
+111716,
+192215,
+17206 
+],
+[
+ "Yugoslav SFR",
+1961,
+1964000,
+3174000,
+16161 
+],
+[
+ "Yugoslav SFR",
+1962,
+2134000,
+3514000,
+16467 
+],
+[
+ "Yugoslav SFR",
+1963,
+2144000,
+4143000,
+19324 
+],
+[
+ "Yugoslav SFR",
+1964,
+2103000,
+3703000,
+17608 
+],
+[
+ "Yugoslav SFR",
+1965,
+1683000,
+3462000,
+20570 
+],
+[
+ "Yugoslav SFR",
+1966,
+1833000,
+4603000,
+25112 
+],
+[
+ "Yugoslav SFR",
+1967,
+1883000,
+4823000,
+25613 
+],
+[
+ "Yugoslav SFR",
+1968,
+2012000,
+4363000,
+21685 
+],
+[
+ "Yugoslav SFR",
+1969,
+2021000,
+4882000,
+24156 
+],
+[
+ "Yugoslav SFR",
+1970,
+1833000,
+3792000,
+20687 
+],
+[
+ "Yugoslav SFR",
+1971,
+1930000,
+5605000,
+29041 
+],
+[
+ "Yugoslav SFR",
+1972,
+1925000,
+4844000,
+25164 
+],
+[
+ "Yugoslav SFR",
+1973,
+1697000,
+4751000,
+27996 
+],
+[
+ "Yugoslav SFR",
+1974,
+1843000,
+6283000,
+34091 
+],
+[
+ "Yugoslav SFR",
+1975,
+1614800,
+4403800,
+27271 
+],
+[
+ "Yugoslav SFR",
+1976,
+1723300,
+5979300,
+34697 
+],
+[
+ "Yugoslav SFR",
+1977,
+1603700,
+5595100,
+34889 
+],
+[
+ "Yugoslav SFR",
+1978,
+1715414,
+5355000,
+31217 
+],
+[
+ "Yugoslav SFR",
+1979,
+1524400,
+4512400,
+29601 
+],
+[
+ "Yugoslav SFR",
+1980,
+1516000,
+5091000,
+33582 
+],
+[
+ "Yugoslav SFR",
+1981,
+1386000,
+4270000,
+30808 
+],
+[
+ "Yugoslav SFR",
+1982,
+1558200,
+5218200,
+33489 
+],
+[
+ "Yugoslav SFR",
+1983,
+1609000,
+5525000,
+34338 
+],
+[
+ "Yugoslav SFR",
+1984,
+1458000,
+5595000,
+38374 
+],
+[
+ "Yugoslav SFR",
+1985,
+1347673,
+4858535,
+36051 
+],
+[
+ "Yugoslav SFR",
+1986,
+1346381,
+4776213,
+35474 
+],
+[
+ "Yugoslav SFR",
+1987,
+1498000,
+5345000,
+35681 
+],
+[
+ "Yugoslav SFR",
+1988,
+1506620,
+6300470,
+41819 
+],
+[
+ "Yugoslav SFR",
+1989,
+1479254,
+5598583,
+37847 
+],
+[
+ "Yugoslav SFR",
+1990,
+1495080,
+6358604,
+42530 
+],
+[
+ "Yugoslav SFR",
+1991,
+1547000,
+6599700,
+42661 
+],
+[
+ "Yugoslav SFR",
+1992,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+1993,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+1994,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+1995,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+1996,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+1997,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+1998,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+1999,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2000,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2001,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2002,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2003,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2004,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2005,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2006,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2007,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2008,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2009,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2010,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2011,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2012,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2013,
+null,
+null,
+null 
+],
+[
+ "Yugoslav SFR",
+2014,
+null,
+null,
+null 
+],
+[
+ "Zambia",
+1961,
+380,
+608,
+16000 
+],
+[
+ "Zambia",
+1962,
+554,
+934,
+16859 
+],
+[
+ "Zambia",
+1963,
+356,
+717,
+20140 
+],
+[
+ "Zambia",
+1964,
+145,
+214,
+14759 
+],
+[
+ "Zambia",
+1965,
+94,
+214,
+22766 
+],
+[
+ "Zambia",
+1966,
+41,
+81,
+19756 
+],
+[
+ "Zambia",
+1967,
+120,
+199,
+16583 
+],
+[
+ "Zambia",
+1968,
+150,
+200,
+13333 
+],
+[
+ "Zambia",
+1969,
+100,
+220,
+22000 
+],
+[
+ "Zambia",
+1970,
+100,
+101,
+10100 
+],
+[
+ "Zambia",
+1971,
+100,
+100,
+10000 
+],
+[
+ "Zambia",
+1972,
+100,
+99,
+9900 
+],
+[
+ "Zambia",
+1973,
+100,
+100,
+10000 
+],
+[
+ "Zambia",
+1974,
+435,
+1284,
+29517 
+],
+[
+ "Zambia",
+1975,
+1144,
+3487,
+30481 
+],
+[
+ "Zambia",
+1976,
+800,
+3948,
+49350 
+],
+[
+ "Zambia",
+1977,
+1585,
+5324,
+33590 
+],
+[
+ "Zambia",
+1978,
+1600,
+5341,
+33381 
+],
+[
+ "Zambia",
+1979,
+2100,
+6528,
+31086 
+],
+[
+ "Zambia",
+1980,
+2400,
+9765,
+40688 
+],
+[
+ "Zambia",
+1981,
+3600,
+11835,
+32875 
+],
+[
+ "Zambia",
+1982,
+3700,
+14130,
+38189 
+],
+[
+ "Zambia",
+1983,
+3044,
+10936,
+35926 
+],
+[
+ "Zambia",
+1984,
+3490,
+13221,
+37883 
+],
+[
+ "Zambia",
+1985,
+5000,
+17156,
+34312 
+],
+[
+ "Zambia",
+1986,
+3600,
+17998,
+49994 
+],
+[
+ "Zambia",
+1987,
+7397,
+27668,
+37404 
+],
+[
+ "Zambia",
+1988,
+8742,
+37123,
+42465 
+],
+[
+ "Zambia",
+1989,
+9871,
+46610,
+47219 
+],
+[
+ "Zambia",
+1990,
+12520,
+55011,
+43938 
+],
+[
+ "Zambia",
+1991,
+14880,
+65236,
+43841 
+],
+[
+ "Zambia",
+1992,
+13289,
+54490,
+41004 
+],
+[
+ "Zambia",
+1993,
+13656,
+69286,
+50737 
+],
+[
+ "Zambia",
+1994,
+11566,
+60944,
+52692 
+],
+[
+ "Zambia",
+1995,
+7806,
+38019,
+48705 
+],
+[
+ "Zambia",
+1996,
+10327,
+57595,
+55771 
+],
+[
+ "Zambia",
+1997,
+10693,
+70810,
+66221 
+],
+[
+ "Zambia",
+1998,
+11278,
+63925,
+56681 
+],
+[
+ "Zambia",
+1999,
+9921,
+69226,
+69777 
+],
+[
+ "Zambia",
+2000,
+12077,
+75000,
+62102 
+],
+[
+ "Zambia",
+2001,
+12000,
+80000,
+66667 
+],
+[
+ "Zambia",
+2002,
+12000,
+75000,
+62500 
+],
+[
+ "Zambia",
+2003,
+21000,
+135000,
+64286 
+],
+[
+ "Zambia",
+2004,
+13543,
+82858,
+61181 
+],
+[
+ "Zambia",
+2005,
+22033,
+136833,
+62104 
+],
+[
+ "Zambia",
+2006,
+17100,
+93958,
+54946 
+],
+[
+ "Zambia",
+2007,
+18833,
+115843,
+61511 
+],
+[
+ "Zambia",
+2008,
+11394,
+113242,
+99387 
+],
+[
+ "Zambia",
+2009,
+34296,
+195456,
+56991 
+],
+[
+ "Zambia",
+2010,
+27291,
+172256,
+63118 
+],
+[
+ "Zambia",
+2011,
+37631,
+237332,
+63068 
+],
+[
+ "Zambia",
+2012,
+37209,
+253522,
+68135 
+],
+[
+ "Zambia",
+2013,
+41810,
+273584,
+65435 
+],
+[
+ "Zambia",
+2014,
+28159,
+201504,
+71559 
+],
+[
+ "Zimbabwe",
+1961,
+550,
+807,
+14673 
+],
+[
+ "Zimbabwe",
+1962,
+765,
+1216,
+15895 
+],
+[
+ "Zimbabwe",
+1963,
+957,
+1869,
+19530 
+],
+[
+ "Zimbabwe",
+1964,
+1437,
+3865,
+26896 
+],
+[
+ "Zimbabwe",
+1965,
+1619,
+3810,
+23533 
+],
+[
+ "Zimbabwe",
+1966,
+4419,
+8878,
+20091 
+],
+[
+ "Zimbabwe",
+1967,
+5222,
+14051,
+26907 
+],
+[
+ "Zimbabwe",
+1968,
+7325,
+26222,
+35798 
+],
+[
+ "Zimbabwe",
+1969,
+12039,
+38938,
+32343 
+],
+[
+ "Zimbabwe",
+1970,
+15322,
+54127,
+35326 
+],
+[
+ "Zimbabwe",
+1971,
+22005,
+87184,
+39620 
+],
+[
+ "Zimbabwe",
+1972,
+22303,
+82037,
+36783 
+],
+[
+ "Zimbabwe",
+1973,
+21588,
+83921,
+38874 
+],
+[
+ "Zimbabwe",
+1974,
+26819,
+97383,
+36311 
+],
+[
+ "Zimbabwe",
+1975,
+31417,
+121083,
+38541 
+],
+[
+ "Zimbabwe",
+1976,
+33325,
+141433,
+42441 
+],
+[
+ "Zimbabwe",
+1977,
+42217,
+164540,
+38975 
+],
+[
+ "Zimbabwe",
+1978,
+45135,
+203052,
+44988 
+],
+[
+ "Zimbabwe",
+1979,
+36868,
+161963,
+43931 
+],
+[
+ "Zimbabwe",
+1980,
+38461,
+191234,
+49722 
+],
+[
+ "Zimbabwe",
+1981,
+36845,
+183516,
+49808 
+],
+[
+ "Zimbabwe",
+1982,
+37378,
+191880,
+51335 
+],
+[
+ "Zimbabwe",
+1983,
+21547,
+124250,
+57665 
+],
+[
+ "Zimbabwe",
+1984,
+16891,
+99000,
+58611 
+],
+[
+ "Zimbabwe",
+1985,
+37988,
+207200,
+54544 
+],
+[
+ "Zimbabwe",
+1986,
+42000,
+248346,
+59130 
+],
+[
+ "Zimbabwe",
+1987,
+37000,
+214548,
+57986 
+],
+[
+ "Zimbabwe",
+1988,
+45000,
+256910,
+57091 
+],
+[
+ "Zimbabwe",
+1989,
+50000,
+283835,
+56767 
+],
+[
+ "Zimbabwe",
+1990,
+56000,
+325983,
+58211 
+],
+[
+ "Zimbabwe",
+1991,
+44000,
+259213,
+58912 
+],
+[
+ "Zimbabwe",
+1992,
+11200,
+57000,
+50893 
+],
+[
+ "Zimbabwe",
+1993,
+48000,
+277000,
+57708 
+],
+[
+ "Zimbabwe",
+1994,
+52700,
+288000,
+54649 
+],
+[
+ "Zimbabwe",
+1995,
+13900,
+70000,
+50360 
+],
+[
+ "Zimbabwe",
+1996,
+47843,
+263134,
+54999 
+],
+[
+ "Zimbabwe",
+1997,
+45495,
+254772,
+56000 
+],
+[
+ "Zimbabwe",
+1998,
+44022,
+242121,
+55000 
+],
+[
+ "Zimbabwe",
+1999,
+47438,
+260909,
+55000 
+],
+[
+ "Zimbabwe",
+2000,
+42551,
+229775,
+54000 
+],
+[
+ "Zimbabwe",
+2001,
+37269,
+197526,
+53000 
+],
+[
+ "Zimbabwe",
+2002,
+39000,
+195000,
+50000 
+],
+[
+ "Zimbabwe",
+2003,
+40809,
+122427,
+30000 
+],
+[
+ "Zimbabwe",
+2004,
+70585,
+247048,
+35000 
+],
+[
+ "Zimbabwe",
+2005,
+65454,
+229089,
+35000 
+],
+[
+ "Zimbabwe",
+2006,
+67201,
+241924,
+36000 
+],
+[
+ "Zimbabwe",
+2007,
+49707,
+149110,
+29998 
+],
+[
+ "Zimbabwe",
+2008,
+10300,
+31000,
+30097 
+],
+[
+ "Zimbabwe",
+2009,
+4000,
+12000,
+30000 
+],
+[
+ "Zimbabwe",
+2010,
+5000,
+18000,
+36000 
+],
+[
+ "Zimbabwe",
+2011,
+12000,
+23000,
+19167 
+],
+[
+ "Zimbabwe",
+2012,
+11000,
+20000,
+18182 
+],
+[
+ "Zimbabwe",
+2013,
+10000,
+25000,
+25000 
+],
+[
+ "Zimbabwe",
+2014,
+15150,
+34250,
+22607 
+] 
+];
+data.addColumn('string','Country');
+data.addColumn('number','Year');
+data.addColumn('number','Area harvested(Ha)');
+data.addColumn('number','Production(tonnes)');
+data.addColumn('number','Yield(Hg/Ha)');
+data.addRows(datajson);
+return(data);
+}
+ 
+// jsDrawChart
+function drawChartMotionChartID39713b851d4e() {
+var data = gvisDataMotionChartID39713b851d4e();
+var options = {};
+options["width"] =    600;
+options["height"] =    400;
+options["state"] = "";
+
+    var chart = new google.visualization.MotionChart(
+    document.getElementById('MotionChartID39713b851d4e')
+    );
+    chart.draw(data,options);
+    
+
+}
+  
+ 
+// jsDisplayChart
+(function() {
+var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+var chartid = "motionchart";
+  
+// Manually see if chartid is in pkgs (not all browsers support Array.indexOf)
+var i, newPackage = true;
+for (i = 0; newPackage && i < pkgs.length; i++) {
+if (pkgs[i] === chartid)
+newPackage = false;
+}
+if (newPackage)
+  pkgs.push(chartid);
+  
+// Add the drawChart function to the global list of callbacks
+callbacks.push(drawChartMotionChartID39713b851d4e);
+})();
+function displayChartMotionChartID39713b851d4e() {
+  var pkgs = window.__gvisPackages = window.__gvisPackages || [];
+  var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
+  window.clearTimeout(window.__gvisLoad);
+  // The timeout is set to 100 because otherwise the container div we are
+  // targeting might not be part of the document yet
+  window.__gvisLoad = setTimeout(function() {
+  var pkgCount = pkgs.length;
+  google.load("visualization", "1", { packages:pkgs, callback: function() {
+  if (pkgCount != pkgs.length) {
+  // Race condition where another setTimeout call snuck in after us; if
+  // that call added a package, we must not shift its callback
+  return;
+}
+while (callbacks.length > 0)
+callbacks.shift()();
+} });
+}, 100);
+}
+ 
+// jsFooter
+</script>
+ 
+<!-- jsChart -->  
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartMotionChartID39713b851d4e"></script>
+ 
+<!-- divChart -->
+  
+<div id="MotionChartID39713b851d4e" 
+  style="width: 600; height: 400;">
+</div>
+
+
