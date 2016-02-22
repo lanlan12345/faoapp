@@ -14,15 +14,15 @@ knit        : slidify::knit2slides
 ## Overview
 >- An interactive web data browser for food and agriculture:
  - <https://landing.shinyapps.io/foodagr/>
+ 
+>- Github <https://github.com/lanlan12345/faoapp>, contains the ui.R, server.R
 
 >- Data Source: [FAOSTAT](http://faostat3.fao.org/download/Q/QC/E)
 
->- Raw Data:
- - Dimension: 55033 rows, 115 variables
+>- Raw Data: 55033 rows, 115 variables
  - Main Variables: `Country`, `County.Code`, `Item`, `Item.Code`, `Element`, `Element.Code`, `Unit`, `Y1961`, `Y1962`...
 
-> - Clean Data:
- - Dimension: 695736 rows, 6 variables
+> - Clean Data: 695736 rows, 6 variables
  - Main Variables:`Country, Item`, `Year`, `Area harvested(Ha)`, `Production(tonnes)`, `Yield(Hg/Ha)`
 
 --- .class #id 
