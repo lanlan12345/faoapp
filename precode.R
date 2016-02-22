@@ -1,6 +1,8 @@
 library(slidify)
-setwd("~/Desktop/Coursera/Fao/presentation/")
-􏰡􏰔􏰈􏰐􏰖􏰎􏰧􏰬􏰑􏰜􏰎􏰥􏰈􏱋􏰒􏰗􏰇􏰂􏰬􏰮
+library(slidifyLibraries)
+library(slidifyUI)
+setwd("~/Desktop/Coursera/Fao/presentation/FAO APP")
+rm􏰡􏰔􏰈􏰐􏰖􏰎􏰧􏰬􏰑􏰜􏰎􏰥􏰈􏱋􏰒􏰗􏰇􏰂􏰬􏰮
 author("FAO App")
 
 publish(title = 'FAOAPP', 'index.html', host = 'rpubs')
