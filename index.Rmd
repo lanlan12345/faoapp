@@ -1,4 +1,4 @@
---- bg:#EEE
+--- 
 title       : Introduction of Food Agriculture Data Browser
 subtitle    : Developing Data Products - Course Project
 author      : Lan DING

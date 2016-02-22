@@ -1,4 +1,4 @@
----
+--- 
 title       : Introduction of Food Agriculture Data Browser
 subtitle    : Developing Data Products - Course Project
 author      : Lan DING
@@ -37,14 +37,14 @@ knit        : slidify::knit2slides
 
 
 <!-- PieChart generated in R 3.2.2 by googleVis 0.5.10 package -->
-<!-- Mon Feb 22 08:23:53 2016 -->
+<!-- Mon Feb 22 09:14:21 2016 -->
 
 
 <!-- jsHeader -->
 <script type="text/javascript">
  
 // jsData 
-function gvisDataPieChartID398e708bb841 () {
+function gvisDataPieChartID3b4a651222f4 () {
 var data = new google.visualization.DataTable();
 var datajson =
 [
@@ -100,8 +100,8 @@ return(data);
 }
  
 // jsDrawChart
-function drawChartPieChartID398e708bb841() {
-var data = gvisDataPieChartID398e708bb841();
+function drawChartPieChartID3b4a651222f4() {
+var data = gvisDataPieChartID3b4a651222f4();
 var options = {};
 options["allowHtml"] = true;
 options["width"] =    600;
@@ -109,7 +109,7 @@ options["height"] =    400;
 options["pieHole"] =    0.5;
 
     var chart = new google.visualization.PieChart(
-    document.getElementById('PieChartID398e708bb841')
+    document.getElementById('PieChartID3b4a651222f4')
     );
     chart.draw(data,options);
     
@@ -133,9 +133,9 @@ if (newPackage)
   pkgs.push(chartid);
   
 // Add the drawChart function to the global list of callbacks
-callbacks.push(drawChartPieChartID398e708bb841);
+callbacks.push(drawChartPieChartID3b4a651222f4);
 })();
-function displayChartPieChartID398e708bb841() {
+function displayChartPieChartID3b4a651222f4() {
   var pkgs = window.__gvisPackages = window.__gvisPackages || [];
   var callbacks = window.__gvisCallbacks = window.__gvisCallbacks || [];
   window.clearTimeout(window.__gvisLoad);
@@ -159,11 +159,11 @@ callbacks.shift()();
 </script>
  
 <!-- jsChart -->  
-<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartPieChartID398e708bb841"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi?callback=displayChartPieChartID3b4a651222f4"></script>
  
 <!-- divChart -->
   
-<div id="PieChartID398e708bb841" 
+<div id="PieChartID3b4a651222f4" 
   style="width: 600; height: 400;">
 </div>
 
